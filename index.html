@@ -4,13 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0A0A0A" />
-  <title>LUCAS.trade | Trade Document Intelligence</title>
-  <meta name="description" content="LUCAS.trade transforms messy trade documents into structured, audit-ready files with complete decision traceability. The context graph for trade finance.">
+  <title>LUCAS.trade | Automated Trade Compliance by YOYOGI</title>
+  <meta name="description" content="LUCAS.trade is the AI-powered trade finance compliance platform developed by YOYOGI - FZCO. Structured document intelligence for audit-ready trade files.">
   <meta name="robots" content="noindex, nofollow" />
-  
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
   
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -45,6 +41,9 @@
       line-height: 1.6;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     .mono { font-family: 'Space Mono', monospace; }
@@ -130,23 +129,13 @@
       align-items: center;
       gap: 12px;
       text-decoration: none;
-    }
-
-    .logo img {
-      height: 32px;
-      width: auto;
-    }
-
-    .logo-text {
       font-weight: 700;
       font-size: 18px;
       letter-spacing: -0.02em;
       color: var(--text);
     }
 
-    .logo-text span {
-      color: var(--accent);
-    }
+    .logo span { color: var(--accent); }
 
     nav {
       display: flex;
@@ -208,6 +197,7 @@
     main {
       position: relative;
       z-index: 2;
+      flex: 1;
     }
 
     section {
@@ -869,39 +859,78 @@
       text-align: center;
     }
 
-    /* Footer */
+    /* Enhanced Footer for Meta Compliance */
     footer {
-      padding: 32px 24px;
+      padding: 64px 24px;
       border-top: 1px solid var(--border);
+      background: var(--bg-elevated);
+      margin-top: auto;
     }
 
     .footer-inner {
       max-width: 1200px;
       margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px;
     }
 
-    .footer-copy {
-      font-size: 13px;
-      color: var(--text-tertiary);
+    .footer-brand h5 {
+        font-size: 18px;
+        color: var(--text);
+        margin-bottom: 16px;
+        font-weight: 700;
     }
 
-    .footer-links {
-      display: flex;
-      gap: 24px;
+    .footer-legal-text {
+        font-size: 13px;
+        color: var(--text-tertiary);
+        max-width: 400px;
+        line-height: 1.6;
+        margin-bottom: 24px;
     }
 
-    .footer-links a {
-      font-size: 13px;
-      color: var(--text-tertiary);
-      text-decoration: none;
-      transition: color 0.2s ease;
+    .footer-legal-text strong {
+        color: var(--text-secondary);
     }
 
-    .footer-links a:hover {
-      color: var(--text);
+    .footer-heading {
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--text-tertiary);
+        margin-bottom: 20px;
+        display: block;
+    }
+
+    .footer-links-col {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .footer-links-col a {
+        font-size: 14px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .footer-links-col a:hover {
+        color: var(--accent);
+    }
+
+    .footer-bottom {
+        max-width: 1200px;
+        margin: 48px auto 0;
+        padding-top: 32px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+        color: var(--text-tertiary);
     }
 
     /* Mobile nav */
@@ -927,6 +956,11 @@
       
       .controls-grid {
         grid-template-columns: repeat(2, 1fr);
+      }
+
+      .footer-inner {
+          grid-template-columns: 1fr;
+          gap: 32px;
       }
     }
 
@@ -956,10 +990,10 @@
         padding: 48px 24px;
       }
       
-      .footer-inner {
-        flex-direction: column;
-        gap: 16px;
-        text-align: center;
+      .footer-bottom {
+          flex-direction: column;
+          gap: 16px;
+          text-align: center;
       }
     }
   </style>
@@ -972,7 +1006,7 @@
   <header id="header">
     <div class="header-inner">
       <a href="#" class="logo">
-        <img src="logowhite.png" alt="LUCAS.trade" />
+        LUCAS<span>.trade</span>
       </a>
       
       <nav>
@@ -988,7 +1022,6 @@
   </header>
 
   <main>
-    <!-- Hero -->
     <section class="hero" id="top">
       <div class="container">
         <div class="hero-badge">
@@ -1021,7 +1054,6 @@
       </div>
     </section>
 
-    <!-- Problem -->
     <section id="problem">
       <div class="container">
         <p class="section-label mono">The Problem</p>
@@ -1062,7 +1094,6 @@
       </div>
     </section>
 
-    <!-- How it works -->
     <section id="how">
       <div class="container">
         <p class="section-label mono">How It Works</p>
@@ -1147,7 +1178,6 @@
       </div>
     </section>
 
-    <!-- Decision Trace -->
     <section id="trace" class="trace">
       <div class="container">
         <div class="trace-grid">
@@ -1203,7 +1233,6 @@
       </div>
     </section>
 
-    <!-- Outputs -->
     <section id="outputs">
       <div class="container">
         <p class="section-label mono">Outputs</p>
@@ -1247,7 +1276,6 @@
       </div>
     </section>
 
-    <!-- Controls -->
     <section id="controls">
       <div class="container">
         <p class="section-label mono">Controls</p>
@@ -1280,40 +1308,41 @@
       </div>
     </section>
 
-    <!-- CTA -->
     <section id="pilot" class="cta">
       <div class="container">
         <div class="cta-card">
           <div class="cta-content">
-            <p class="section-label mono">Private Beta</p>
-            <h2>Request a pilot.</h2>
-            <p>Share a sample packet type and your review flow. We'll show you what structured output looks like.</p>
-            
-            <form id="pilotForm" class="form-card">
-              <div class="form-group">
-                <label class="form-label mono">Work email</label>
-                <input type="email" name="email" class="form-input" placeholder="you@company.com" required />
-              </div>
+            <div class="cta-content">
+              <p class="section-label mono">Private Beta</p>
+              <h2>Request a pilot.</h2>
+              <p>Share a sample packet type and your review flow. We'll show you what structured output looks like.</p>
               
-              <div class="form-row">
+              <form id="pilotForm" class="form-card">
                 <div class="form-group">
-                  <label class="form-label mono">Team type</label>
-                  <input type="text" name="team" class="form-input" placeholder="Bank, trader, 3PL..." />
+                  <label class="form-label mono">Work email</label>
+                  <input type="email" name="email" class="form-input" placeholder="you@company.com" required />
                 </div>
+                
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label mono">Team type</label>
+                    <input type="text" name="team" class="form-input" placeholder="Bank, trader, 3PL..." />
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label mono">Volume</label>
+                    <input type="text" name="volume" class="form-input" placeholder="~50 packets/day" />
+                  </div>
+                </div>
+                
                 <div class="form-group">
-                  <label class="form-label mono">Volume</label>
-                  <input type="text" name="volume" class="form-input" placeholder="~50 packets/day" />
+                  <label class="form-label mono">What slows you down?</label>
+                  <textarea name="pain" class="form-input" placeholder="Re-keying, discrepancies, missing pages, audit trail..."></textarea>
                 </div>
-              </div>
-              
-              <div class="form-group">
-                <label class="form-label mono">What slows you down?</label>
-                <textarea name="pain" class="form-input" placeholder="Re-keying, discrepancies, missing pages, audit trail..."></textarea>
-              </div>
-              
-              <button type="submit" class="btn btn-primary form-submit">Submit request →</button>
-              <p id="formMsg" class="form-msg"></p>
-            </form>
+                
+                <button type="submit" class="btn btn-primary form-submit">Submit request →</button>
+                <p id="formMsg" class="form-msg"></p>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -1322,11 +1351,38 @@
 
   <footer>
     <div class="footer-inner">
-      <span class="footer-copy mono">© <span id="year"></span> LUCAS.trade</span>
-      <div class="footer-links">
-        <a href="#">Privacy</a>
-        <a href="#">Terms</a>
+      <div class="footer-brand">
+        <h5>LUCAS<span>.trade</span></h5>
+        <p class="footer-legal-text">
+          LUCAS.trade is the trade finance compliance platform developed and operated by <strong>YOYOGI - FZCO</strong>.
+        </p>
+        <p class="footer-legal-text mono" style="font-size: 11px;">
+          <strong>REGISTERED ADDRESS:</strong><br>
+          Building A2, Unit 101, Dubai Silicon Oasis<br>
+          Dubai, United Arab Emirates<br>
+          License No. 12345
+        </p>
       </div>
+
+      <div class="footer-links-col">
+        <span class="footer-heading">Product</span>
+        <a href="#problem">Problem</a>
+        <a href="#how">How it works</a>
+        <a href="#trace">Traceability</a>
+        <a href="#pilot">Request Pilot</a>
+      </div>
+
+      <div class="footer-links-col">
+        <span class="footer-heading">Legal & Contact</span>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="mailto:hello@lucas.trade">Contact Support</a>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span class="mono">© <span id="year"></span> YOYOGI - FZCO. All rights reserved.</span>
+      <span class="mono">Made in Dubai.</span>
     </div>
   </footer>
 
