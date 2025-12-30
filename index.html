@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LUCAS</title>
-  <meta name="description" content="Trade document verification. Lucas catches errors before banks reject them.">
+  <title>LUCAS | Trade Document Verification — Catch LC Errors Before Banks Do</title>
+  <meta name="description" content="70% of trade documents get rejected on first try. Lucas catches discrepancies in LCs, Bills of Lading, and Invoices in 2 minutes. GO / WAIT / NO_GO verdict.">
   
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23deff9b' width='100' height='100' rx='20'/></svg>">
   
@@ -112,7 +112,7 @@
     }
     
     .scan-line.scanning {
-      animation: scanDown 1.5s ease-in-out forwards;
+      animation: scanDown 1s ease-in-out forwards;
     }
     
     @keyframes scanDown {
@@ -178,7 +178,7 @@
       text-transform: uppercase;
       letter-spacing: 0.2em;
       color: var(--text-muted);
-      margin-bottom: 48px;
+      margin-bottom: 24px;
       opacity: 0;
       animation: fadeIn 1s ease 0.3s forwards;
       position: relative;
@@ -204,6 +204,32 @@
     .category-label::after {
       left: calc(100% + 12px);
       background: linear-gradient(90deg, var(--text-muted), transparent);
+    }
+    
+    /* === HEADLINE === */
+    .headline {
+      text-align: center;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeIn 0.8s ease 0.4s forwards;
+    }
+    
+    .headline-main {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.75rem, 5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text);
+      margin: 0 0 12px 0;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+    }
+    
+    .headline-sub {
+      font-family: 'Inter', sans-serif;
+      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+      color: var(--text-secondary);
+      margin: 0;
+      font-weight: 400;
     }
     
     /* === DOCUMENT DISPLAY === */
@@ -943,27 +969,13 @@
       opacity: 0.7;
     }
     
-    /* Tertiary: WhatsApp teaser */
-    .hint-whatsapp {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.7rem;
+    /* Trust Signal */
+    .trust-signal {
+      margin-top: 32px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      opacity: 0.5;
-      margin-top: 4px;
-      transition: all 0.3s ease;
-    }
-    
-    .hint-whatsapp:hover {
-      opacity: 0.8;
-      color: #25D366;
-    }
-    
-    .hint-whatsapp svg {
-      width: 14px;
-      height: 14px;
-      fill: currentColor;
+      opacity: 0.6;
     }
     
     /* === FOOTER === */
@@ -989,7 +1001,7 @@
       }
       
       .logo {
-        margin-bottom: 20px;
+        margin-bottom: 16px;
       }
       
       .logo img {
@@ -999,12 +1011,30 @@
       .category-label {
         font-size: 0.6rem;
         letter-spacing: 0.15em;
-        margin-bottom: 40px;
+        margin-bottom: 20px;
       }
       
       .category-label::before,
       .category-label::after {
         display: none;
+      }
+      
+      .headline {
+        margin-bottom: 32px;
+      }
+      
+      .headline-main {
+        font-size: 1.5rem;
+      }
+      
+      .headline-sub {
+        font-size: 0.9rem;
+      }
+      
+      .trust-signal {
+        font-size: 0.7rem;
+        padding: 0 16px;
+        text-align: center;
       }
       
       .document-frame {
@@ -1094,6 +1124,12 @@
     <!-- Category Label -->
     <div class="category-label">Trade Document Verification</div>
     
+    <!-- Headline - The Hook -->
+    <div class="headline">
+      <h1 class="headline-main">70% of trade docs get rejected.</h1>
+      <p class="headline-sub">One typo. $800. 3 days. Lucas catches it in seconds.</p>
+    </div>
+    
     <!-- Document Display (The Hero) -->
     <div class="document-display">
       <div class="document-frame">
@@ -1142,7 +1178,7 @@
         </svg>
         0.8 seconds
       </div>
-      <div class="result-quote">"What do you have for me?"</div>
+      <div class="result-quote">Your turn.</div>
       <a href="mailto:lucas@lucas.trade?subject=Document%20for%20verification" class="cta-button">
         Send me your documents
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -1153,12 +1189,9 @@
       <div class="cta-hint">
         <span class="hint-verdict">Email → 2 min → GO / WAIT / NO_GO</span>
         <span class="hint-docs">LC · Invoice · Bill of Lading · Any trade doc</span>
-        <span class="hint-whatsapp">
-          <svg viewBox="0 0 24 24">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-          WhatsApp coming soon
-        </span>
+      </div>
+      <div class="trust-signal">
+        Used by traders and freight forwarders in Dubai, Singapore, Panama and Rotterdam
       </div>
     </div>
     
@@ -1214,7 +1247,7 @@
     }
     
     async function runSequence() {
-      await sleep(800);
+      await sleep(500);
       
       // Activate scan field
       scanField.classList.add('active');
@@ -1222,13 +1255,13 @@
       
       // Line 1: Initiating
       const line1 = addLine('');
-      await typeText(line1, 'Scanning document...', 30);
-      await sleep(400);
+      await typeText(line1, 'Scanning document...', 20);
+      await sleep(200);
       
       // Scan the characters in the document
       for (let i = 0; i < chars.length; i++) {
         chars[i].classList.add('scanned');
-        await sleep(80);
+        await sleep(50);
         if (i < chars.length - 1) {
           chars[i].classList.remove('scanned');
         }
@@ -1236,17 +1269,17 @@
       
       // Activate beam connection
       beam.classList.add('active');
-      await sleep(300);
+      await sleep(150);
       
       // Line 2: Reading value
       const line2 = addLine('');
-      await typeText(line2, 'Port of Loading: <span class="highlight">"Shangai"</span>', 25);
-      await sleep(400);
+      await typeText(line2, 'Port of Loading: <span class="highlight">"Shangai"</span>', 15);
+      await sleep(200);
       
       // Line 3: Checking
       const line3 = addLine('');
-      await typeText(line3, 'Cross-referencing...', 30);
-      await sleep(500);
+      await typeText(line3, 'Cross-referencing...', 20);
+      await sleep(300);
       
       // Find the error - highlight the missing 'h' position
       chars.forEach(c => c.classList.remove('scanned'));
@@ -1255,13 +1288,13 @@
       
       // Line 4: Error found
       const line4 = addLine('', 'error-text');
-      await typeText(line4, '<span class="error-text">Discrepancy: "Shangai" → "Shanghai"</span>', 20);
-      await sleep(300);
+      await typeText(line4, '<span class="error-text">Discrepancy: "Shangai" → "Shanghai"</span>', 12);
+      await sleep(150);
       
       // Line 5: Consequence
       const line5 = addLine('', 'error-text');
-      await typeText(line5, '<span class="error-text">Missing "h". Bank will reject.</span>', 25);
-      await sleep(500);
+      await typeText(line5, '<span class="error-text">Missing "h". Bank will reject.</span>', 15);
+      await sleep(300);
       
       // Line 6: Cost appears with counting effect
       const costLine = document.createElement('div');
@@ -1281,7 +1314,7 @@
       
       await sleep(100);
       costLine.classList.add('visible');
-      await sleep(300);
+      await sleep(200);
       
       // Count up animation for money
       const costMoney = document.getElementById('costMoney');
@@ -1289,7 +1322,7 @@
       
       // Rapid count up effect
       const countUp = async (element, prefix, suffix, target, duration) => {
-        const steps = 12;
+        const steps = 8;
         const stepTime = duration / steps;
         for (let i = 0; i <= steps; i++) {
           const current = Math.round((target / steps) * i);
@@ -1302,11 +1335,11 @@
       
       // Count both simultaneously
       await Promise.all([
-        countUp(costMoney, '-$', '', 800, 600),
-        countUp(costDays, '~', ' days', 3, 600)
+        countUp(costMoney, '-$', '', 800, 400),
+        countUp(costDays, '~', ' days', 3, 400)
       ]);
       
-      await sleep(1000);
+      await sleep(600);
       
       // === PREMIUM SLASH SEQUENCE ===
       
@@ -1326,12 +1359,12 @@
         cv.appendChild(slashLine);
       });
       
-      await sleep(200);
+      await sleep(100);
       
       // Phase 3: Glitch effect on numbers
       costValues.forEach(cv => cv.classList.add('glitching'));
       
-      await sleep(150);
+      await sleep(100);
       
       // Phase 4: Create enhanced particle system
       const createParticles = (element) => {
@@ -1406,7 +1439,7 @@
       });
       
       // Phase 8: Trigger success burst
-      await sleep(350);
+      await sleep(250);
       costLine.querySelector('.success-burst').classList.add('animate');
       
       // Phase 9: Add floating "Saved" indicator
@@ -1415,10 +1448,10 @@
       savedIndicator.textContent = '✓ Caught';
       costLine.appendChild(savedIndicator);
       
-      await sleep(100);
+      await sleep(50);
       savedIndicator.classList.add('animate');
       
-      await sleep(800);
+      await sleep(500);
       
       // Show result
       result.classList.add('visible');
