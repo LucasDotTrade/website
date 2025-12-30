@@ -4,10 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LUCAS</title>
-  <meta name="description" content="Trade document verification in 2 minutes. LC, Invoice, Bill of Lading — Lucas catches errors before banks reject them.">
+  <meta name="description" content="Trade document verification. Lucas catches errors before banks reject them.">
   
-  <meta property="og:title" content="LUCAS">
-  <meta property="og:description" content="Somewhere in your shipment docs, there's an error the bank will catch. Find it first.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23deff9b' width='100' height='100' rx='20'/></svg>">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,18 +14,18 @@
   
   <style>
     :root {
-      --bg: #060606;
-      --bg-elevated: #0c0c0c;
-      --bg-card: rgba(15, 15, 15, 0.8);
+      --bg: #050505;
+      --bg-elevated: #0a0a0a;
+      --bg-card: rgba(12, 12, 12, 0.9);
       --text: #fafafa;
-      --text-secondary: #a0a0a0;
-      --text-muted: #505050;
+      --text-secondary: #888888;
+      --text-muted: #444444;
       --lime: #deff9b;
-      --lime-glow: rgba(222, 255, 155, 0.5);
+      --lime-glow: rgba(222, 255, 155, 0.6);
       --lime-subtle: rgba(222, 255, 155, 0.08);
-      --lime-border: rgba(222, 255, 155, 0.15);
-      --amber: #ffaa00;
-      --amber-glow: rgba(255, 170, 0, 0.5);
+      --lime-border: rgba(222, 255, 155, 0.2);
+      --error: #ff6b6b;
+      --error-glow: rgba(255, 107, 107, 0.5);
     }
     
     * {
@@ -49,12 +47,10 @@
       align-items: center;
       justify-content: center;
       overflow-x: hidden;
-      overflow-y: auto;
       -webkit-font-smoothing: antialiased;
     }
     
     /* === ATMOSPHERE === */
-    
     .atmosphere {
       position: fixed;
       top: 0;
@@ -63,33 +59,8 @@
       height: 100%;
       pointer-events: none;
       z-index: 0;
-      overflow: hidden;
     }
     
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(120px);
-      transition: transform 0.3s ease-out;
-    }
-    
-    .orb-1 {
-      width: 800px;
-      height: 800px;
-      background: radial-gradient(circle, rgba(222, 255, 155, 0.06) 0%, transparent 70%);
-      top: -300px;
-      right: -200px;
-    }
-    
-    .orb-2 {
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, rgba(222, 255, 155, 0.04) 0%, transparent 70%);
-      bottom: -200px;
-      left: -150px;
-    }
-    
-    /* Grid that pulses */
     .grid {
       position: absolute;
       top: 50%;
@@ -98,11 +69,69 @@
       height: 200%;
       transform: translate(-50%, -50%) perspective(500px) rotateX(60deg);
       background-image: 
-        linear-gradient(rgba(222, 255, 155, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(222, 255, 155, 0.03) 1px, transparent 1px);
-      background-size: 60px 60px;
-      mask-image: radial-gradient(ellipse at center, black 0%, transparent 60%);
-      opacity: 0.6;
+        linear-gradient(rgba(222, 255, 155, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(222, 255, 155, 0.02) 1px, transparent 1px);
+      background-size: 80px 80px;
+      mask-image: radial-gradient(ellipse at center, black 0%, transparent 50%);
+    }
+    
+    /* Scan line effect */
+    .scan-field {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .scan-field.active {
+      opacity: 1;
+    }
+    
+    .scan-line {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--lime) 20%, 
+        var(--lime) 80%, 
+        transparent 100%
+      );
+      box-shadow: 
+        0 0 20px var(--lime-glow),
+        0 0 40px var(--lime-glow),
+        0 0 60px rgba(222, 255, 155, 0.3);
+      transform: translateY(-100%);
+    }
+    
+    .scan-line.scanning {
+      animation: scanDown 1.5s ease-in-out forwards;
+    }
+    
+    @keyframes scanDown {
+      0% { transform: translateY(20vh); opacity: 0; }
+      10% { opacity: 1; }
+      50% { transform: translateY(35vh); opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(50vh); opacity: 0; }
+    }
+    
+    .vignette {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(0,0,0,0.7) 100%);
+      pointer-events: none;
+      z-index: 1;
     }
     
     .grain {
@@ -112,29 +141,17 @@
       width: 200%;
       height: 200%;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      opacity: 0.025;
+      opacity: 0.02;
       pointer-events: none;
       z-index: 1000;
     }
     
-    .vignette {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(ellipse at center, transparent 0%, transparent 40%, rgba(0,0,0,0.5) 100%);
-      pointer-events: none;
-      z-index: 1;
-    }
-    
     /* === CONTAINER === */
-    
     .container {
       position: relative;
       z-index: 10;
       width: 100%;
-      max-width: 1100px;
+      max-width: 900px;
       padding: 48px 32px;
       display: flex;
       flex-direction: column;
@@ -142,237 +159,256 @@
     }
     
     /* === LOGO === */
-    
     .logo {
-      margin-bottom: 64px;
+      margin-bottom: 80px;
       opacity: 0;
-      animation: fadeUp 0.8s ease 0.1s forwards;
+      animation: fadeIn 1s ease 0.2s forwards;
     }
     
     .logo img {
-      height: 52px;
+      height: 48px;
       width: auto;
-      object-fit: contain;
     }
     
-    /* === HERO === */
-    
-    .hero {
-      text-align: center;
-      margin-bottom: 48px;
+    /* === DOCUMENT DISPLAY === */
+    .document-display {
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.4s forwards;
     }
     
-    .hero-tagline {
+    .document-frame {
+      background: var(--bg-card);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      padding: 32px 40px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .document-frame::before {
+      content: 'BILL OF LADING';
+      position: absolute;
+      top: 12px;
+      right: 16px;
+      font-size: 0.625rem;
+      letter-spacing: 0.15em;
+      color: var(--text-muted);
+      opacity: 0.5;
+    }
+    
+    .doc-row {
+      display: flex;
+      align-items: baseline;
+      margin-bottom: 12px;
+      font-size: 1.1rem;
+    }
+    
+    .doc-row:last-child {
+      margin-bottom: 0;
+    }
+    
+    .doc-label {
+      color: var(--text-muted);
+      min-width: 180px;
+      font-size: 0.85rem;
+    }
+    
+    .doc-value {
+      color: var(--text);
       font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
+      position: relative;
+    }
+    
+    .doc-value.error-target {
+      position: relative;
+    }
+    
+    .doc-value.error-target .char {
+      display: inline-block;
+      transition: all 0.3s ease;
+    }
+    
+    .doc-value.error-target .char.scanned {
       color: var(--lime);
-      margin-bottom: 20px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.15s forwards;
+      text-shadow: 0 0 10px var(--lime-glow);
     }
     
-    .hero-line {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(2.25rem, 6vw, 4rem);
-      font-weight: 600;
-      line-height: 1.15;
-      letter-spacing: -0.03em;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.2s forwards;
+    .doc-value.error-target .char.error {
+      color: var(--error);
+      text-shadow: 0 0 15px var(--error-glow);
     }
     
-    .hero-line:nth-child(2) {
-      color: var(--text-secondary);
-      animation-delay: 0.3s;
-    }
-    
-    /* Typo word */
-    .typo-container {
-      position: relative;
-      display: inline-block;
-    }
-    
-    .typo-word {
-      position: relative;
-      display: inline-block;
-    }
-    
-    .typo-word .char {
-      display: inline-block;
-      transition: all 0.2s ease;
-    }
-    
-    .typo-word .char.scanning {
+    .doc-value.error-target .char.fixed {
       color: var(--lime);
       text-shadow: 0 0 20px var(--lime-glow);
     }
     
-    .typo-word .char.error {
-      color: var(--amber);
-      text-shadow: 0 0 20px var(--amber-glow);
+    /* Error marker */
+    .error-marker {
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      height: 2px;
+      background: var(--error);
+      box-shadow: 0 0 10px var(--error-glow);
+      width: 0;
+      transition: width 0.3s ease;
     }
     
-    .typo-word .char.fixed {
-      color: var(--lime);
-      text-shadow: 0 0 25px var(--lime-glow);
+    .error-marker.visible {
+      width: 100%;
+    }
+    
+    /* Connection beam from document to Lucas */
+    .connection-beam {
+      width: 2px;
+      height: 0;
+      background: linear-gradient(180deg, var(--lime) 0%, transparent 100%);
+      margin: 0 auto;
+      opacity: 0;
+      transition: all 0.5s ease;
+    }
+    
+    .connection-beam.active {
+      height: 32px;
+      opacity: 1;
+      box-shadow: 0 0 15px var(--lime-glow);
     }
     
     /* === LUCAS CARD === */
-    
     .lucas-card {
       width: 100%;
-      max-width: 520px;
+      max-width: 600px;
       background: var(--bg-card);
       border: 1px solid rgba(255, 255, 255, 0.06);
       border-radius: 16px;
-      padding: 24px;
-      backdrop-filter: blur(20px);
-      margin-bottom: 48px;
+      overflow: hidden;
       opacity: 0;
-      animation: fadeUp 0.8s ease 0.5s forwards;
+      animation: fadeIn 1s ease 0.6s forwards;
       box-shadow: 
         0 0 0 1px rgba(255,255,255,0.03) inset,
-        0 30px 60px -20px rgba(0,0,0,0.5);
+        0 40px 80px -20px rgba(0,0,0,0.6);
     }
     
     .lucas-header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 20px;
-      padding-bottom: 16px;
+      justify-content: space-between;
+      padding: 16px 20px;
       border-bottom: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+    }
+    
+    .lucas-identity {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
     
     .lucas-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
       background: var(--lime);
       display: flex;
       align-items: center;
       justify-content: center;
       position: relative;
       overflow: hidden;
-      box-shadow: 0 0 20px rgba(222, 255, 155, 0.3);
-      animation: avatarGlow 3s ease-in-out infinite;
     }
     
     .lucas-avatar img {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      border-radius: 12px;
-    }
-    
-    @keyframes avatarGlow {
-      0%, 100% { 
-        box-shadow: 0 0 20px rgba(222, 255, 155, 0.3);
-      }
-      50% { 
-        box-shadow: 0 0 30px rgba(222, 255, 155, 0.5), 0 0 40px rgba(222, 255, 155, 0.2);
-      }
+      border-radius: 10px;
     }
     
     .lucas-avatar::after {
       content: '';
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: linear-gradient(
-        45deg,
-        transparent 40%,
-        rgba(255, 255, 255, 0.15) 50%,
-        transparent 60%
-      );
-      animation: avatarShine 4s ease-in-out infinite;
-    }
-    
-    @keyframes avatarShine {
-      0% { transform: translateX(-100%) rotate(45deg); }
-      100% { transform: translateX(100%) rotate(45deg); }
-    }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.2); }
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+      border-radius: 10px;
     }
     
     .lucas-name {
       font-family: 'Space Grotesk', sans-serif;
       font-weight: 600;
-      font-size: 0.9375rem;
-      color: var(--text);
+      font-size: 0.9rem;
     }
     
     .lucas-status {
-      font-size: 0.75rem;
-      color: var(--lime);
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--lime);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
     
-    .lucas-status::before {
-      content: '';
-      width: 6px;
-      height: 6px;
+    .status-indicator {
+      width: 8px;
+      height: 8px;
       background: var(--lime);
       border-radius: 50%;
+      box-shadow: 0 0 10px var(--lime-glow);
       animation: pulse 2s ease-in-out infinite;
     }
     
-    .lucas-messages {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.875rem;
-      line-height: 1.8;
-      min-height: 160px;
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.1); }
     }
     
-    .lucas-message {
-      opacity: 0;
-      transform: translateY(8px);
-      margin-bottom: 8px;
+    .lucas-body {
+      padding: 24px;
+      min-height: 140px;
+    }
+    
+    .lucas-stream {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.875rem;
+      line-height: 1.9;
       color: var(--text-secondary);
     }
     
-    .lucas-message.visible {
+    .stream-line {
+      opacity: 0;
+      transform: translateY(4px);
+      margin-bottom: 6px;
+    }
+    
+    .stream-line.visible {
       opacity: 1;
       transform: translateY(0);
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
-    .lucas-message.thinking {
-      color: var(--text-muted);
-    }
-    
-    .lucas-message.alert {
-      color: var(--amber);
-    }
-    
-    .lucas-message.success {
-      color: var(--lime);
-    }
-    
-    .lucas-message .highlight {
+    .stream-line .muted { color: var(--text-muted); }
+    .stream-line .highlight { 
       color: var(--text);
       background: rgba(255,255,255,0.05);
-      padding: 2px 6px;
+      padding: 2px 8px;
       border-radius: 4px;
+      margin: 0 2px;
     }
+    .stream-line .error-text { color: var(--error); }
+    .stream-line .success { color: var(--lime); }
     
-    .lucas-message .typing-cursor {
+    .cursor {
       display: inline-block;
       width: 2px;
       height: 1em;
       background: var(--lime);
       margin-left: 2px;
-      animation: blink 0.8s ease-in-out infinite;
+      animation: blink 1s step-end infinite;
       vertical-align: text-bottom;
     }
     
@@ -382,10 +418,9 @@
     }
     
     /* === RESULT === */
-    
     .result {
+      margin-top: 48px;
       text-align: center;
-      margin-bottom: 56px;
       opacity: 0;
       transform: translateY(20px);
     }
@@ -396,333 +431,145 @@
       transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
-    .result-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--lime);
-      background: linear-gradient(135deg, rgba(222, 255, 155, 0.1) 0%, rgba(222, 255, 155, 0.02) 100%);
-      border: 1px solid var(--lime-border);
-      padding: 12px 24px;
-      border-radius: 100px;
-      margin-bottom: 20px;
-      backdrop-filter: blur(10px);
-    }
-    
-    .result-badge svg {
-      width: 18px;
-      height: 18px;
-    }
-    
-    .result-text {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1.125rem, 2.5vw, 1.375rem);
-      color: var(--text-secondary);
-      font-weight: 500;
-      max-width: 500px;
-      margin: 0 auto;
-      line-height: 1.5;
-    }
-    
-    .result-text strong {
-      color: var(--text);
-    }
-    
-    /* === CTA === */
-    
-    .cta {
-      text-align: center;
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    
-    .cta.visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
-    }
-    
-    .cta-label {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1rem;
-      color: var(--text-secondary);
-      margin-bottom: 24px;
-    }
-    
-    .cta-box {
-      display: inline-flex;
-      align-items: center;
-      gap: 16px;
-      background: var(--bg-card);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 8px 8px 8px 24px;
-      backdrop-filter: blur(20px);
-      transition: all 0.3s ease;
-    }
-    
-    .cta-box:hover {
-      border-color: var(--lime-border);
-      box-shadow: 0 0 40px rgba(222, 255, 155, 0.1);
-    }
-    
-    .cta-prompt {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-    
-    .cta-email {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1rem, 3vw, 1.25rem);
-      font-weight: 600;
-      color: var(--bg);
-      background: var(--lime);
-      text-decoration: none;
-      padding: 16px 28px;
-      border-radius: 10px;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 20px rgba(222, 255, 155, 0.2);
-      animation: ctaPulse 3s ease-in-out infinite;
-    }
-    
-    @keyframes ctaPulse {
-      0%, 100% {
-        box-shadow: 0 0 20px rgba(222, 255, 155, 0.2);
-      }
-      50% {
-        box-shadow: 0 0 30px rgba(222, 255, 155, 0.4), 0 0 40px rgba(222, 255, 155, 0.2);
-      }
-    }
-    
-    .cta-email:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 40px rgba(222, 255, 155, 0.4);
-      animation: none;
-    }
-    
-    .cta-hint {
-      margin-top: 16px;
-      font-size: 0.875rem;
-      color: var(--text-muted);
-    }
-    
-    .cta-hint span {
-      color: var(--text-secondary);
-    }
-    
-    .cta-whatsapp {
+    .result-time {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-top: 24px;
-      font-size: 0.8125rem;
-      color: var(--text-muted);
-      transition: all 0.3s ease;
-    }
-    
-    .cta-whatsapp svg {
-      opacity: 0.5;
-      transition: all 0.3s ease;
-    }
-    
-    .cta-whatsapp:hover {
-      color: #25D366;
-    }
-    
-    .cta-whatsapp:hover svg {
-      opacity: 1;
-      fill: #25D366;
-    }
-    
-    .cta-social-proof {
-      margin-top: 32px;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-    
-    /* === TICKER === */
-    
-    .ticker {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      opacity: 0;
-      transition: opacity 0.8s ease;
-      margin-top: 48px;
+      font-size: 0.8rem;
+      color: var(--lime);
+      margin-bottom: 24px;
     }
     
-    .ticker.visible {
-      opacity: 1;
+    .result-time svg {
+      width: 16px;
+      height: 16px;
     }
     
-    .ticker-dot {
-      width: 6px;
-      height: 6px;
+    .result-quote {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2rem);
+      font-weight: 500;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      margin-bottom: 40px;
+    }
+    
+    /* === CTA === */
+    .cta-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 36px;
       background: var(--lime);
-      border-radius: 50%;
-      box-shadow: 0 0 10px var(--lime-glow);
-      animation: pulse 2.5s ease-in-out infinite;
+      color: var(--bg);
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none;
+      border-radius: 100px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 30px rgba(222, 255, 155, 0.3);
     }
     
-    .ticker-go { color: var(--lime); }
-    .ticker-wait { color: var(--amber); }
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(222, 255, 155, 0.5);
+    }
+    
+    .cta-button svg {
+      width: 18px;
+      height: 18px;
+      transition: transform 0.3s ease;
+    }
+    
+    .cta-button:hover svg {
+      transform: translateX(4px);
+    }
+    
+    .cta-hint {
+      margin-top: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+    
+    .hint-docs {
+      color: var(--text-muted);
+    }
+    
+    .hint-verdict {
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+    }
     
     /* === FOOTER === */
-    
     .footer {
-      margin-top: 48px;
-      padding: 24px;
-      text-align: center;
-    }
-    
-    .footer-content {
-      font-size: 0.6875rem;
+      margin-top: 80px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
       color: var(--text-muted);
-      letter-spacing: 0.02em;
-      opacity: 0.6;
-      transition: opacity 0.3s ease;
-    }
-    
-    .footer:hover .footer-content {
-      opacity: 1;
-    }
-    
-    .footer-divider {
-      margin: 0 8px;
-      opacity: 0.4;
-    }
-    
-    .footer-company {
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
+      opacity: 0;
+      animation: fadeIn 1s ease 1s forwards;
     }
     
     /* === ANIMATIONS === */
-    
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     
     /* === RESPONSIVE === */
-    
     @media (max-width: 768px) {
-      body {
-        align-items: flex-start;
-      }
-      
       .container {
-        padding: 24px;
-        padding-top: 72px;
+        padding: 32px 20px;
       }
       
       .logo {
-        margin-bottom: 48px;
+        margin-bottom: 60px;
       }
       
-      .hero-tagline {
-        font-size: 0.6875rem;
-        margin-bottom: 16px;
+      .logo img {
+        height: 40px;
       }
       
-      .lucas-card {
-        padding: 20px;
+      .document-frame {
+        padding: 24px;
       }
       
-      .lucas-messages {
-        font-size: 0.8125rem;
-        min-height: 140px;
-      }
-      
-      .cta-box {
+      .doc-row {
         flex-direction: column;
-        padding: 20px;
-        gap: 12px;
-      }
-      
-      .cta-prompt {
-        display: none;
-      }
-      
-      .cta-whatsapp {
-        font-size: 0.75rem;
-      }
-      
-      .cta-social-proof {
-        font-size: 0.6875rem;
-        padding: 0 16px;
-      }
-      
-      .result-text {
+        gap: 4px;
         font-size: 1rem;
       }
       
-      .ticker {
-        margin-top: 40px;
-        font-size: 0.6875rem;
-      }
-      
-      .footer {
-        margin-top: 32px;
-        padding: 16px;
-      }
-      
-      .footer-content {
-        font-size: 0.625rem;
-      }
-    }
-    
-    @media (max-width: 380px) {
-      .hero-line {
-        font-size: 1.75rem;
-      }
-      
-      .hero-tagline {
-        font-size: 0.625rem;
-      }
-      
-      .lucas-card {
-        padding: 16px;
-      }
-      
-      .lucas-messages {
+      .doc-label {
         font-size: 0.75rem;
-        min-height: 120px;
       }
       
-      .cta-email {
-        font-size: 0.875rem;
-        padding: 14px 20px;
+      .lucas-body {
+        padding: 20px;
+      }
+      
+      .lucas-stream {
+        font-size: 0.8rem;
+      }
+      
+      .result-quote {
+        font-size: 1.25rem;
+      }
+      
+      .cta-button {
+        padding: 16px 28px;
+        font-size: 0.9rem;
       }
       
       .cta-hint {
-        font-size: 0.75rem;
-      }
-      
-      .cta-whatsapp {
-        font-size: 0.6875rem;
-      }
-      
-      .cta-social-proof {
-        font-size: 0.625rem;
-      }
-      
-      .ticker {
-        font-size: 0.625rem;
+        font-size: 0.7rem;
+        padding: 0 16px;
       }
     }
   </style>
@@ -731,234 +578,208 @@
 
   <!-- Atmosphere -->
   <div class="atmosphere">
-    <div class="orb orb-1" id="orb1"></div>
-    <div class="orb orb-2" id="orb2"></div>
     <div class="grid"></div>
   </div>
   <div class="vignette"></div>
   <div class="grain"></div>
+  
+  <!-- Scan Effect -->
+  <div class="scan-field" id="scanField">
+    <div class="scan-line" id="scanLine"></div>
+  </div>
 
   <div class="container">
     
+    <!-- Logo -->
     <div class="logo">
       <img src="https://raw.githubusercontent.com/LucasDotTrade/website/main/logo.png" alt="LUCAS">
     </div>
     
-    <div class="hero">
-      <div class="hero-tagline">Trade document verification</div>
-      <div class="hero-line">
-        <span class="typo-container">
-          <span class="typo-word" id="typoWord"><span class="char">S</span><span class="char">o</span><span class="char">m</span><span class="char">w</span><span class="char">h</span><span class="char">e</span><span class="char">r</span><span class="char">e</span></span>
-        </span>
-        in your shipment docs,
+    <!-- Document Display (The Hero) -->
+    <div class="document-display">
+      <div class="document-frame">
+        <div class="doc-row">
+          <span class="doc-label">Port of Loading</span>
+          <span class="doc-value error-target" id="portValue">
+            <span class="char">S</span><span class="char">h</span><span class="char">a</span><span class="char">n</span><span class="char">g</span><span class="char">a</span><span class="char">i</span>
+          </span>
+        </div>
+        <div class="doc-row">
+          <span class="doc-label">Port of Discharge</span>
+          <span class="doc-value">Jebel Ali</span>
+        </div>
       </div>
-      <div class="hero-line">there's an error the bank will catch.</div>
     </div>
+    
+    <!-- Connection Beam -->
+    <div class="connection-beam" id="beam"></div>
     
     <!-- Lucas Card -->
     <div class="lucas-card">
       <div class="lucas-header">
-        <div class="lucas-avatar">
-          <img src="https://raw.githubusercontent.com/LucasDotTrade/website/main/App_icon_Main_on_Lime_512.png" alt="Lucas">
+        <div class="lucas-identity">
+          <div class="lucas-avatar">
+            <img src="https://raw.githubusercontent.com/LucasDotTrade/website/main/App_icon_Main_on_Lime_512.png" alt="Lucas">
+          </div>
+          <span class="lucas-name">Lucas</span>
         </div>
-        <div>
-          <div class="lucas-name">Lucas</div>
-          <div class="lucas-status">Active</div>
+        <div class="lucas-status">
+          <div class="status-indicator"></div>
+          <span>Analyzing</span>
         </div>
       </div>
-      <div class="lucas-messages" id="lucasMessages">
-        <!-- Messages injected by JS -->
+      <div class="lucas-body">
+        <div class="lucas-stream" id="stream">
+          <!-- Stream content injected by JS -->
+        </div>
       </div>
     </div>
     
     <!-- Result -->
     <div class="result" id="result">
-      <div class="result-badge">
+      <div class="result-time">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
         0.8 seconds
       </div>
-      <div class="result-text">
-        The errors that get LCs rejected — <strong>caught in seconds.</strong>
+      <div class="result-quote">"What do you have for me?"</div>
+      <a href="mailto:lucas@lucas.trade?subject=Document%20for%20verification" class="cta-button">
+        Send me your documents
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
+      </a>
+      <div class="cta-hint">
+        <span class="hint-docs">LC · Invoice · Bill of Lading · Any trade doc</span>
+        <span class="hint-verdict">2 min · GO / WAIT / NO_GO</span>
       </div>
     </div>
     
-    <!-- CTA -->
-    <div class="cta" id="cta">
-      <div class="cta-label">Send me your documents</div>
-      <div class="cta-box">
-        <span class="cta-prompt">&gt; lucas analyze</span>
-        <a href="mailto:lucas@lucas.trade" class="cta-email">lucas@lucas.trade</a>
-      </div>
-      <div class="cta-hint">LC · Invoice · Bill of Lading — <span>Verdict in 2 min. Free.</span></div>
-      <div class="cta-whatsapp">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
-          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
-        WhatsApp coming soon
-      </div>
-      <div class="cta-social-proof">Trusted by traders and freight forwarders in Dubai, Singapore, Panama and Rotterdam</div>
-    </div>
-    <!-- Ticker -->
-    <div class="ticker" id="ticker">
-      <span class="ticker-dot"></span>
-      <span id="tickerText"><span class="ticker-go">GO</span> · Bill of Lading verified</span>
-    </div>
-
     <!-- Footer -->
-    <footer class="footer">
-      <div class="footer-content">
-        <span class="footer-company">by YOYOGI FZCO</span>
-        <span class="footer-divider">·</span>
-        <span class="footer-address">Dubai Silicon Oasis, UAE</span>
-      </div>
-    </footer>
+    <div class="footer">
+      by YOYOGI FZCO · Dubai Silicon Oasis, UAE
+    </div>
     
   </div>
 
   <script>
-    // === ELEMENTS ===
-    const typoWord = document.getElementById('typoWord');
-    const chars = typoWord.querySelectorAll('.char');
-    const lucasMessages = document.getElementById('lucasMessages');
+    const stream = document.getElementById('stream');
     const result = document.getElementById('result');
-    const cta = document.getElementById('cta');
-    const ticker = document.getElementById('ticker');
-    const tickerText = document.getElementById('tickerText');
-    const orb1 = document.getElementById('orb1');
-    const orb2 = document.getElementById('orb2');
+    const portValue = document.getElementById('portValue');
+    const chars = portValue.querySelectorAll('.char');
+    const scanField = document.getElementById('scanField');
+    const scanLine = document.getElementById('scanLine');
+    const beam = document.getElementById('beam');
     
-    // === PARALLAX ===
-    document.addEventListener('mousemove', (e) => {
-      const x = (e.clientX / window.innerWidth - 0.5) * 30;
-      const y = (e.clientY / window.innerHeight - 0.5) * 30;
-      orb1.style.transform = `translate(${x}px, ${y}px)`;
-      orb2.style.transform = `translate(${-x}px, ${-y}px)`;
-    });
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
     
-    // === LUCAS MESSAGES ===
-    const messages = [
-      { text: "Let me take a look at this...", type: "thinking", delay: 800 },
-      { text: "Scanning: <span class='highlight'>S-o-m-w-h-e-r-e</span>", type: "", delay: 1400, scan: true },
-      { text: "Hmm, wait—", type: "alert", delay: 2200, error: true },
-      { text: "Found it. Missing an 'e' after 'Som'.", type: "alert", delay: 2600 },
-      { text: "Fixing: <span class='highlight'>Somewhere</span> ✓", type: "success", delay: 3200, fix: true },
-    ];
-    
-    function addMessage(msg) {
-      return new Promise(resolve => {
-        const div = document.createElement('div');
-        div.className = `lucas-message ${msg.type}`;
-        
-        // Typing effect
-        if (msg.text.includes('highlight')) {
-          div.innerHTML = msg.text;
-          lucasMessages.appendChild(div);
-          setTimeout(() => {
-            div.classList.add('visible');
-            resolve();
-          }, 50);
-        } else {
-          div.innerHTML = '<span class="typing-cursor"></span>';
-          lucasMessages.appendChild(div);
-          div.classList.add('visible');
-          
-          let i = 0;
-          const text = msg.text;
-          const typeInterval = setInterval(() => {
-            if (i < text.length) {
-              div.innerHTML = text.slice(0, i + 1) + '<span class="typing-cursor"></span>';
-              i++;
-            } else {
-              div.innerHTML = text;
-              clearInterval(typeInterval);
-              resolve();
-            }
-          }, 20);
-        }
+    function addLine(text, className = '') {
+      const div = document.createElement('div');
+      div.className = `stream-line ${className}`;
+      div.innerHTML = text;
+      stream.appendChild(div);
+      
+      requestAnimationFrame(() => {
+        div.classList.add('visible');
       });
+      
+      return div;
     }
     
-    // === ANIMATION SEQUENCE ===
-    async function runSequence() {
-      // Wait for page load - shorter
-      await sleep(700);
+    async function typeText(element, text, speed = 25) {
+      let i = 0;
+      element.innerHTML = '<span class="cursor"></span>';
       
-      // Message 1: "Let me take a look..."
-      await addMessage(messages[0]);
+      while (i < text.length) {
+        if (text[i] === '<') {
+          // Handle HTML tags
+          const endTag = text.indexOf('>', i);
+          const tag = text.slice(i, endTag + 1);
+          element.innerHTML = text.slice(0, endTag + 1) + '<span class="cursor"></span>';
+          i = endTag + 1;
+        } else {
+          element.innerHTML = text.slice(0, i + 1) + '<span class="cursor"></span>';
+          i++;
+        }
+        await sleep(speed);
+      }
+      element.innerHTML = text;
+    }
+    
+    async function runSequence() {
+      await sleep(800);
+      
+      // Activate scan field
+      scanField.classList.add('active');
+      scanLine.classList.add('scanning');
+      
+      // Line 1: Initiating
+      const line1 = addLine('');
+      await typeText(line1, 'Scanning document...', 30);
       await sleep(400);
       
-      // Message 2: Scanning + character highlight
-      await addMessage(messages[1]);
-      
-      // Scan characters - faster
+      // Scan the characters in the document
       for (let i = 0; i < chars.length; i++) {
-        await sleep(50);
-        chars[i].classList.add('scanning');
-        await sleep(50);
-        chars[i].classList.remove('scanning');
+        chars[i].classList.add('scanned');
+        await sleep(80);
+        if (i < chars.length - 1) {
+          chars[i].classList.remove('scanned');
+        }
       }
-      await sleep(250);
       
-      // Message 3: Alert
-      chars[3].classList.add('error'); // 'w'
-      await addMessage(messages[2]);
-      await sleep(250);
-      
-      // Message 4: Found it
-      await addMessage(messages[3]);
+      // Activate beam connection
+      beam.classList.add('active');
       await sleep(300);
       
-      // Message 5: Fixing
-      // Clear error, add fixed
-      chars.forEach(c => c.classList.remove('error'));
+      // Line 2: Reading value
+      const line2 = addLine('');
+      await typeText(line2, 'Port of Loading: <span class="highlight">"Shangai"</span>', 25);
+      await sleep(400);
       
-      // Morph the word
-      typoWord.innerHTML = `<span class="char fixed">S</span><span class="char fixed">o</span><span class="char fixed">m</span><span class="char fixed">e</span><span class="char fixed">w</span><span class="char fixed">h</span><span class="char fixed">e</span><span class="char fixed">r</span><span class="char fixed">e</span>`;
+      // Line 3: Checking
+      const line3 = addLine('');
+      await typeText(line3, 'Cross-referencing...', 30);
+      await sleep(500);
       
-      await addMessage(messages[4]);
+      // Find the error - highlight the missing 'h' position
+      chars.forEach(c => c.classList.remove('scanned'));
+      chars[5].classList.add('error'); // 'a' where 'h' should be before it
+      chars[6].classList.add('error'); // 'i' 
+      
+      // Line 4: Error found
+      const line4 = addLine('', 'error-text');
+      await typeText(line4, '<span class="error-text">Discrepancy: "Shangai" → "Shanghai"</span>', 20);
+      await sleep(300);
+      
+      // Line 5: Consequence
+      const line5 = addLine('', 'error-text');
+      await typeText(line5, '<span class="error-text">Missing "h". Bank will reject.</span>', 25);
+      await sleep(600);
+      
+      // Fix animation
+      chars.forEach(c => {
+        c.classList.remove('error');
+        c.classList.add('fixed');
+      });
+      
+      // Update the port value to fixed version
+      portValue.innerHTML = '<span class="char fixed">S</span><span class="char fixed">h</span><span class="char fixed">a</span><span class="char fixed">n</span><span class="char fixed">g</span><span class="char fixed">h</span><span class="char fixed">a</span><span class="char fixed">i</span>';
       
       await sleep(400);
       
       // Show result
       result.classList.add('visible');
-      await sleep(300);
       
-      // Show CTA
-      cta.classList.add('visible');
-      await sleep(400);
-      
-      // Show ticker
-      ticker.classList.add('visible');
-    }
-    
-    function sleep(ms) {
-      return new Promise(r => setTimeout(r, ms));
+      // Deactivate beam
+      setTimeout(() => {
+        beam.classList.remove('active');
+        scanField.classList.remove('active');
+      }, 1000);
     }
     
     runSequence();
-    
-    // === TICKER ===
-    const tickerMessages = [
-      { status: 'go', text: 'GO', detail: 'Bill of Lading verified' },
-      { status: 'wait', text: 'WAIT', detail: 'Invoice — Beneficiary mismatch' },
-      { status: 'go', text: 'GO', detail: 'LC MT700 verified' },
-      { status: 'go', text: 'GO', detail: 'Packing List verified' },
-      { status: 'wait', text: 'WAIT', detail: 'Certificate — Port discrepancy' },
-    ];
-    
-    let tickerIndex = 0;
-    setInterval(() => {
-      tickerText.style.opacity = '0';
-      setTimeout(() => {
-        tickerIndex = (tickerIndex + 1) % tickerMessages.length;
-        const msg = tickerMessages[tickerIndex];
-        tickerText.innerHTML = `<span class="ticker-${msg.status}">${msg.text}</span> · ${msg.detail}`;
-        tickerText.style.opacity = '1';
-        tickerText.style.transition = 'opacity 0.3s ease';
-      }, 300);
-    }, 4500);
   </script>
 
 </body>
