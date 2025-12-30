@@ -8,27 +8,27 @@
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg: #050505;
-      --bg-card: #0a0a0a;
-      --bg-elevated: #0f0f0f;
-      --bg-hover: #141414;
-      --border: rgba(255,255,255,0.06);
-      --border-active: rgba(255,255,255,0.12);
+      --bg: #030303;
+      --bg-card: #080808;
+      --bg-elevated: #0c0c0c;
+      --bg-hover: #111111;
+      --border: rgba(255,255,255,0.05);
+      --border-active: rgba(255,255,255,0.1);
       --text: #fafafa;
-      --text-secondary: #888888;
-      --text-muted: #444444;
+      --text-secondary: #6e6e6e;
+      --text-muted: #333333;
       --lime: #deff9b;
-      --lime-glow: rgba(222, 255, 155, 0.4);
-      --lime-subtle: rgba(222, 255, 155, 0.08);
-      --lime-border: rgba(222, 255, 155, 0.25);
-      --error: #ff6b6b;
-      --error-glow: rgba(255, 107, 107, 0.3);
-      --error-subtle: rgba(255, 107, 107, 0.1);
-      --error-border: rgba(255, 107, 107, 0.3);
+      --lime-glow: rgba(222, 255, 155, 0.5);
+      --lime-subtle: rgba(222, 255, 155, 0.06);
+      --lime-border: rgba(222, 255, 155, 0.2);
+      --error: #ff4444;
+      --error-glow: rgba(255, 68, 68, 0.4);
+      --error-subtle: rgba(255, 68, 68, 0.08);
+      --error-border: rgba(255, 68, 68, 0.25);
     }
     
     * {
@@ -54,14 +54,61 @@
       flex-direction: column;
     }
     
+    /* === SCREEN EFFECTS === */
+    .screen-flash {
+      position: fixed;
+      inset: 0;
+      background: var(--error);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    
+    .screen-flash.flash {
+      animation: screenFlash 0.4s ease-out;
+    }
+    
+    @keyframes screenFlash {
+      0% { opacity: 0.15; }
+      100% { opacity: 0; }
+    }
+    
+    .vignette-danger {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(255, 68, 68, 0.15) 100%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+      transition: opacity 0.5s ease;
+    }
+    
+    .vignette-danger.visible {
+      opacity: 1;
+    }
+    
+    .vignette-success {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(222, 255, 155, 0.1) 100%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 100;
+      transition: opacity 0.5s ease;
+    }
+    
+    .vignette-success.visible {
+      opacity: 1;
+    }
+    
     /* === HEADER === */
     .header {
-      padding: 24px 48px;
+      padding: 28px 48px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       opacity: 0;
-      animation: fadeIn 0.8s ease 0.1s forwards;
+      animation: fadeIn 1s ease 0.1s forwards;
     }
     
     .logo img {
@@ -93,13 +140,18 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 20px 24px 60px;
+      padding: 0 24px 80px;
     }
     
     /* === HERO === */
     .hero {
       text-align: center;
-      margin-bottom: 56px;
+      margin-bottom: 80px;
+      transition: opacity 0.4s ease;
+    }
+    
+    .hero.dimmed {
+      opacity: 0.3;
     }
     
     .hero-label {
@@ -107,25 +159,26 @@
       font-size: 0.6875rem;
       font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.25em;
       color: var(--lime);
-      margin-bottom: 28px;
+      margin-bottom: 40px;
       opacity: 0;
-      animation: fadeIn 0.8s ease 0.2s forwards;
+      animation: fadeIn 1s ease 0.2s forwards;
     }
     
     .hero-title {
-      font-size: clamp(2.25rem, 7vw, 4.5rem);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(3rem, 10vw, 6rem);
       font-weight: 700;
-      line-height: 1.08;
+      line-height: 1.0;
       letter-spacing: -0.04em;
       opacity: 0;
-      animation: fadeIn 0.8s ease 0.3s forwards;
+      animation: fadeIn 1s ease 0.3s forwards;
     }
     
     .hero-line-1 {
       display: block;
-      margin-bottom: 4px;
+      margin-bottom: 0;
     }
     
     .hero-line-2 {
@@ -133,72 +186,161 @@
       color: var(--text-secondary);
     }
     
-    .hero-soul {
-      margin-top: 24px;
-      font-size: 1.0625rem;
-      color: var(--text-muted);
-      font-weight: 400;
-      letter-spacing: -0.01em;
-      opacity: 0;
-      animation: fadeIn 0.8s ease 0.5s forwards;
-    }
-    
     /* The typo word */
     .typo-word {
       position: relative;
       display: inline-block;
       color: var(--text);
+      transition: all 0.3s ease;
+    }
+    
+    .typo-word.spotlight {
+      text-shadow: 0 0 60px var(--error-glow), 0 0 120px var(--error-glow);
+    }
+    
+    .typo-word.success {
+      text-shadow: 0 0 60px var(--lime-glow), 0 0 120px var(--lime-glow);
     }
     
     .typo-word .char {
       display: inline-block;
-      transition: all 0.2s ease;
+      transition: all 0.15s ease;
+      position: relative;
     }
     
     .typo-word .char.scanning {
       color: var(--lime);
-      text-shadow: 0 0 40px var(--lime-glow);
+      text-shadow: 0 0 30px var(--lime-glow);
+      transform: translateY(-2px);
     }
     
     .typo-word .char.error {
       color: var(--error);
       text-shadow: 0 0 40px var(--error-glow);
+      animation: charShake 0.4s ease;
+    }
+    
+    @keyframes charShake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-3px) rotate(-1deg); }
+      40% { transform: translateX(3px) rotate(1deg); }
+      60% { transform: translateX(-2px) rotate(-0.5deg); }
+      80% { transform: translateX(2px) rotate(0.5deg); }
     }
     
     .typo-word .char.fixed {
       color: var(--lime);
-      text-shadow: 0 0 40px var(--lime-glow);
+      text-shadow: 0 0 30px var(--lime-glow);
+      animation: charPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes charPop {
+      0% { transform: scale(0.8); opacity: 0; }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    /* Slash through error */
+    .typo-slash {
+      position: absolute;
+      top: 55%;
+      left: -5%;
+      right: -5%;
+      height: 6px;
+      background: linear-gradient(90deg, transparent, var(--lime) 20%, #fff 50%, var(--lime) 80%, transparent);
+      transform: scaleX(0) translateY(-50%);
+      transform-origin: left;
+      border-radius: 3px;
+      z-index: 10;
+      box-shadow: 0 0 20px var(--lime-glow), 0 0 40px var(--lime-glow);
+    }
+    
+    .typo-slash.animate {
+      animation: slashThrough 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    
+    @keyframes slashThrough {
+      0% { transform: scaleX(0) translateY(-50%); }
+      100% { transform: scaleX(1) translateY(-50%); }
+    }
+    
+    /* Victory particles */
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--lime);
+      border-radius: 50%;
+      pointer-events: none;
+      box-shadow: 0 0 10px var(--lime-glow);
+    }
+    
+    .particle.animate {
+      animation: particleBurst 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    }
+    
+    @keyframes particleBurst {
+      0% { opacity: 1; transform: translate(0, 0) scale(1); }
+      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
+    }
+    
+    /* Soul line */
+    .hero-soul {
+      margin-top: 40px;
+      font-size: 1.1875rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      font-weight: 400;
+      letter-spacing: 0;
+      opacity: 0;
+      animation: fadeIn 1s ease 0.5s forwards;
+    }
+    
+    .hero-soul span {
+      font-style: normal;
+      color: var(--text-muted);
+      font-size: 0.875rem;
+      margin-left: 8px;
     }
     
     /* === ANALYSIS CARD === */
     .analysis-card {
       width: 100%;
-      max-width: 600px;
+      max-width: 640px;
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 20px;
+      border-radius: 24px;
       overflow: hidden;
       opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(30px) scale(0.98);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .analysis-card.visible {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
     }
     
     .analysis-card.has-error {
       border-color: var(--error-border);
+      box-shadow: 0 0 60px rgba(255, 68, 68, 0.1), 0 0 120px rgba(255, 68, 68, 0.05);
+      animation: cardPulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes cardPulse {
+      0%, 100% { box-shadow: 0 0 60px rgba(255, 68, 68, 0.1), 0 0 120px rgba(255, 68, 68, 0.05); }
+      50% { box-shadow: 0 0 80px rgba(255, 68, 68, 0.15), 0 0 160px rgba(255, 68, 68, 0.08); }
     }
     
     .analysis-card.resolved {
       border-color: var(--lime-border);
+      box-shadow: 0 0 60px rgba(222, 255, 155, 0.1), 0 0 120px rgba(222, 255, 155, 0.05);
+      animation: none;
     }
     
     /* Card Header */
     .card-header {
-      padding: 18px 24px;
+      padding: 20px 28px;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
@@ -209,7 +351,7 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 0.02em;
+      letter-spacing: 0.03em;
       color: var(--text-secondary);
     }
     
@@ -224,13 +366,10 @@
       letter-spacing: 0.05em;
       color: var(--text-muted);
       opacity: 0;
-      transition: opacity 0.3s;
+      transition: all 0.3s;
     }
     
-    .card-status.visible {
-      opacity: 1;
-    }
-    
+    .card-status.visible { opacity: 1; }
     .card-status.analyzing { color: var(--lime); }
     .card-status.error { color: var(--error); }
     .card-status.resolved { color: var(--lime); }
@@ -247,33 +386,33 @@
     }
     
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(1.2); }
     }
     
     /* === DOCUMENT TABS === */
     .doc-tabs {
       display: flex;
-      padding: 16px 24px;
-      gap: 8px;
+      padding: 16px 28px;
+      gap: 10px;
       border-bottom: 1px solid var(--border);
       background: var(--bg-elevated);
     }
     
     .doc-tab {
       position: relative;
-      padding: 10px 18px;
+      padding: 12px 20px;
       background: transparent;
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 10px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-muted);
       cursor: pointer;
       transition: all 0.2s;
       opacity: 0;
-      transform: translateY(8px);
+      transform: translateY(10px);
     }
     
     .doc-tab.visible {
@@ -296,38 +435,49 @@
     .doc-tab.checked::after {
       content: '✓';
       position: absolute;
-      top: -6px;
-      right: -6px;
-      width: 16px;
-      height: 16px;
+      top: -8px;
+      right: -8px;
+      width: 20px;
+      height: 20px;
       background: var(--lime);
       border-radius: 50%;
-      font-size: 0.5rem;
-      line-height: 16px;
+      font-size: 0.625rem;
+      line-height: 20px;
       text-align: center;
       color: var(--bg);
+      font-weight: 700;
+      box-shadow: 0 0 10px var(--lime-glow);
+      animation: badgePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
     
     .doc-tab.has-error::after {
       content: '!';
       position: absolute;
-      top: -6px;
-      right: -6px;
-      width: 16px;
-      height: 16px;
+      top: -8px;
+      right: -8px;
+      width: 20px;
+      height: 20px;
       background: var(--error);
       border-radius: 50%;
-      font-size: 0.625rem;
+      font-size: 0.75rem;
       font-weight: 700;
-      line-height: 16px;
+      line-height: 20px;
       text-align: center;
       color: white;
+      box-shadow: 0 0 10px var(--error-glow);
+      animation: badgePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    
+    @keyframes badgePop {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
     }
     
     /* === TAB CONTENT === */
     .tab-content {
-      padding: 28px 24px;
-      min-height: 280px;
+      padding: 32px 28px;
+      min-height: 300px;
     }
     
     .tab-pane {
@@ -340,7 +490,7 @@
     }
     
     @keyframes fadeInTab {
-      from { opacity: 0; transform: translateY(8px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
     
@@ -349,13 +499,14 @@
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      margin-bottom: 24px;
-      padding-bottom: 20px;
+      margin-bottom: 28px;
+      padding-bottom: 24px;
       border-bottom: 1px solid var(--border);
     }
     
     .doc-title {
-      font-size: 1rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.125rem;
       font-weight: 600;
       color: var(--text);
       margin-bottom: 4px;
@@ -367,7 +518,7 @@
     }
     
     .doc-badge {
-      padding: 6px 12px;
+      padding: 6px 14px;
       border-radius: 100px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6875rem;
@@ -396,16 +547,16 @@
     .field-list {
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 12px;
     }
     
     .field-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 12px 16px;
+      padding: 14px 18px;
       background: var(--bg-elevated);
-      border-radius: 10px;
+      border-radius: 12px;
       border: 1px solid var(--border);
     }
     
@@ -431,61 +582,60 @@
     
     .field-value .check {
       color: var(--lime);
-      font-size: 0.875rem;
     }
     
     /* Error Block */
     .error-block {
-      margin-top: 20px;
-      padding: 20px;
+      margin-top: 24px;
+      padding: 24px;
       background: var(--error-subtle);
       border: 1px solid var(--error-border);
-      border-radius: 12px;
+      border-radius: 16px;
     }
     
     .error-title {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 0.8125rem;
+      gap: 10px;
+      font-size: 0.875rem;
       font-weight: 600;
       color: var(--error);
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
     
     .error-title svg {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
     }
     
     .error-correction {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 16px;
-      padding: 16px;
+      gap: 20px;
+      padding: 20px;
       background: var(--bg-card);
-      border-radius: 8px;
-      margin-bottom: 16px;
+      border-radius: 12px;
+      margin-bottom: 20px;
     }
     
     .correction-from {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.25rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
       font-weight: 600;
       color: var(--error);
       text-decoration: line-through;
-      opacity: 0.7;
+      opacity: 0.6;
     }
     
     .correction-arrow {
       color: var(--text-muted);
-      font-size: 1.25rem;
+      font-size: 1.5rem;
     }
     
     .correction-to {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.25rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
       font-weight: 600;
       color: var(--lime);
     }
@@ -497,6 +647,7 @@
     
     .error-stat {
       flex: 1;
+      text-align: center;
     }
     
     .error-stat-label {
@@ -504,12 +655,12 @@
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-muted);
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
     
     .error-stat-value {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 1rem;
+      font-size: 1.125rem;
       font-weight: 600;
       color: var(--error);
     }
@@ -518,16 +669,16 @@
       color: var(--text);
     }
     
-    /* LC Master Note */
+    /* Master Note */
     .master-note {
-      margin-top: 20px;
-      padding: 16px 20px;
+      margin-top: 24px;
+      padding: 20px;
       background: var(--lime-subtle);
       border: 1px solid var(--lime-border);
-      border-radius: 10px;
-      font-size: 0.8125rem;
+      border-radius: 12px;
+      font-size: 0.875rem;
       color: var(--text-secondary);
-      line-height: 1.5;
+      line-height: 1.6;
     }
     
     .master-note strong {
@@ -536,47 +687,51 @@
     
     /* === CARD FOOTER === */
     .card-footer {
-      padding: 18px 24px;
+      padding: 20px 28px;
       background: var(--bg-elevated);
       border-top: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
       opacity: 0;
-      transition: opacity 0.4s;
+      transform: translateY(10px);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .card-footer.visible {
       opacity: 1;
+      transform: translateY(0);
     }
     
     .verdict-main {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
     }
     
     .verdict-badge {
-      padding: 8px 14px;
-      border-radius: 6px;
+      padding: 10px 18px;
+      border-radius: 8px;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
+      font-size: 0.875rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
     }
     
     .verdict-badge.go {
       background: var(--lime);
       color: var(--bg);
+      box-shadow: 0 0 20px var(--lime-glow);
     }
     
     .verdict-badge.no-go {
       background: var(--error);
       color: white;
+      box-shadow: 0 0 20px var(--error-glow);
     }
     
     .verdict-text {
-      font-size: 0.875rem;
+      font-size: 0.9375rem;
       color: var(--text-secondary);
     }
     
@@ -587,20 +742,20 @@
     
     .verdict-time {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
+      font-size: 0.8125rem;
       color: var(--text-muted);
     }
     
     /* === CTA === */
     .cta-section {
-      margin-top: 48px;
+      margin-top: 64px;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
       opacity: 0;
-      transform: translateY(16px);
-      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(20px);
+      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
     .cta-section.visible {
@@ -611,36 +766,37 @@
     .cta-button {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      padding: 18px 36px;
+      gap: 14px;
+      padding: 20px 44px;
       background: var(--lime);
       color: var(--bg);
-      font-size: 1rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.0625rem;
       font-weight: 600;
       text-decoration: none;
-      border-radius: 12px;
+      border-radius: 14px;
       transition: all 0.25s;
-      box-shadow: 0 0 40px rgba(222, 255, 155, 0.15);
+      box-shadow: 0 0 50px rgba(222, 255, 155, 0.2);
     }
     
     .cta-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 40px rgba(222, 255, 155, 0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 60px rgba(222, 255, 155, 0.3);
     }
     
     .cta-button svg {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       transition: transform 0.25s;
     }
     
     .cta-button:hover svg {
-      transform: translateX(4px);
+      transform: translateX(5px);
     }
     
     .cta-sub {
-      margin-top: 16px;
-      font-size: 0.875rem;
+      margin-top: 20px;
+      font-size: 0.9375rem;
       color: var(--text-muted);
     }
     
@@ -652,9 +808,9 @@
     .cta-whatsapp {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      margin-top: 20px;
-      padding: 10px 16px;
+      gap: 10px;
+      margin-top: 24px;
+      padding: 12px 20px;
       background: var(--bg-elevated);
       border: 1px solid var(--border);
       border-radius: 100px;
@@ -665,6 +821,8 @@
     }
     
     .cta-whatsapp svg {
+      width: 18px;
+      height: 18px;
       opacity: 0.5;
       transition: all 0.25s;
     }
@@ -682,24 +840,24 @@
     
     /* === FOOTER === */
     .footer {
-      padding: 24px 48px;
+      padding: 32px 48px;
       text-align: center;
       font-size: 0.75rem;
       color: var(--text-muted);
       opacity: 0;
-      animation: fadeIn 0.8s ease 0.5s forwards;
+      animation: fadeIn 1s ease 0.6s forwards;
     }
     
     /* === ANIMATIONS === */
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(12px); }
+      from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
     }
     
     /* === RESPONSIVE === */
     @media (max-width: 640px) {
       .header {
-        padding: 16px 20px;
+        padding: 20px;
       }
       
       .logo img {
@@ -707,91 +865,87 @@
       }
       
       .main {
-        padding: 16px 16px 48px;
+        padding: 0 16px 60px;
       }
       
       .hero {
-        margin-bottom: 40px;
+        margin-bottom: 56px;
       }
       
       .hero-title {
-        font-size: 2rem;
+        font-size: 2.5rem;
       }
       
       .hero-soul {
-        font-size: 0.9375rem;
-        margin-top: 20px;
+        font-size: 1rem;
+        margin-top: 24px;
       }
       
       .analysis-card {
-        border-radius: 16px;
+        border-radius: 20px;
       }
       
       .card-header {
-        padding: 14px 18px;
+        padding: 16px 20px;
       }
       
       .doc-tabs {
-        padding: 12px 16px;
-        gap: 6px;
+        padding: 14px 20px;
+        gap: 8px;
         overflow-x: auto;
       }
       
       .doc-tab {
-        padding: 8px 12px;
+        padding: 10px 14px;
         font-size: 0.6875rem;
         flex-shrink: 0;
       }
       
       .tab-content {
-        padding: 20px 18px;
-        min-height: 260px;
+        padding: 24px 20px;
+        min-height: 280px;
       }
       
       .error-correction {
-        gap: 10px;
-        padding: 12px;
+        gap: 12px;
+        padding: 16px;
       }
       
       .correction-from,
       .correction-to {
-        font-size: 1rem;
-      }
-      
-      .error-meta {
-        gap: 16px;
+        font-size: 1.25rem;
       }
       
       .card-footer {
-        padding: 14px 18px;
+        padding: 16px 20px;
         flex-direction: column;
-        gap: 12px;
+        gap: 14px;
         align-items: flex-start;
       }
       
       .cta-section {
-        margin-top: 32px;
-        padding: 0 4px;
+        margin-top: 48px;
+        padding: 0 8px;
       }
       
       .cta-button {
         width: 100%;
         justify-content: center;
-        padding: 16px 28px;
-      }
-      
-      .cta-whatsapp {
-        font-size: 0.75rem;
-        padding: 8px 14px;
+        padding: 18px 32px;
       }
       
       .footer {
-        padding: 20px;
+        padding: 24px 20px;
       }
     }
   </style>
 </head>
 <body>
+  <!-- Screen Effects -->
+  <div class="screen-flash" id="screenFlash"></div>
+  <div class="vignette-danger" id="vignetteDanger"></div>
+  <div class="vignette-success" id="vignetteSuccess"></div>
+  
   <div class="page">
     <!-- Header -->
     <header class="header">
@@ -804,15 +958,18 @@
     <!-- Main -->
     <main class="main">
       <!-- Hero -->
-      <section class="hero">
+      <section class="hero" id="hero">
         <div class="hero-label">Trade Finance Intelligence</div>
         <h1 class="hero-title">
           <span class="hero-line-1">
-            <span class="typo-word" id="typoWord"><span class="char">S</span><span class="char">h</span><span class="char">a</span><span class="char">n</span><span class="char">g</span><span class="char">a</span><span class="char">i</span></span> is fine.
+            <span class="typo-word" id="typoWord">
+              <span class="char">S</span><span class="char">h</span><span class="char">a</span><span class="char">n</span><span class="char">g</span><span class="char">a</span><span class="char">i</span>
+              <span class="typo-slash" id="typoSlash"></span>
+            </span> is fine.
           </span>
           <span class="hero-line-2">Until the bank rejects it.</span>
         </h1>
-        <p class="hero-soul">The errors banks catch — caught first.</p>
+        <p class="hero-soul">"I'll check. You ship." — Lucas</p>
       </section>
       
       <!-- Analysis Card -->
@@ -864,7 +1021,7 @@
               </div>
             </div>
             <div class="master-note">
-              <strong>Master Document.</strong> All other documents in this shipment are cross-checked against the Letter of Credit for compliance.
+              <strong>Master Document.</strong> All other documents in this shipment are cross-referenced against the Letter of Credit for compliance.
             </div>
           </div>
           
@@ -1031,7 +1188,7 @@
         </a>
         <p class="cta-sub">Email your docs → <strong>GO / WAIT / NO_GO in 2 min</strong></p>
         <a href="#" class="cta-whatsapp">
-          <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18">
+          <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
           </svg>
           WhatsApp coming soon
@@ -1050,7 +1207,11 @@
     
     // Elements
     const typoWord = document.getElementById('typoWord');
-    const chars = typoWord.querySelectorAll('.char');
+    const typoSlash = document.getElementById('typoSlash');
+    const hero = document.getElementById('hero');
+    const screenFlash = document.getElementById('screenFlash');
+    const vignetteDanger = document.getElementById('vignetteDanger');
+    const vignetteSuccess = document.getElementById('vignetteSuccess');
     const analysisCard = document.getElementById('analysisCard');
     const cardStatus = document.getElementById('cardStatus');
     const statusText = document.getElementById('statusText');
@@ -1059,36 +1220,51 @@
     const tabINV = document.getElementById('tabINV');
     const tabPL = document.getElementById('tabPL');
     const tabCO = document.getElementById('tabCO');
-    const paneLC = document.getElementById('paneLC');
-    const paneBL = document.getElementById('paneBL');
-    const paneINV = document.getElementById('paneINV');
-    const panePL = document.getElementById('panePL');
-    const paneCO = document.getElementById('paneCO');
     const cardFooter = document.getElementById('cardFooter');
-    const verdictBadge = document.getElementById('verdictBadge');
     const verdictTime = document.getElementById('verdictTime');
     const ctaSection = document.getElementById('ctaSection');
     
     const tabs = [tabLC, tabBL, tabINV, tabPL, tabCO];
-    const panes = { lc: paneLC, bl: paneBL, inv: paneINV, pl: panePL, co: paneCO };
+    const panes = {
+      lc: document.getElementById('paneLC'),
+      bl: document.getElementById('paneBL'),
+      inv: document.getElementById('paneINV'),
+      pl: document.getElementById('panePL'),
+      co: document.getElementById('paneCO')
+    };
     
     // Tab switching
     function switchTab(tabId) {
-      // Update tabs
       tabs.forEach(t => t.classList.remove('active'));
       document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
-      
-      // Update panes
       Object.values(panes).forEach(p => p.classList.remove('active'));
       panes[tabId].classList.add('active');
     }
     
-    // Add click handlers to tabs
     tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        switchTab(tab.dataset.tab);
-      });
+      tab.addEventListener('click', () => switchTab(tab.dataset.tab));
     });
+    
+    // Create particles
+    function createParticles(container, count = 12) {
+      for (let i = 0; i < count; i++) {
+        const particle = document.createElement('span');
+        particle.className = 'particle';
+        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+        const distance = 60 + Math.random() * 80;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance - 20;
+        particle.style.cssText = `
+          left: 50%;
+          top: 50%;
+          --tx: ${tx}px;
+          --ty: ${ty}px;
+        `;
+        container.appendChild(particle);
+        setTimeout(() => particle.classList.add('animate'), i * 30);
+        setTimeout(() => particle.remove(), 1000);
+      }
+    }
     
     // Timer
     let startTime;
@@ -1098,12 +1274,14 @@
     };
     
     async function runDemo() {
-      await sleep(600);
+      const chars = typoWord.querySelectorAll('.char');
+      
+      await sleep(800);
       
       // Show card
       analysisCard.classList.add('visible');
       
-      await sleep(300);
+      await sleep(400);
       
       // Start analysis
       cardStatus.classList.add('visible', 'analyzing');
@@ -1115,60 +1293,132 @@
       // Show tabs with stagger
       for (const tab of tabs) {
         tab.classList.add('visible');
-        await sleep(80);
+        await sleep(60);
       }
       
-      await sleep(200);
+      await sleep(300);
       
-      // Scan headline characters
+      // Scan headline characters - slower, more deliberate
       for (let i = 0; i < chars.length; i++) {
         chars[i].classList.add('scanning');
-        await sleep(50);
+        await sleep(100);
         if (i < chars.length - 1) {
           chars[i].classList.remove('scanning');
         }
       }
       
-      await sleep(150);
-      
-      // Check LC
+      // Check LC first
       tabLC.classList.add('checked');
-      await sleep(200);
       
-      // Find error in BL
+      await sleep(400);
+      
+      // === TENSION PAUSE ===
       chars.forEach(c => c.classList.remove('scanning'));
+      
+      await sleep(600); // Dramatic pause
+      
+      // === ERROR DISCOVERY ===
+      // Screen flash
+      screenFlash.classList.add('flash');
+      setTimeout(() => screenFlash.classList.remove('flash'), 400);
+      
+      // Danger vignette
+      vignetteDanger.classList.add('visible');
+      
+      // Error characters shake
       chars[5].classList.add('error');
       chars[6].classList.add('error');
       
+      // Spotlight on typo word
+      typoWord.classList.add('spotlight');
+      
+      // Card error state
+      analysisCard.classList.add('has-error');
+      
+      // Tab error state
       tabBL.classList.add('has-error', 'active');
       tabLC.classList.remove('active');
       
+      // Status update
       cardStatus.classList.remove('analyzing');
       cardStatus.classList.add('error');
-      statusText.textContent = '1 Issue';
+      statusText.textContent = 'Issue Found';
       document.querySelector('.status-dot').classList.remove('pulse');
       
-      analysisCard.classList.add('has-error');
-      
-      await sleep(300);
+      await sleep(1200);
       
       // Check remaining docs
       tabINV.classList.add('checked');
-      await sleep(150);
+      await sleep(200);
       tabPL.classList.add('checked');
-      await sleep(150);
+      await sleep(200);
       tabCO.classList.add('checked');
+      
+      await sleep(800);
+      
+      // === RESOLUTION / VICTORY ===
+      // Remove danger state
+      vignetteDanger.classList.remove('visible');
+      
+      // Slash through the error
+      typoSlash.classList.add('animate');
+      
+      await sleep(300);
+      
+      // Fix the characters with pop animation
+      chars.forEach(c => c.classList.remove('error'));
+      typoWord.classList.remove('spotlight');
+      typoWord.classList.add('success');
+      
+      // Replace with correct spelling
+      const charContainer = typoWord;
+      const oldChars = charContainer.querySelectorAll('.char');
+      oldChars.forEach(c => c.remove());
+      
+      const correctChars = 'Shanghai'.split('');
+      correctChars.forEach((char, i) => {
+        const span = document.createElement('span');
+        span.className = 'char fixed';
+        span.textContent = char;
+        span.style.animationDelay = `${i * 0.05}s`;
+        charContainer.insertBefore(span, typoSlash);
+      });
+      
+      // Particles!
+      createParticles(typoWord);
+      
+      // Success vignette
+      vignetteSuccess.classList.add('visible');
+      
+      // Hide slash after a moment
+      await sleep(400);
+      typoSlash.style.opacity = '0';
+      
+      // Update card state
+      analysisCard.classList.remove('has-error');
+      analysisCard.classList.add('resolved');
+      
+      cardStatus.classList.remove('error');
+      cardStatus.classList.add('resolved');
+      statusText.textContent = 'Resolved';
+      
+      // Fix BL tab
+      tabBL.classList.remove('has-error');
+      tabBL.classList.add('checked');
       
       // Stop timer
       clearInterval(timeInterval);
       updateTime();
       
-      await sleep(300);
+      await sleep(400);
+      
+      // Fade success vignette
+      vignetteSuccess.classList.remove('visible');
       
       // Show footer
       cardFooter.classList.add('visible');
       
-      await sleep(300);
+      await sleep(400);
       
       // Show CTA
       ctaSection.classList.add('visible');
