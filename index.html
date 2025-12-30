@@ -50,7 +50,6 @@
       justify-content: center;
       overflow-x: hidden;
       overflow-y: auto;
-      padding-bottom: 100px;
       -webkit-font-smoothing: antialiased;
     }
     
@@ -136,8 +135,7 @@
       z-index: 10;
       width: 100%;
       max-width: 1100px;
-      padding: 32px;
-      padding-bottom: 140px;
+      padding: 48px 32px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -569,19 +567,16 @@
     /* === TICKER === */
     
     .ticker {
-      position: fixed;
-      bottom: 72px;
-      left: 50%;
-      transform: translateX(-50%);
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 12px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.75rem;
       color: var(--text-muted);
       opacity: 0;
       transition: opacity 0.8s ease;
-      z-index: 20;
+      margin-top: 48px;
     }
     
     .ticker.visible {
@@ -603,14 +598,9 @@
     /* === FOOTER === */
     
     .footer {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 24px 24px;
+      margin-top: 48px;
+      padding: 24px;
       text-align: center;
-      z-index: 15;
-      background: linear-gradient(to top, var(--bg) 0%, var(--bg) 70%, transparent 100%);
     }
     
     .footer-content {
@@ -692,7 +682,6 @@
       .container {
         padding: 24px;
         padding-top: 72px;
-        padding-bottom: 160px;
       }
       
       .logo {
@@ -746,13 +735,13 @@
       }
       
       .ticker {
-        bottom: 68px;
+        margin-top: 40px;
         font-size: 0.6875rem;
-        padding: 0 16px;
       }
       
       .footer {
-        padding: 16px 16px;
+        margin-top: 32px;
+        padding: 16px;
       }
       
       .footer-content {
@@ -807,7 +796,7 @@
       }
       
       .ticker {
-        display: none;
+        font-size: 0.625rem;
       }
     }
   </style>
@@ -899,23 +888,22 @@
       </div>
       <div class="cta-social-proof">Trusted by freight forwarders and traders in Dubai, Singapore, and Rotterdam</div>
     </div>
+    <!-- Ticker -->
+    <div class="ticker" id="ticker">
+      <span class="ticker-dot"></span>
+      <span id="tickerText"><span class="ticker-go">GO</span> · Bill of Lading verified</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <span class="footer-company">by YOYOGI FZCO</span>
+        <span class="footer-divider">·</span>
+        <span class="footer-address">Dubai Silicon Oasis, UAE</span>
+      </div>
+    </footer>
     
   </div>
-  
-  <!-- Ticker -->
-  <div class="ticker" id="ticker">
-    <span class="ticker-dot"></span>
-    <span id="tickerText"><span class="ticker-go">GO</span> · Bill of Lading verified</span>
-  </div>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-content">
-      <span class="footer-company">by YOYOGI FZCO</span>
-      <span class="footer-divider">·</span>
-      <span class="footer-address">Dubai Silicon Oasis, UAE</span>
-    </div>
-  </footer>
 
   <script>
     // === ELEMENTS ===
