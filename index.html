@@ -486,11 +486,22 @@
       border-radius: 10px;
       transition: all 0.3s ease;
       box-shadow: 0 0 20px rgba(222, 255, 155, 0.2);
+      animation: ctaPulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes ctaPulse {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(222, 255, 155, 0.2);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(222, 255, 155, 0.4), 0 0 40px rgba(222, 255, 155, 0.2);
+      }
     }
     
     .cta-email:hover {
       transform: translateY(-2px);
-      box-shadow: 0 0 40px rgba(222, 255, 155, 0.3);
+      box-shadow: 0 0 40px rgba(222, 255, 155, 0.4);
+      animation: none;
     }
     
     .cta-hint {
@@ -503,65 +514,34 @@
       color: var(--text-secondary);
     }
     
-    .cta-flow {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-    
-    .cta-flow-step {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 8px 14px;
-      border-radius: 6px;
-    }
-    
-    .cta-flow-arrow {
-      color: var(--lime);
-      font-size: 0.875rem;
-    }
-    
-    .cta-social-proof {
-      margin-top: 24px;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      font-style: italic;
-    }
-    
-    .cta-coming-soon {
+    .cta-whatsapp {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      margin-top: 20px;
+      margin-top: 24px;
       font-size: 0.8125rem;
       color: var(--text-muted);
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 8px 16px;
-      border-radius: 100px;
       transition: all 0.3s ease;
     }
     
-    .cta-coming-soon:hover {
-      border-color: rgba(37, 211, 102, 0.3);
+    .cta-whatsapp svg {
+      opacity: 0.5;
+      transition: all 0.3s ease;
+    }
+    
+    .cta-whatsapp:hover {
       color: #25D366;
-      background: rgba(37, 211, 102, 0.05);
     }
     
-    .cta-coming-soon svg {
-      opacity: 0.6;
-      transition: opacity 0.3s ease;
-    }
-    
-    .cta-coming-soon:hover svg {
+    .cta-whatsapp:hover svg {
       opacity: 1;
       fill: #25D366;
+    }
+    
+    .cta-social-proof {
+      margin-top: 32px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
     }
     
     /* === TICKER === */
@@ -625,40 +605,6 @@
       letter-spacing: 0.1em;
     }
     
-    /* === SOUND TOGGLE === */
-    
-    .sound-toggle {
-      position: fixed;
-      top: 24px;
-      right: 24px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      background: rgba(255,255,255,0.03);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      z-index: 100;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.8s forwards;
-    }
-    
-    .sound-toggle:hover {
-      border-color: var(--lime-border);
-      color: var(--text-secondary);
-    }
-    
-    .sound-toggle.active {
-      border-color: var(--lime);
-      color: var(--lime);
-      background: var(--lime-subtle);
-    }
-    
     /* === ANIMATIONS === */
     
     @keyframes fadeUp {
@@ -712,16 +658,7 @@
         display: none;
       }
       
-      .cta-flow {
-        gap: 8px;
-      }
-      
-      .cta-flow-step {
-        font-size: 0.6875rem;
-        padding: 6px 10px;
-      }
-      
-      .cta-flow-arrow {
+      .cta-whatsapp {
         font-size: 0.75rem;
       }
       
@@ -746,12 +683,6 @@
       
       .footer-content {
         font-size: 0.625rem;
-      }
-      
-      .sound-toggle {
-        top: 16px;
-        right: 16px;
-        padding: 8px 12px;
       }
     }
     
@@ -782,13 +713,8 @@
         font-size: 0.75rem;
       }
       
-      .cta-coming-soon {
+      .cta-whatsapp {
         font-size: 0.6875rem;
-        padding: 6px 12px;
-      }
-      
-      .cta-flow {
-        display: none;
       }
       
       .cta-social-proof {
@@ -811,12 +737,6 @@
   </div>
   <div class="vignette"></div>
   <div class="grain"></div>
-
-  <!-- Sound Toggle -->
-  <button class="sound-toggle" id="soundToggle">
-    <span id="soundIcon">🔇</span>
-    <span id="soundLabel">Sound</span>
-  </button>
 
   <div class="container">
     
@@ -860,8 +780,7 @@
         0.8 seconds
       </div>
       <div class="result-text">
-        Beneficiary mismatches. Date errors. Port discrepancies.<br>
-        <strong>Lucas catches them before the bank rejects them.</strong>
+        The errors that get LCs rejected — <strong>caught in seconds.</strong>
       </div>
     </div>
     
@@ -872,21 +791,14 @@
         <span class="cta-prompt">&gt; lucas analyze</span>
         <a href="mailto:lucas@lucas.trade" class="cta-email">lucas@lucas.trade</a>
       </div>
-      <div class="cta-flow">
-        <span class="cta-flow-step">Email any doc</span>
-        <span class="cta-flow-arrow">→</span>
-        <span class="cta-flow-step">2 min analysis</span>
-        <span class="cta-flow-arrow">→</span>
-        <span class="cta-flow-step">GO / WAIT / NO_GO</span>
-      </div>
-      <div class="cta-hint">LC · Invoice · Bill of Lading — <span>Free.</span></div>
-      <div class="cta-coming-soon">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+      <div class="cta-hint">LC · Invoice · Bill of Lading — <span>Verdict in 2 min. Free.</span></div>
+      <div class="cta-whatsapp">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16">
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
         </svg>
         WhatsApp coming soon
       </div>
-      <div class="cta-social-proof">Trusted by freight forwarders and traders in Dubai, Singapore, and Rotterdam</div>
+      <div class="cta-social-proof">Trusted by traders and freight forwarders in Dubai, Singapore, Panama and Rotterdam</div>
     </div>
     <!-- Ticker -->
     <div class="ticker" id="ticker">
@@ -914,51 +826,8 @@
     const cta = document.getElementById('cta');
     const ticker = document.getElementById('ticker');
     const tickerText = document.getElementById('tickerText');
-    const soundToggle = document.getElementById('soundToggle');
-    const soundIcon = document.getElementById('soundIcon');
-    const soundLabel = document.getElementById('soundLabel');
     const orb1 = document.getElementById('orb1');
     const orb2 = document.getElementById('orb2');
-    
-    // === AUDIO ===
-    let audioCtx = null;
-    let soundEnabled = false;
-    
-    function initAudio() {
-      if (!audioCtx) {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-    }
-    
-    function playTone(freq, duration, vol = 0.03, type = 'sine') {
-      if (!soundEnabled || !audioCtx) return;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.frequency.value = freq;
-      osc.type = type;
-      gain.gain.setValueAtTime(vol, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-      osc.start();
-      osc.stop(audioCtx.currentTime + duration);
-    }
-    
-    function playTyping() { playTone(600 + Math.random() * 200, 0.05, 0.015); }
-    function playScan() { playTone(800, 0.08, 0.02); }
-    function playAlert() { playTone(300, 0.3, 0.04); }
-    function playSuccess() { 
-      playTone(523, 0.15, 0.03); 
-      setTimeout(() => playTone(659, 0.15, 0.03), 100);
-      setTimeout(() => playTone(784, 0.2, 0.03), 200);
-    }
-    
-    soundToggle.addEventListener('click', () => {
-      soundEnabled = !soundEnabled;
-      if (soundEnabled) initAudio();
-      soundIcon.textContent = soundEnabled ? '🔊' : '🔇';
-      soundToggle.classList.toggle('active', soundEnabled);
-    });
     
     // === PARALLAX ===
     document.addEventListener('mousemove', (e) => {
@@ -1000,7 +869,6 @@
           const typeInterval = setInterval(() => {
             if (i < text.length) {
               div.innerHTML = text.slice(0, i + 1) + '<span class="typing-cursor"></span>';
-              playTyping();
               i++;
             } else {
               div.innerHTML = text;
@@ -1028,14 +896,12 @@
       for (let i = 0; i < chars.length; i++) {
         await sleep(50);
         chars[i].classList.add('scanning');
-        playScan();
         await sleep(50);
         chars[i].classList.remove('scanning');
       }
       await sleep(250);
       
       // Message 3: Alert
-      playAlert();
       chars[3].classList.add('error'); // 'w'
       await addMessage(messages[2]);
       await sleep(250);
@@ -1052,7 +918,6 @@
       typoWord.innerHTML = `<span class="char fixed">S</span><span class="char fixed">o</span><span class="char fixed">m</span><span class="char fixed">e</span><span class="char fixed">w</span><span class="char fixed">h</span><span class="char fixed">e</span><span class="char fixed">r</span><span class="char fixed">e</span>`;
       
       await addMessage(messages[4]);
-      playSuccess();
       
       await sleep(400);
       
