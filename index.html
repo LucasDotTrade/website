@@ -3,29 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LUCAS | Trade Document Verification — Catch LC Errors Before Banks Do</title>
-  <meta name="description" content="70% of trade documents get rejected on first try. Lucas catches discrepancies in LCs, Bills of Lading, and Invoices in 2 minutes. GO / WAIT / NO_GO verdict.">
-  
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23deff9b' width='100' height='100' rx='20'/></svg>">
+  <title>LUCAS — Trade Document Intelligence</title>
+  <meta name="description" content="70% of trade documents get rejected. Lucas catches discrepancies across your entire document set in seconds.">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
   <style>
     :root {
       --bg: #050505;
-      --bg-elevated: #0a0a0a;
-      --bg-card: rgba(12, 12, 12, 0.9);
+      --bg-card: #0a0a0a;
+      --bg-elevated: #111111;
+      --border: rgba(255,255,255,0.08);
+      --border-active: rgba(255,255,255,0.12);
       --text: #fafafa;
       --text-secondary: #888888;
       --text-muted: #444444;
       --lime: #deff9b;
-      --lime-glow: rgba(222, 255, 155, 0.6);
+      --lime-glow: rgba(222, 255, 155, 0.5);
       --lime-subtle: rgba(222, 255, 155, 0.08);
-      --lime-border: rgba(222, 255, 155, 0.2);
       --error: #ff6b6b;
-      --error-glow: rgba(255, 107, 107, 0.5);
+      --error-glow: rgba(255, 107, 107, 0.4);
+      --error-subtle: rgba(255, 107, 107, 0.1);
     }
     
     * {
@@ -34,1437 +34,810 @@
       box-sizing: border-box;
     }
     
-    html {
-      font-size: 16px;
-    }
-    
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
     }
     
-    /* === ATMOSPHERE === */
-    .atmosphere {
+    /* === SUBTLE BACKGROUND === */
+    .bg-gradient {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
+      right: 0;
+      bottom: 0;
+      background: 
+        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(222, 255, 155, 0.04) 0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 50% 120%, rgba(222, 255, 155, 0.03) 0%, transparent 50%);
       pointer-events: none;
       z-index: 0;
     }
     
-    .grid {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 200%;
-      height: 200%;
-      transform: translate(-50%, -50%) perspective(500px) rotateX(60deg);
-      background-image: 
-        linear-gradient(rgba(222, 255, 155, 0.02) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(222, 255, 155, 0.02) 1px, transparent 1px);
-      background-size: 80px 80px;
-      mask-image: radial-gradient(ellipse at center, black 0%, transparent 50%);
-    }
-    
-    /* Scan line effect */
-    .scan-field {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 5;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    
-    .scan-field.active {
-      opacity: 1;
-    }
-    
-    .scan-line {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 3px;
-      background: linear-gradient(90deg, 
-        transparent 0%, 
-        var(--lime) 20%, 
-        var(--lime) 80%, 
-        transparent 100%
-      );
-      box-shadow: 
-        0 0 20px var(--lime-glow),
-        0 0 40px var(--lime-glow),
-        0 0 60px rgba(222, 255, 155, 0.3);
-      transform: translateY(-100%);
-    }
-    
-    .scan-line.scanning {
-      animation: scanDown 1s ease-in-out forwards;
-    }
-    
-    @keyframes scanDown {
-      0% { transform: translateY(20vh); opacity: 0; }
-      10% { opacity: 1; }
-      50% { transform: translateY(35vh); opacity: 1; }
-      90% { opacity: 1; }
-      100% { transform: translateY(50vh); opacity: 0; }
-    }
-    
-    .vignette {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(0,0,0,0.7) 100%);
-      pointer-events: none;
-      z-index: 1;
-    }
-    
-    .grain {
-      position: fixed;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      opacity: 0.02;
-      pointer-events: none;
-      z-index: 1000;
-    }
-    
-    /* === CONTAINER === */
-    .container {
+    /* === LAYOUT === */
+    .page {
       position: relative;
-      z-index: 10;
+      z-index: 1;
       width: 100%;
       max-width: 900px;
       padding: 48px 32px;
       display: flex;
       flex-direction: column;
       align-items: center;
+      min-height: 100vh;
     }
     
-    /* === LOGO === */
-    .logo {
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeIn 1s ease 0.2s forwards;
-    }
-    
-    .logo img {
-      height: 48px;
-      width: auto;
-    }
-    
-    /* === CATEGORY LABEL === */
-    .category-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeIn 1s ease 0.3s forwards;
-      position: relative;
-    }
-    
-    /* Subtle line accents */
-    .category-label::before,
-    .category-label::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 24px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--text-muted));
-      opacity: 0.3;
-    }
-    
-    .category-label::before {
-      right: calc(100% + 12px);
-      background: linear-gradient(90deg, transparent, var(--text-muted));
-    }
-    
-    .category-label::after {
-      left: calc(100% + 12px);
-      background: linear-gradient(90deg, var(--text-muted), transparent);
-    }
-    
-    /* === HEADLINE === */
-    .headline {
-      text-align: center;
-      margin-bottom: 40px;
-      opacity: 0;
-      animation: fadeIn 0.8s ease 0.4s forwards;
-    }
-    
-    .headline-main {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1.75rem, 5vw, 2.5rem);
-      font-weight: 700;
-      color: var(--text);
-      margin: 0 0 12px 0;
-      letter-spacing: -0.03em;
-      line-height: 1.2;
-    }
-    
-    .headline-sub {
-      font-family: 'Inter', sans-serif;
-      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-      color: var(--text-secondary);
-      margin: 0;
-      font-weight: 400;
-    }
-    
-    /* === DOCUMENT DISPLAY === */
-    .document-display {
+    /* === HEADER === */
+    .header {
       width: 100%;
-      max-width: 600px;
-      margin-bottom: 32px;
-      opacity: 0;
-      animation: fadeIn 1s ease 0.4s forwards;
-    }
-    
-    .document-frame {
-      background: var(--bg-card);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 12px;
-      padding: 32px 40px;
-      font-family: 'JetBrains Mono', monospace;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .document-frame::before {
-      content: 'BILL OF LADING';
-      position: absolute;
-      top: 12px;
-      right: 16px;
-      font-size: 0.625rem;
-      letter-spacing: 0.15em;
-      color: var(--text-muted);
-      opacity: 0.5;
-    }
-    
-    .doc-row {
-      display: flex;
-      align-items: baseline;
-      margin-bottom: 12px;
-      font-size: 1.1rem;
-    }
-    
-    .doc-row:last-child {
-      margin-bottom: 0;
-    }
-    
-    .doc-label {
-      color: var(--text-muted);
-      min-width: 180px;
-      font-size: 0.85rem;
-    }
-    
-    .doc-value {
-      color: var(--text);
-      font-weight: 500;
-      position: relative;
-    }
-    
-    .doc-value.error-target {
-      position: relative;
-    }
-    
-    .doc-value.error-target .char {
-      display: inline-block;
-      transition: all 0.3s ease;
-    }
-    
-    .doc-value.error-target .char.scanned {
-      color: var(--lime);
-      text-shadow: 0 0 10px var(--lime-glow);
-    }
-    
-    .doc-value.error-target .char.error {
-      color: var(--error);
-      text-shadow: 0 0 15px var(--error-glow);
-    }
-    
-    .doc-value.error-target .char.fixed {
-      color: var(--lime);
-      text-shadow: 0 0 20px var(--lime-glow);
-    }
-    
-    /* Error marker */
-    .error-marker {
-      position: absolute;
-      bottom: -8px;
-      left: 0;
-      height: 2px;
-      background: var(--error);
-      box-shadow: 0 0 10px var(--error-glow);
-      width: 0;
-      transition: width 0.3s ease;
-    }
-    
-    .error-marker.visible {
-      width: 100%;
-    }
-    
-    /* Connection beam from document to Lucas */
-    .connection-beam {
-      width: 2px;
-      height: 0;
-      background: linear-gradient(180deg, var(--lime) 0%, transparent 100%);
-      margin: 0 auto;
-      opacity: 0;
-      transition: all 0.5s ease;
-    }
-    
-    .connection-beam.active {
-      height: 32px;
-      opacity: 1;
-      box-shadow: 0 0 15px var(--lime-glow);
-    }
-    
-    /* === LUCAS CARD === */
-    .lucas-card {
-      width: 100%;
-      max-width: 600px;
-      background: var(--bg-card);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 16px;
-      overflow: hidden;
-      opacity: 0;
-      animation: fadeIn 1s ease 0.6s forwards;
-      box-shadow: 
-        0 0 0 1px rgba(255,255,255,0.03) inset,
-        0 40px 80px -20px rgba(0,0,0,0.6);
-    }
-    
-    .lucas-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 16px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      background: rgba(255,255,255,0.02);
+      margin-bottom: 80px;
+      opacity: 0;
+      animation: fadeIn 0.8s ease 0.1s forwards;
     }
     
-    .lucas-identity {
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    
+    .logo img {
+      height: 44px;
+      width: auto;
+    }
+    
+    .header-cta {
+      padding: 10px 20px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    
+    .header-cta:hover {
+      background: var(--bg-elevated);
+      border-color: var(--border-active);
+    }
+    
+    /* === HERO === */
+    .hero {
+      text-align: center;
+      margin-bottom: 160px;
+      position: relative;
+    }
+    
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--lime);
+      margin-bottom: 24px;
+      opacity: 0;
+      animation: fadeIn 0.8s ease 0.2s forwards;
+    }
+    
+    .hero-title {
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 24px;
+    }
+    
+    .hero-line {
+      display: block;
+      opacity: 0;
+      animation: fadeIn 0.8s ease forwards;
+    }
+    
+    .hero-line:nth-child(1) { animation-delay: 0.3s; }
+    .hero-line:nth-child(2) { animation-delay: 0.4s; color: var(--text-secondary); }
+    
+    /* The typo word */
+    .typo-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .typo-word {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .typo-word .char {
+      display: inline-block;
+      transition: all 0.25s ease;
+    }
+    
+    .typo-word .char.scanning {
+      color: var(--lime);
+      text-shadow: 0 0 30px var(--lime-glow);
+    }
+    
+    .typo-word .char.error {
+      color: var(--error);
+      text-shadow: 0 0 30px var(--error-glow);
+    }
+    
+    .typo-word .char.fixed {
+      color: var(--lime);
+      text-shadow: 0 0 30px var(--lime-glow);
+    }
+    
+    /* Error underline */
+    .typo-underline {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--error);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s ease;
+    }
+    
+    .typo-underline.visible {
+      transform: scaleX(1);
+    }
+    
+    .typo-underline.fixed {
+      background: var(--lime);
+    }
+    
+    /* === INLINE ANNOTATION === */
+    .annotation {
+      position: absolute;
+      top: calc(100% + 16px);
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      background: var(--bg-card);
+      border: 1px solid var(--error);
+      border-radius: 12px;
+      padding: 16px 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 100;
+      white-space: nowrap;
+      box-shadow: 
+        0 4px 24px rgba(0,0,0,0.4),
+        0 0 0 1px rgba(255,255,255,0.03) inset;
+    }
+    
+    .annotation.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+    
+    .annotation.fixed {
+      border-color: var(--lime);
+    }
+    
+    /* Connector line */
+    .annotation::before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 16px;
+      background: var(--error);
+      transition: background 0.3s;
+    }
+    
+    .annotation.fixed::before {
+      background: var(--lime);
+    }
+    
+    .annotation-content {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .annotation-header {
       display: flex;
       align-items: center;
       gap: 12px;
     }
     
-    .lucas-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: var(--lime);
+    .annotation-correction {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+    
+    .correction-from {
+      color: var(--error);
+      text-decoration: line-through;
+      opacity: 0.7;
+    }
+    
+    .correction-arrow {
+      color: var(--text-muted);
+      font-size: 0.875rem;
+    }
+    
+    .correction-to {
+      color: var(--lime);
+    }
+    
+    .annotation-badge {
+      padding: 4px 10px;
+      background: var(--error-subtle);
+      border-radius: 100px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      color: var(--error);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: all 0.3s;
+    }
+    
+    .annotation.fixed .annotation-badge {
+      background: var(--lime-subtle);
+      color: var(--lime);
+    }
+    
+    .annotation-meta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+    }
+    
+    .annotation-meta .risk {
+      color: var(--error);
+      font-weight: 500;
+    }
+    
+    .annotation.fixed .annotation-meta .risk {
+      color: var(--lime);
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
+    
+    /* === STATS ROW === */
+    .stats {
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      overflow: hidden;
+      gap: 32px;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeIn 0.8s ease 0.6s forwards;
     }
     
-    .lucas-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 10px;
-    }
-    
-    .lucas-avatar::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
-      border-radius: 10px;
-    }
-    
-    .lucas-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
-    
-    .lucas-status {
+    .stat {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 8px;
+      gap: 4px;
+    }
+    
+    .stat-value {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--lime);
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
     
-    .status-indicator {
-      width: 8px;
-      height: 8px;
-      background: var(--lime);
-      border-radius: 50%;
-      box-shadow: 0 0 10px var(--lime-glow);
-      animation: pulse 2s ease-in-out infinite;
+    .stat-divider {
+      width: 1px;
+      height: 32px;
+      background: var(--border);
     }
     
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.6; transform: scale(1.1); }
+    /* === CROSS REFERENCE === */
+    .cross-ref {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
-    .lucas-body {
-      padding: 24px;
-      min-height: 240px;
+    .cross-ref.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
     
-    .lucas-stream {
+    .cross-ref-label {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.875rem;
-      line-height: 1.9;
+      font-size: 0.6875rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+    }
+    
+    .cross-ref-docs {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .cross-ref-doc {
+      padding: 6px 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .cross-ref-doc.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .cross-ref-doc.checked {
+      border-color: var(--lime);
+      color: var(--lime);
+    }
+    
+    .cross-ref-doc.error {
+      border-color: var(--error);
+      color: var(--error);
+    }
+    
+    /* === VERDICT === */
+    .verdict {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 16px 28px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 48px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .verdict.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .verdict.success {
+      border-color: var(--lime);
+      background: linear-gradient(135deg, var(--lime-subtle) 0%, var(--bg-card) 100%);
+    }
+    
+    .verdict-badge {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+    
+    .verdict-badge.go {
+      background: var(--lime);
+      color: var(--bg);
+    }
+    
+    .verdict-badge.no-go {
+      background: var(--error);
+      color: white;
+    }
+    
+    .verdict-text {
+      font-size: 0.9375rem;
       color: var(--text-secondary);
     }
     
-    .stream-line {
-      opacity: 0;
-      transform: translateY(4px);
-      margin-bottom: 6px;
-    }
-    
-    .stream-line.visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    .stream-line .muted { color: var(--text-muted); }
-    .stream-line .highlight { 
+    .verdict-text strong {
       color: var(--text);
-      background: rgba(255,255,255,0.05);
-      padding: 2px 8px;
-      border-radius: 4px;
-      margin: 0 2px;
-    }
-    .stream-line .error-text { color: var(--error); }
-    .stream-line .cost-text { color: var(--text-muted); }
-    .stream-line .success { color: var(--lime); }
-    
-    /* Cost block - premium 2030 effect */
-    .cost-block {
-      display: flex;
-      gap: 32px;
-      margin-top: 16px;
-      padding: 16px 20px;
-      background: linear-gradient(135deg, rgba(255, 107, 107, 0.12) 0%, rgba(255, 60, 60, 0.06) 100%);
-      border: 1px solid rgba(255, 107, 107, 0.25);
-      border-radius: 12px;
-      opacity: 0;
-      transform: translateY(12px) scale(0.95);
-      transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    /* Scanning line inside cost block */
-    .cost-block::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(255, 107, 107, 0.1) 50%, 
-        transparent 100%
-      );
-      animation: costScan 2s ease-in-out infinite;
-    }
-    
-    @keyframes costScan {
-      0% { left: -100%; }
-      100% { left: 100%; }
-    }
-    
-    /* Pulse/threat effect */
-    .cost-block::after {
-      content: '';
-      position: absolute;
-      inset: -1px;
-      border-radius: 12px;
-      background: transparent;
-      box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
-      animation: threatPulse 1.5s ease-in-out infinite;
-      pointer-events: none;
-    }
-    
-    @keyframes threatPulse {
-      0%, 100% { 
-        opacity: 0.5;
-        box-shadow: 0 0 20px rgba(255, 107, 107, 0.2);
-      }
-      50% { 
-        opacity: 1;
-        box-shadow: 0 0 35px rgba(255, 107, 107, 0.4), 0 0 60px rgba(255, 107, 107, 0.2);
-      }
-    }
-    
-    .cost-block.visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-    
-    .cost-item {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      position: relative;
-      z-index: 1;
-    }
-    
-    .cost-value {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--error);
-      position: relative;
-      display: inline-block;
-      text-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
-      letter-spacing: -0.02em;
-    }
-    
-    .cost-value.counting {
-      animation: countPulse 0.1s ease-in-out;
-    }
-    
-    @keyframes countPulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    
-    .cost-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      color: rgba(255, 107, 107, 0.7);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    
-    /* === SLASHED STATE === */
-    .cost-block.slashed {
-      background: linear-gradient(135deg, rgba(222, 255, 155, 0.08) 0%, rgba(222, 255, 155, 0.03) 100%);
-      border-color: rgba(222, 255, 155, 0.2);
-      animation: none;
-    }
-    
-    .cost-block.slashed::before,
-    .cost-block.slashed::after {
-      animation: none;
-      opacity: 0;
-    }
-    
-    .cost-block.slashed .cost-value {
-      color: var(--text-muted);
-      text-shadow: none;
-      opacity: 0.4;
-    }
-    
-    .cost-block.slashed .cost-label {
-      color: var(--text-muted);
-      opacity: 0.3;
-    }
-    
-    /* Glitch effect on numbers before slash */
-    .cost-value.glitching {
-      animation: glitchText 0.4s steps(2) forwards;
-    }
-    
-    @keyframes glitchText {
-      0% { 
-        opacity: 1;
-        transform: translate(0);
-        filter: hue-rotate(0deg);
-      }
-      20% { 
-        opacity: 0.8;
-        transform: translate(-2px, 1px);
-        filter: hue-rotate(90deg);
-        text-shadow: 2px 0 var(--lime), -2px 0 var(--error);
-      }
-      40% { 
-        opacity: 1;
-        transform: translate(2px, -1px);
-        filter: hue-rotate(180deg);
-        text-shadow: -2px 0 var(--lime), 2px 0 var(--error);
-      }
-      60% { 
-        opacity: 0.7;
-        transform: translate(-1px, 2px);
-        filter: hue-rotate(270deg);
-      }
-      80% { 
-        opacity: 0.9;
-        transform: translate(1px, -2px);
-        filter: hue-rotate(360deg);
-      }
-      100% { 
-        opacity: 0.4;
-        transform: translate(0);
-        filter: hue-rotate(0deg);
-        text-shadow: none;
-      }
-    }
-    
-    /* Premium slash line with energy trail */
-    .cost-value .slash-line {
-      position: absolute;
-      left: -8px;
-      right: -8px;
-      top: 50%;
-      height: 3px;
-      background: linear-gradient(90deg, 
-        transparent 0%,
-        var(--lime) 15%,
-        #fff 50%,
-        var(--lime) 85%,
-        transparent 100%
-      );
-      border-radius: 2px;
-      transform: scaleX(0) translateY(-50%);
-      transform-origin: left;
-      box-shadow: 
-        0 0 10px var(--lime-glow),
-        0 0 20px var(--lime-glow),
-        0 0 40px rgba(222, 255, 155, 0.5),
-        0 0 60px rgba(222, 255, 155, 0.3);
-    }
-    
-    /* Energy trail behind slash */
-    .cost-value .slash-line::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      height: 12px;
-      transform: translateY(-50%);
-      background: linear-gradient(90deg,
-        transparent 0%,
-        rgba(222, 255, 155, 0.3) 20%,
-        rgba(222, 255, 155, 0.1) 80%,
-        transparent 100%
-      );
-      filter: blur(4px);
-      opacity: 0;
-    }
-    
-    .cost-value .slash-line.animate {
-      animation: slashThrough 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-    }
-    
-    .cost-value .slash-line.animate::before {
-      animation: trailFade 0.5s ease-out 0.1s forwards;
-    }
-    
-    @keyframes slashThrough {
-      0% { 
-        transform: scaleX(0) translateY(-50%);
-        opacity: 1;
-      }
-      70% {
-        transform: scaleX(1.15) translateY(-50%);
-        opacity: 1;
-      }
-      85% {
-        transform: scaleX(0.95) translateY(-50%);
-      }
-      100% { 
-        transform: scaleX(1) translateY(-50%);
-        opacity: 1;
-      }
-    }
-    
-    @keyframes trailFade {
-      0% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-    
-    /* Enhanced particles with varied sizes and trails */
-    .slash-particle {
-      position: absolute;
-      border-radius: 50%;
-      pointer-events: none;
-    }
-    
-    .slash-particle.large {
-      width: 6px;
-      height: 6px;
-      background: var(--lime);
-      box-shadow: 
-        0 0 8px var(--lime-glow), 
-        0 0 16px var(--lime-glow),
-        0 0 24px rgba(222, 255, 155, 0.4);
-    }
-    
-    .slash-particle.medium {
-      width: 4px;
-      height: 4px;
-      background: #fff;
-      box-shadow: 
-        0 0 6px var(--lime-glow), 
-        0 0 12px var(--lime-glow);
-    }
-    
-    .slash-particle.small {
-      width: 2px;
-      height: 2px;
-      background: var(--lime);
-      box-shadow: 0 0 4px var(--lime-glow);
-    }
-    
-    .slash-particle.animate {
-      animation: particleBurst 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-    }
-    
-    @keyframes particleBurst {
-      0% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1);
-      }
-      30% {
-        opacity: 1;
-        transform: translate(calc(var(--tx) * 0.6), calc(var(--ty) * 0.6)) scale(1.2);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(var(--tx), var(--ty)) scale(0);
-      }
-    }
-    
-    /* Shockwave ripple */
-    .shockwave {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 20px;
-      height: 20px;
-      transform: translate(-50%, -50%) scale(0);
-      border: 2px solid var(--lime);
-      border-radius: 50%;
-      pointer-events: none;
-      opacity: 0;
-    }
-    
-    .shockwave.animate {
-      animation: shockwaveExpand 0.6s ease-out forwards;
-    }
-    
-    @keyframes shockwaveExpand {
-      0% {
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 0.8;
-        border-width: 3px;
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(15);
-        opacity: 0;
-        border-width: 1px;
-      }
-    }
-    
-    /* Saved indicator */
-    .saved-indicator {
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%) translateY(10px);
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.75rem;
       font-weight: 600;
-      color: var(--lime);
-      opacity: 0;
-      pointer-events: none;
-      white-space: nowrap;
-      text-shadow: 0 0 20px var(--lime-glow);
     }
     
-    .saved-indicator.animate {
-      animation: savedFloat 1.2s ease-out forwards;
-    }
-    
-    @keyframes savedFloat {
-      0% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(10px);
-      }
-      20% {
-        opacity: 1;
-      }
-      80% {
-        opacity: 1;
-      }
-      100% {
-        opacity: 0;
-        transform: translateX(-50%) translateY(-20px);
-      }
-    }
-    
-    /* Success glow burst - enhanced */
-    .cost-block .success-burst {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 300px;
-      height: 300px;
-      transform: translate(-50%, -50%) scale(0);
-      background: radial-gradient(circle, 
-        rgba(222, 255, 155, 0.4) 0%, 
-        rgba(222, 255, 155, 0.1) 40%,
-        transparent 70%
-      );
-      border-radius: 50%;
-      pointer-events: none;
-      opacity: 0;
-    }
-    
-    .cost-block .success-burst.animate {
-      animation: successBurst 1s ease-out forwards;
-    }
-    
-    @keyframes successBurst {
-      0% {
-        transform: translate(-50%, -50%) scale(0);
-        opacity: 1;
-      }
-      50% {
-        opacity: 0.8;
-      }
-      100% {
-        transform: translate(-50%, -50%) scale(2.5);
-        opacity: 0;
-      }
-    }
-    
-    .cursor {
-      display: inline-block;
-      width: 2px;
-      height: 1em;
-      background: var(--lime);
-      margin-left: 2px;
-      animation: blink 1s step-end infinite;
-      vertical-align: text-bottom;
-    }
-    
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0; }
-    }
-    
-    /* === RESULT === */
-    .result {
-      margin-top: 48px;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    
-    .result.visible {
-      opacity: 1;
-      transform: translateY(0);
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    .result-time {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
+    .verdict-time {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--lime);
-      margin-bottom: 24px;
-    }
-    
-    .result-time svg {
-      width: 16px;
-      height: 16px;
-    }
-    
-    .result-quote {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1.5rem, 4vw, 2rem);
-      font-weight: 500;
-      color: var(--text);
-      letter-spacing: -0.02em;
-      margin-bottom: 40px;
+      font-size: 0.75rem;
+      color: var(--text-muted);
     }
     
     /* === CTA === */
+    .cta {
+      text-align: center;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    .cta.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
     .cta-button {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      padding: 18px 36px;
+      gap: 10px;
+      padding: 16px 32px;
       background: var(--lime);
       color: var(--bg);
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 600;
       font-size: 1rem;
+      font-weight: 600;
       text-decoration: none;
-      border-radius: 100px;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 30px rgba(222, 255, 155, 0.3);
+      border-radius: 10px;
+      transition: all 0.2s;
     }
     
     .cta-button:hover {
       transform: translateY(-2px);
-      box-shadow: 0 0 50px rgba(222, 255, 155, 0.5);
+      box-shadow: 0 8px 32px var(--lime-glow);
     }
     
     .cta-button svg {
       width: 18px;
       height: 18px;
-      transition: transform 0.3s ease;
+      transition: transform 0.2s;
     }
     
     .cta-button:hover svg {
-      transform: translateX(4px);
+      transform: translateX(3px);
     }
     
-    .cta-hint {
-      margin-top: 32px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      font-family: 'JetBrains Mono', monospace;
+    .cta-sub {
+      margin-top: 16px;
+      font-size: 0.875rem;
+      color: var(--text-muted);
     }
     
-    /* Primary: The promise */
-    .hint-verdict {
-      font-size: 0.85rem;
+    .cta-sub strong {
       color: var(--text-secondary);
-      letter-spacing: 0.02em;
-    }
-    
-    /* Secondary: Doc types (SEO) */
-    .hint-docs {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      opacity: 0.7;
-    }
-    
-    /* Trust Signal */
-    .trust-signal {
-      margin-top: 32px;
-      font-family: 'Inter', sans-serif;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      opacity: 0.6;
+      font-weight: 500;
     }
     
     /* === FOOTER === */
     .footer {
-      margin-top: 80px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
+      margin-top: auto;
+      padding-top: 64px;
+      font-size: 0.75rem;
       color: var(--text-muted);
       opacity: 0;
-      animation: fadeIn 1s ease 1s forwards;
+      animation: fadeIn 0.8s ease 0.8s forwards;
     }
     
     /* === ANIMATIONS === */
     @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from { 
+        opacity: 0; 
+        transform: translateY(12px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: translateY(0); 
+      }
     }
     
     /* === RESPONSIVE === */
-    @media (max-width: 768px) {
-      .container {
+    @media (max-width: 640px) {
+      .page {
         padding: 32px 20px;
       }
       
-      .logo {
-        margin-bottom: 16px;
+      .header {
+        margin-bottom: 80px;
       }
       
-      .logo img {
-        height: 40px;
+      .hero {
+        margin-bottom: 120px;
       }
       
-      .category-label {
-        font-size: 0.6rem;
-        letter-spacing: 0.15em;
-        margin-bottom: 20px;
+      .hero-title {
+        font-size: 2rem;
       }
       
-      .category-label::before,
-      .category-label::after {
-        display: none;
+      .annotation {
+        left: 0;
+        right: 0;
+        transform: translateX(0) translateY(8px);
+        margin: 0 -20px;
+        white-space: normal;
+        width: calc(100% + 40px);
       }
       
-      .headline {
-        margin-bottom: 32px;
+      .annotation.visible {
+        transform: translateX(0) translateY(0);
       }
       
-      .headline-main {
-        font-size: 1.5rem;
+      .annotation::before {
+        left: 50%;
       }
       
-      .headline-sub {
-        font-size: 0.9rem;
+      .stats {
+        gap: 20px;
       }
       
-      .trust-signal {
-        font-size: 0.7rem;
-        padding: 0 16px;
-        text-align: center;
-      }
-      
-      .document-frame {
-        padding: 24px;
-      }
-      
-      .doc-row {
-        flex-direction: column;
-        gap: 4px;
-        font-size: 1rem;
-      }
-      
-      .doc-label {
-        font-size: 0.75rem;
-      }
-      
-      .lucas-body {
-        padding: 20px;
-        min-height: 220px;
-      }
-      
-      .lucas-stream {
-        font-size: 0.8rem;
-      }
-      
-      .result-quote {
+      .stat-value {
         font-size: 1.25rem;
       }
       
+      .cross-ref {
+        flex-direction: column;
+        gap: 8px;
+      }
+      
+      .verdict {
+        flex-direction: column;
+        gap: 12px;
+        padding: 20px;
+      }
+      
       .cta-button {
-        padding: 16px 28px;
-        font-size: 0.9rem;
-      }
-      
-      .cta-hint {
-        padding: 0 16px;
-      }
-      
-      .hint-verdict {
-        font-size: 0.75rem;
-      }
-      
-      .hint-docs {
-        font-size: 0.6rem;
-      }
-      
-      .hint-whatsapp {
-        font-size: 0.6rem;
-      }
-      
-      .cost-block {
-        gap: 20px;
-        padding: 14px 16px;
-      }
-      
-      .cost-value {
-        font-size: 1.1rem;
-      }
-      
-      .cost-label {
-        font-size: 0.6rem;
+        width: 100%;
+        justify-content: center;
       }
     }
   </style>
 </head>
 <body>
-
-  <!-- Atmosphere -->
-  <div class="atmosphere">
-    <div class="grid"></div>
-  </div>
-  <div class="vignette"></div>
-  <div class="grain"></div>
+  <div class="bg-gradient"></div>
   
-  <!-- Scan Effect -->
-  <div class="scan-field" id="scanField">
-    <div class="scan-line" id="scanLine"></div>
-  </div>
-
-  <div class="container">
+  <div class="page">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <img src="https://raw.githubusercontent.com/LucasDotTrade/website/main/logo.png" alt="LUCAS">
+      </div>
+      <a href="mailto:lucas@lucas.trade" class="header-cta">Get started</a>
+    </header>
     
-    <!-- Logo -->
-    <div class="logo">
-      <img src="https://raw.githubusercontent.com/LucasDotTrade/website/main/logo.png" alt="LUCAS">
-    </div>
-    
-    <!-- Category Label -->
-    <div class="category-label">Trade Document Verification</div>
-    
-    <!-- Headline - The Hook -->
-    <div class="headline">
-      <h1 class="headline-main">70% of trade docs get rejected.</h1>
-      <p class="headline-sub">One typo. $800. 3 days. Lucas catches it in seconds.</p>
-    </div>
-    
-    <!-- Document Display (The Hero) -->
-    <div class="document-display">
-      <div class="document-frame">
-        <div class="doc-row">
-          <span class="doc-label">Port of Loading</span>
-          <span class="doc-value error-target" id="portValue">
-            <span class="char">S</span><span class="char">h</span><span class="char">a</span><span class="char">n</span><span class="char">g</span><span class="char">a</span><span class="char">i</span>
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-label">Trade Document Intelligence</div>
+      <h1 class="hero-title">
+        <span class="hero-line">
+          <span class="typo-wrapper">
+            <span class="typo-word" id="typoWord"><span class="char">S</span><span class="char">h</span><span class="char">a</span><span class="char">n</span><span class="char">g</span><span class="char">a</span><span class="char">i</span></span>
+            <span class="typo-underline" id="typoUnderline"></span>
+            <!-- Annotation -->
+            <div class="annotation" id="annotation">
+              <div class="annotation-content">
+                <div class="annotation-header">
+                  <div class="annotation-correction">
+                    <span class="correction-from">Shangai</span>
+                    <span class="correction-arrow">→</span>
+                    <span class="correction-to">Shanghai</span>
+                  </div>
+                  <span class="annotation-badge" id="annotationBadge">BL ≠ LC</span>
+                </div>
+                <div class="annotation-meta">
+                  <span>Port of Loading</span>
+                  <span>·</span>
+                  <span class="risk" id="riskText">$800 + 3 days risk</span>
+                </div>
+              </div>
+            </div>
           </span>
-        </div>
-        <div class="doc-row">
-          <span class="doc-label">Port of Discharge</span>
-          <span class="doc-value">Jebel Ali</span>
-        </div>
+          is fine.
+        </span>
+        <span class="hero-line">Until the bank rejects it.</span>
+      </h1>
+    </section>
+    
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-value">70%</span>
+        <span class="stat-label">Docs rejected</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-value">$800</span>
+        <span class="stat-label">Per amendment</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-value">3 days</span>
+        <span class="stat-label">Average delay</span>
       </div>
     </div>
     
-    <!-- Connection Beam -->
-    <div class="connection-beam" id="beam"></div>
-    
-    <!-- Lucas Card -->
-    <div class="lucas-card">
-      <div class="lucas-header">
-        <div class="lucas-identity">
-          <div class="lucas-avatar">
-            <img src="https://raw.githubusercontent.com/LucasDotTrade/website/main/App_icon_Main_on_Lime_512.png" alt="Lucas">
-          </div>
-          <span class="lucas-name">Lucas</span>
-        </div>
-        <div class="lucas-status">
-          <div class="status-indicator"></div>
-          <span>Analyzing</span>
-        </div>
-      </div>
-      <div class="lucas-body">
-        <div class="lucas-stream" id="stream">
-          <!-- Stream content injected by JS -->
-        </div>
+    <!-- Cross Reference -->
+    <div class="cross-ref" id="crossRef">
+      <span class="cross-ref-label">Cross-checked</span>
+      <div class="cross-ref-docs">
+        <span class="cross-ref-doc" id="doc1">LC</span>
+        <span class="cross-ref-doc" id="doc2">BL</span>
+        <span class="cross-ref-doc" id="doc3">INV</span>
+        <span class="cross-ref-doc" id="doc4">PL</span>
+        <span class="cross-ref-doc" id="doc5">CO</span>
       </div>
     </div>
     
-    <!-- Result -->
-    <div class="result" id="result">
-      <div class="result-time">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-        0.8 seconds
-      </div>
-      <div class="result-quote">Your turn.</div>
-      <a href="mailto:lucas@lucas.trade?subject=Document%20for%20verification" class="cta-button">
-        Send me your documents
+    <!-- Verdict -->
+    <div class="verdict" id="verdict">
+      <span class="verdict-badge go" id="verdictBadge">GO</span>
+      <span class="verdict-text"><strong>Caught</strong> before submission</span>
+      <span class="verdict-time" id="verdictTime">0.0s</span>
+    </div>
+    
+    <!-- CTA -->
+    <div class="cta" id="cta">
+      <a href="mailto:lucas@lucas.trade?subject=Document%20Verification" class="cta-button">
+        Verify your documents
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="5" y1="12" x2="19" y2="12"></line>
           <polyline points="12 5 19 12 12 19"></polyline>
         </svg>
       </a>
-      <div class="cta-hint">
-        <span class="hint-verdict">Email → 2 min → GO / WAIT / NO_GO</span>
-        <span class="hint-docs">LC · Invoice · Bill of Lading · Any trade doc</span>
-      </div>
-      <div class="trust-signal">
-        Used by traders and freight forwarders in Dubai, Singapore, Panama and Rotterdam
-      </div>
+      <p class="cta-sub">Email your docs → <strong>GO / NO_GO in 2 min</strong></p>
     </div>
     
     <!-- Footer -->
-    <div class="footer">
-      by YOYOGI FZCO · Dubai Silicon Oasis, UAE
-    </div>
-    
+    <footer class="footer">
+      Lucas by Yoyogi FZCO · Dubai
+    </footer>
   </div>
 
   <script>
-    const stream = document.getElementById('stream');
-    const result = document.getElementById('result');
-    const portValue = document.getElementById('portValue');
-    const chars = portValue.querySelectorAll('.char');
-    const scanField = document.getElementById('scanField');
-    const scanLine = document.getElementById('scanLine');
-    const beam = document.getElementById('beam');
-    
     const sleep = ms => new Promise(r => setTimeout(r, ms));
     
-    function addLine(text, className = '') {
-      const div = document.createElement('div');
-      div.className = `stream-line ${className}`;
-      div.innerHTML = text;
-      stream.appendChild(div);
-      
-      requestAnimationFrame(() => {
-        div.classList.add('visible');
-      });
-      
-      return div;
-    }
+    // Elements
+    const typoWord = document.getElementById('typoWord');
+    const chars = typoWord.querySelectorAll('.char');
+    const typoUnderline = document.getElementById('typoUnderline');
+    const annotation = document.getElementById('annotation');
+    const annotationBadge = document.getElementById('annotationBadge');
+    const riskText = document.getElementById('riskText');
+    const crossRef = document.getElementById('crossRef');
+    const doc1 = document.getElementById('doc1');
+    const doc2 = document.getElementById('doc2');
+    const doc3 = document.getElementById('doc3');
+    const doc4 = document.getElementById('doc4');
+    const doc5 = document.getElementById('doc5');
+    const verdict = document.getElementById('verdict');
+    const verdictBadge = document.getElementById('verdictBadge');
+    const verdictTime = document.getElementById('verdictTime');
+    const cta = document.getElementById('cta');
     
-    async function typeText(element, text, speed = 25) {
-      let i = 0;
-      element.innerHTML = '<span class="cursor"></span>';
-      
-      while (i < text.length) {
-        if (text[i] === '<') {
-          // Handle HTML tags
-          const endTag = text.indexOf('>', i);
-          const tag = text.slice(i, endTag + 1);
-          element.innerHTML = text.slice(0, endTag + 1) + '<span class="cursor"></span>';
-          i = endTag + 1;
-        } else {
-          element.innerHTML = text.slice(0, i + 1) + '<span class="cursor"></span>';
-          i++;
-        }
-        await sleep(speed);
-      }
-      element.innerHTML = text;
-    }
+    // Timer
+    let startTime;
+    const updateTime = () => {
+      const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+      verdictTime.textContent = elapsed + 's';
+    };
     
-    async function runSequence() {
-      await sleep(500);
+    async function runDemo() {
+      await sleep(1200);
       
-      // Activate scan field
-      scanField.classList.add('active');
-      scanLine.classList.add('scanning');
+      // Start timer
+      startTime = Date.now();
+      const timeInterval = setInterval(updateTime, 100);
       
-      // Line 1: Initiating
-      const line1 = addLine('');
-      await typeText(line1, 'Scanning document...', 20);
-      await sleep(200);
-      
-      // Scan the characters in the document
+      // Scan characters
       for (let i = 0; i < chars.length; i++) {
-        chars[i].classList.add('scanned');
-        await sleep(50);
+        chars[i].classList.add('scanning');
+        await sleep(80);
         if (i < chars.length - 1) {
-          chars[i].classList.remove('scanned');
+          chars[i].classList.remove('scanning');
         }
       }
       
-      // Activate beam connection
-      beam.classList.add('active');
-      await sleep(150);
-      
-      // Line 2: Reading value
-      const line2 = addLine('');
-      await typeText(line2, 'Port of Loading: <span class="highlight">"Shangai"</span>', 15);
       await sleep(200);
       
-      // Line 3: Checking
-      const line3 = addLine('');
-      await typeText(line3, 'Cross-referencing...', 20);
+      // Find error - highlight the problem area
+      chars.forEach(c => c.classList.remove('scanning'));
+      chars[5].classList.add('error'); // 'a' 
+      chars[6].classList.add('error'); // 'i'
+      
+      // Show underline
+      typoUnderline.classList.add('visible');
+      
       await sleep(300);
       
-      // Find the error - highlight the missing 'h' position
-      chars.forEach(c => c.classList.remove('scanned'));
-      chars[5].classList.add('error'); // 'a' where 'h' should be before it
-      chars[6].classList.add('error'); // 'i' 
+      // Show annotation
+      annotation.classList.add('visible');
       
-      // Line 4: Error found
-      const line4 = addLine('', 'error-text');
-      await typeText(line4, '<span class="error-text">Discrepancy: "Shangai" → "Shanghai"</span>', 12);
-      await sleep(150);
+      await sleep(400);
       
-      // Line 5: Consequence
-      const line5 = addLine('', 'error-text');
-      await typeText(line5, '<span class="error-text">Missing "h". Bank will reject.</span>', 15);
-      await sleep(300);
+      // Show cross-reference
+      crossRef.classList.add('visible');
       
-      // Line 6: Cost appears with counting effect
-      const costLine = document.createElement('div');
-      costLine.className = 'cost-block';
-      costLine.innerHTML = `
-        <div class="cost-item">
-          <span class="cost-value" id="costMoney">-$0</span>
-          <span class="cost-label">amendment + fees</span>
-        </div>
-        <div class="cost-item">
-          <span class="cost-value" id="costDays">~0 days</span>
-          <span class="cost-label">delayed</span>
-        </div>
-        <div class="success-burst"></div>
-      `;
-      stream.appendChild(costLine);
-      
+      // Animate docs appearing
       await sleep(100);
-      costLine.classList.add('visible');
+      doc1.classList.add('visible');
+      await sleep(80);
+      doc2.classList.add('visible');
+      await sleep(80);
+      doc3.classList.add('visible');
+      await sleep(80);
+      doc4.classList.add('visible');
+      await sleep(80);
+      doc5.classList.add('visible');
+      
       await sleep(200);
       
-      // Count up animation for money
-      const costMoney = document.getElementById('costMoney');
-      const costDays = document.getElementById('costDays');
-      
-      // Rapid count up effect
-      const countUp = async (element, prefix, suffix, target, duration) => {
-        const steps = 8;
-        const stepTime = duration / steps;
-        for (let i = 0; i <= steps; i++) {
-          const current = Math.round((target / steps) * i);
-          element.textContent = prefix + current + suffix;
-          element.classList.add('counting');
-          await sleep(stepTime);
-          element.classList.remove('counting');
-        }
-      };
-      
-      // Count both simultaneously
-      await Promise.all([
-        countUp(costMoney, '-$', '', 800, 400),
-        countUp(costDays, '~', ' days', 3, 400)
-      ]);
+      // Mark docs as checked/error
+      doc1.classList.add('checked');
+      await sleep(100);
+      doc2.classList.add('error'); // BL has the error
+      await sleep(100);
+      doc3.classList.add('checked');
+      await sleep(100);
+      doc4.classList.add('checked');
+      await sleep(100);
+      doc5.classList.add('checked');
       
       await sleep(600);
       
-      // === PREMIUM SLASH SEQUENCE ===
+      // Fix the typo
+      chars.forEach(c => c.classList.remove('error'));
+      typoWord.innerHTML = '<span class="char fixed">S</span><span class="char fixed">h</span><span class="char fixed">a</span><span class="char fixed">n</span><span class="char fixed">g</span><span class="char fixed">h</span><span class="char fixed">a</span><span class="char fixed">i</span>';
       
-      // Phase 1: Fix the document
-      chars.forEach(c => {
-        c.classList.remove('error');
-        c.classList.add('fixed');
-      });
+      // Update annotation
+      typoUnderline.classList.add('fixed');
+      annotation.classList.add('fixed');
+      annotationBadge.textContent = '✓ FIXED';
+      riskText.textContent = '$800 saved';
       
-      portValue.innerHTML = '<span class="char fixed">S</span><span class="char fixed">h</span><span class="char fixed">a</span><span class="char fixed">n</span><span class="char fixed">g</span><span class="char fixed">h</span><span class="char fixed">a</span><span class="char fixed">i</span>';
+      // Update doc2
+      doc2.classList.remove('error');
+      doc2.classList.add('checked');
       
-      // Phase 2: Add slash lines
-      const costValues = costLine.querySelectorAll('.cost-value');
-      costValues.forEach(cv => {
-        const slashLine = document.createElement('span');
-        slashLine.className = 'slash-line';
-        cv.appendChild(slashLine);
-      });
+      // Stop timer
+      clearInterval(timeInterval);
+      updateTime();
       
-      await sleep(100);
+      await sleep(300);
       
-      // Phase 3: Glitch effect on numbers
-      costValues.forEach(cv => cv.classList.add('glitching'));
+      // Show verdict
+      verdict.classList.add('visible', 'success');
       
-      await sleep(100);
+      await sleep(200);
       
-      // Phase 4: Create enhanced particle system
-      const createParticles = (element) => {
-        const rect = element.getBoundingClientRect();
-        const containerRect = costLine.getBoundingClientRect();
-        const centerX = rect.left - containerRect.left + rect.width / 2;
-        const centerY = rect.top - containerRect.top + rect.height / 2;
-        
-        const particleConfigs = [
-          { count: 3, size: 'large', distance: [50, 80], spread: 140 },
-          { count: 5, size: 'medium', distance: [30, 60], spread: 160 },
-          { count: 8, size: 'small', distance: [20, 50], spread: 180 }
-        ];
-        
-        particleConfigs.forEach(config => {
-          for (let i = 0; i < config.count; i++) {
-            const particle = document.createElement('span');
-            particle.className = `slash-particle ${config.size}`;
-            
-            // Random trajectory with spread
-            const angle = ((Math.random() - 0.5) * config.spread) * (Math.PI / 180);
-            const distance = config.distance[0] + Math.random() * (config.distance[1] - config.distance[0]);
-            const tx = Math.cos(angle) * distance * (Math.random() > 0.5 ? 1 : -1);
-            const ty = Math.sin(angle) * distance - 15;
-            
-            particle.style.cssText = `
-              left: ${centerX}px;
-              top: ${centerY}px;
-              --tx: ${tx}px;
-              --ty: ${ty}px;
-            `;
-            
-            costLine.appendChild(particle);
-            
-            // Stagger particle animations slightly
-            setTimeout(() => particle.classList.add('animate'), i * 20);
-            
-            // Clean up
-            setTimeout(() => particle.remove(), 1000);
-          }
-        });
-      };
-      
-      // Phase 5: Create shockwave
-      const createShockwave = (element) => {
-        const rect = element.getBoundingClientRect();
-        const containerRect = costLine.getBoundingClientRect();
-        
-        const shockwave = document.createElement('span');
-        shockwave.className = 'shockwave';
-        shockwave.style.cssText = `
-          left: ${rect.left - containerRect.left + rect.width / 2}px;
-          top: ${rect.top - containerRect.top + rect.height / 2}px;
-        `;
-        
-        costLine.appendChild(shockwave);
-        requestAnimationFrame(() => shockwave.classList.add('animate'));
-        
-        setTimeout(() => shockwave.remove(), 700);
-      };
-      
-      // Phase 6: Transition to slashed state
-      costLine.classList.add('slashed');
-      
-      // Phase 7: Staggered slash execution
-      costValues.forEach((cv, index) => {
-        setTimeout(() => {
-          cv.querySelector('.slash-line').classList.add('animate');
-          createParticles(cv);
-          createShockwave(cv);
-        }, index * 180);
-      });
-      
-      // Phase 8: Trigger success burst
-      await sleep(250);
-      costLine.querySelector('.success-burst').classList.add('animate');
-      
-      // Phase 9: Add floating "Saved" indicator
-      const savedIndicator = document.createElement('span');
-      savedIndicator.className = 'saved-indicator';
-      savedIndicator.textContent = '✓ Caught';
-      costLine.appendChild(savedIndicator);
-      
-      await sleep(50);
-      savedIndicator.classList.add('animate');
-      
-      await sleep(500);
-      
-      // Show result
-      result.classList.add('visible');
-      
-      // Deactivate beam
-      setTimeout(() => {
-        beam.classList.remove('active');
-        scanField.classList.remove('active');
-      }, 1000);
+      // Show CTA
+      cta.classList.add('visible');
     }
     
-    runSequence();
+    runDemo();
   </script>
-
 </body>
 </html>
