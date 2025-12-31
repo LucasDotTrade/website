@@ -4,28 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LUCAS — Trade Finance Intelligence</title>
-  <meta name="description" content="70% of trade documents get rejected. Lucas catches discrepancies across your entire document set in seconds.">
-  
-  <!-- Open Graph / Social -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://lucas.trade">
-  <meta property="og:title" content="LUCAS — Stop Losing Money on LC Discrepancies">
-  <meta property="og:description" content="70% of trade documents get rejected on first presentation. Lucas catches discrepancies in seconds — before your bank does. Free for traders.">
-  <meta property="og:image" content="https://lucas.trade/og-image.jpg">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="LUCAS — Stop Losing Money on LC Discrepancies">
-  <meta name="twitter:description" content="70% of trade documents get rejected on first presentation. Lucas catches discrepancies in seconds — before your bank does. Free for traders.">
-  <meta name="twitter:image" content="https://lucas.trade/og-image.jpg">
-  
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
-  <meta name="theme-color" content="#030303">
-  
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  
   <style>
     :root {
       --bg: #030303;
@@ -46,915 +27,515 @@
       --error-subtle: rgba(255, 68, 68, 0.08);
       --error-border: rgba(255, 68, 68, 0.25);
     }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
       overflow-x: hidden;
     }
+    .page { min-height: 100vh; display: flex; flex-direction: column; }
     
-    /* === LAYOUT === */
-    .page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-    
-    /* === SCREEN EFFECTS === */
+    /* Screen Effects */
     .screen-flash {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: var(--error);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 9999;
+      opacity: 0; pointer-events: none; z-index: 9999;
     }
-    
-    .screen-flash.flash {
-      animation: screenFlash 0.4s ease-out;
-    }
-    
-    @keyframes screenFlash {
-      0% { opacity: 0.15; }
-      100% { opacity: 0; }
-    }
+    .screen-flash.flash { animation: screenFlash 0.4s ease-out; }
+    @keyframes screenFlash { 0% { opacity: 0.15; } 100% { opacity: 0; } }
     
     .vignette-danger {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(255, 68, 68, 0.15) 100%);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 100;
+      opacity: 0; pointer-events: none; z-index: 100;
       transition: opacity 0.5s ease;
     }
-    
-    .vignette-danger.visible {
-      opacity: 1;
-    }
+    .vignette-danger.visible { opacity: 1; }
     
     .vignette-success {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: radial-gradient(ellipse at center, transparent 0%, transparent 50%, rgba(222, 255, 155, 0.1) 100%);
-      opacity: 0;
-      pointer-events: none;
-      z-index: 100;
+      opacity: 0; pointer-events: none; z-index: 100;
       transition: opacity 0.5s ease;
     }
+    .vignette-success.visible { opacity: 1; }
     
-    .vignette-success.visible {
-      opacity: 1;
-    }
-    
-    /* === HEADER === */
+    /* Header */
     .header {
-      padding: 48px 48px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      animation: fadeIn 1s ease 0.1s forwards;
+      padding: 28px 48px 20px;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; animation: fadeIn 1s ease 0.1s forwards;
     }
-    
-    .brand-block {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 20px;
-    }
-    
-    .logo img {
-      height: 72px;
-      width: auto;
-    }
-    
+    .brand-block { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .logo img { height: 64px; width: auto; }
     .brand-tagline {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8125rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
+      font-size: 0.6875rem; font-weight: 500;
+      text-transform: uppercase; letter-spacing: 0.15em;
       color: rgba(222, 255, 155, 0.6);
     }
     
-    /* === MAIN === */
+    /* Main */
     .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 0 24px 80px;
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-start;
+      padding: 0 24px 40px;
     }
     
-    /* === HERO === */
-    .hero {
-      text-align: center;
-      margin-top: 20px;
-      margin-bottom: 80px;
-      transition: opacity 0.4s ease;
-    }
-    
-    .hero.dimmed {
-      opacity: 0.3;
-    }
-    
+    /* Hero */
+    .hero { text-align: center; margin-top: 5px; margin-bottom: 24px; }
     .hero-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(3rem, 10vw, 6rem);
-      font-weight: 700;
-      line-height: 1.0;
-      letter-spacing: -0.04em;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      font-weight: 700; line-height: 1.05; letter-spacing: -0.04em;
+      opacity: 0; animation: fadeIn 1s ease 0.3s forwards;
+    }
+    .hero-line-1 { display: block; margin-bottom: 0; }
+    .hero-line-2 { 
+      display: block; 
+      color: var(--text-secondary); 
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); 
+      overflow: hidden;
+    }
+    .hero-line-2.fade { 
       opacity: 0;
-      animation: fadeIn 1s ease 0.3s forwards;
+      height: 0 !important;
+      line-height: 0 !important;
     }
     
-    .hero-line-1 {
-      display: block;
-      margin-bottom: 0;
-    }
-    
-    .hero-line-2 {
-      display: block;
-      color: var(--text-secondary);
-    }
-    
-    /* The typo word */
+    /* Typo Word */
     .typo-word {
-      position: relative;
+      position: relative; 
       display: inline-block;
-      color: var(--text);
       transition: all 0.3s ease;
     }
+    .typo-word.spotlight { text-shadow: 0 0 60px var(--error-glow), 0 0 120px var(--error-glow); }
+    .typo-word.success { text-shadow: 0 0 60px var(--lime-glow), 0 0 120px var(--lime-glow); }
     
-    .typo-word.spotlight {
-      text-shadow: 0 0 60px var(--error-glow), 0 0 120px var(--error-glow);
+    .typo-word .char { 
+      display: inline-block; 
+      transition: all 0.15s ease; 
     }
-    
-    .typo-word.success {
-      text-shadow: 0 0 60px var(--lime-glow), 0 0 120px var(--lime-glow);
-    }
-    
-    .typo-word .char {
-      display: inline-block;
-      transition: all 0.15s ease;
-      position: relative;
-    }
-    
     .typo-word .char.scanning {
       color: var(--lime);
       text-shadow: 0 0 30px var(--lime-glow);
       transform: translateY(-2px);
     }
-    
     .typo-word .char.error {
       color: var(--error);
       text-shadow: 0 0 40px var(--error-glow);
       animation: charShake 0.4s ease;
     }
-    
     @keyframes charShake {
       0%, 100% { transform: translateX(0); }
       20% { transform: translateX(-3px) rotate(-1deg); }
       40% { transform: translateX(3px) rotate(1deg); }
-      60% { transform: translateX(-2px) rotate(-0.5deg); }
-      80% { transform: translateX(2px) rotate(0.5deg); }
+      60% { transform: translateX(-2px); }
+      80% { transform: translateX(2px); }
     }
-    
     .typo-word .char.fixed {
       color: var(--lime);
       text-shadow: 0 0 30px var(--lime-glow);
       animation: charPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    
-    .typo-word .char.ai-wink {
-      color: var(--lime);
-      text-shadow: 0 0 20px var(--lime-glow), 0 0 40px var(--lime-glow);
-      animation: aiGlow 2s ease-in-out infinite;
-    }
-    
-    @keyframes aiGlow {
-      0%, 100% { text-shadow: 0 0 15px var(--lime-glow), 0 0 30px var(--lime-glow); }
-      50% { text-shadow: 0 0 25px var(--lime-glow), 0 0 50px var(--lime-glow); }
-    }
-    
     @keyframes charPop {
       0% { transform: scale(0.8); opacity: 0; }
       50% { transform: scale(1.1); }
       100% { transform: scale(1); opacity: 1; }
     }
-    
-    /* Slash through error */
-    .typo-slash {
-      position: absolute;
-      top: 55%;
-      left: -5%;
-      right: -5%;
-      height: 6px;
-      background: linear-gradient(90deg, transparent, var(--lime) 20%, #fff 50%, var(--lime) 80%, transparent);
-      transform: scaleX(0) translateY(-50%);
-      transform-origin: left;
-      border-radius: 3px;
-      z-index: 10;
-      box-shadow: 0 0 20px var(--lime-glow), 0 0 40px var(--lime-glow);
+    .typo-word .char.ai-wink {
+      color: var(--lime);
+      opacity: 1;
+      transform: translateY(0);
+      text-shadow: 
+        0 0 8px var(--lime-glow),
+        0 0 20px rgba(222, 255, 155, 0.25);
+      animation: aiPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes aiPulse {
+      0%, 100% { 
+        text-shadow: 
+          0 0 6px rgba(222, 255, 155, 0.3),
+          0 0 15px rgba(222, 255, 155, 0.15);
+        opacity: 0.85;
+      }
+      50% { 
+        text-shadow: 
+          0 0 10px var(--lime-glow),
+          0 0 25px rgba(222, 255, 155, 0.35);
+        opacity: 1;
+      }
     }
     
-    .typo-slash.animate {
-      animation: slashThrough 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    /* Correction - surgical precision */
+    .typo-word .char.lifting {
+      transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
+      transform: translateY(-8px);
+      opacity: 0.6;
     }
     
-    @keyframes slashThrough {
-      0% { transform: scaleX(0) translateY(-50%); }
-      100% { transform: scaleX(1) translateY(-50%); }
-    }
-    
-    /* Victory particles */
-    .particle {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: var(--lime);
-      border-radius: 50%;
-      pointer-events: none;
-      box-shadow: 0 0 10px var(--lime-glow);
-    }
-    
-    .particle.animate {
-      animation: particleBurst 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-    }
-    
-    @keyframes particleBurst {
-      0% { opacity: 1; transform: translate(0, 0) scale(1); }
-      100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0); }
-    }
-    
-    /* Soul line */
-    .hero-stats {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 32px;
+    .typo-word .char.inserted {
       opacity: 0;
-      animation: fadeIn 1s ease 0.45s forwards;
+      transform: translateY(10px);
+      animation: insertChar 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    @keyframes insertChar {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
     
-    .hero-stat {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8125rem;
-      font-weight: 500;
-      color: var(--error);
-      letter-spacing: -0.01em;
+    .typo-word .char.settling {
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform: translateY(0);
+      opacity: 1;
     }
     
-    .hero-stat-divider {
-      color: var(--text-muted);
-      font-size: 0.75rem;
+    .hero-stats {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      margin-top: 16px; opacity: 0; animation: fadeIn 1s ease 0.45s forwards;
     }
+    .hero-stat { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; color: var(--error); }
+    .hero-stat-divider { color: var(--text-muted); font-size: 0.625rem; }
     
     .hero-soul {
-      margin-top: 24px;
-      font-size: 1.1875rem;
+      margin-top: 16px;
+      font-size: 1rem;
       font-style: italic;
       color: var(--text-secondary);
-      font-weight: 400;
-      letter-spacing: 0;
       opacity: 0;
       animation: fadeIn 1s ease 0.5s forwards;
     }
-    
-    .hero-soul span {
-      font-style: normal;
-      color: var(--text-muted);
-      font-size: 0.875rem;
-      margin-left: 8px;
-    }
-    
-    /* === ANALYSIS CARD === */
+
+    /* Analysis Card - Premium 2030 */
     .analysis-card {
-      width: 100%;
-      max-width: 640px;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(30px) scale(0.98);
+      width: 100%; max-width: 540px;
+      background: linear-gradient(180deg, rgba(12,12,12,0.95) 0%, rgba(8,8,8,0.98) 100%);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px; overflow: hidden;
+      backdrop-filter: blur(20px);
+      box-shadow: 
+        0 0 0 1px rgba(255,255,255,0.03) inset,
+        0 20px 50px rgba(0,0,0,0.5),
+        0 0 100px rgba(222, 255, 155, 0.02);
+      opacity: 0; transform: translateY(20px) scale(0.98);
       transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    
-    .analysis-card.visible {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-    
+    .analysis-card.visible { opacity: 1; transform: translateY(0) scale(1); }
     .analysis-card.has-error {
-      border-color: var(--error-border);
-      box-shadow: 0 0 60px rgba(255, 68, 68, 0.1), 0 0 120px rgba(255, 68, 68, 0.05);
-      animation: cardPulse 2s ease-in-out infinite;
+      border-color: rgba(255, 68, 68, 0.2);
+      box-shadow: 
+        0 0 0 1px rgba(255, 68, 68, 0.1) inset,
+        0 20px 50px rgba(0,0,0,0.5),
+        0 0 80px rgba(255, 68, 68, 0.08);
     }
-    
-    @keyframes cardPulse {
-      0%, 100% { box-shadow: 0 0 60px rgba(255, 68, 68, 0.1), 0 0 120px rgba(255, 68, 68, 0.05); }
-      50% { box-shadow: 0 0 80px rgba(255, 68, 68, 0.15), 0 0 160px rgba(255, 68, 68, 0.08); }
-    }
-    
     .analysis-card.resolved {
-      border-color: var(--lime-border);
-      box-shadow: 0 0 60px rgba(222, 255, 155, 0.1), 0 0 120px rgba(222, 255, 155, 0.05);
-      animation: none;
+      border-color: rgba(222, 255, 155, 0.15);
+      box-shadow: 
+        0 0 0 1px rgba(222, 255, 155, 0.05) inset,
+        0 20px 50px rgba(0,0,0,0.5),
+        0 0 80px rgba(222, 255, 155, 0.06);
     }
     
-    /* Card Header */
     .card-header {
-      padding: 20px 28px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      padding: 14px 20px; 
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex; align-items: center; justify-content: space-between;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%);
     }
-    
-    .shipment-id {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      color: var(--text-secondary);
-    }
-    
-    .card-status {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6875rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .shipment-id { 
+      font-family: 'JetBrains Mono', monospace; 
+      font-size: 0.6875rem; 
+      font-weight: 500; 
       color: var(--text-muted);
-      opacity: 0;
-      transition: all 0.3s;
+      letter-spacing: 0.02em;
     }
-    
+    .card-status {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.625rem; font-weight: 600;
+      text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted);
+      opacity: 0; transition: all 0.3s;
+    }
     .card-status.visible { opacity: 1; }
     .card-status.analyzing { color: var(--lime); }
     .card-status.error { color: var(--error); }
     .card-status.resolved { color: var(--lime); }
+    .status-dot { width: 6px; height: 6px; background: currentColor; border-radius: 50%; }
+    .status-dot.pulse { animation: pulse 1.2s ease-in-out infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
     
-    .status-dot {
-      width: 6px;
-      height: 6px;
-      background: currentColor;
-      border-radius: 50%;
-    }
-    
-    .status-dot.pulse {
-      animation: pulse 1.2s ease-in-out infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.3; transform: scale(1.2); }
-    }
-    
-    /* === DOCUMENT TABS === */
+    /* Document Tabs - Premium with hover states */
     .doc-tabs {
-      display: flex;
-      padding: 16px 28px;
-      gap: 10px;
-      border-bottom: 1px solid var(--border);
-      background: var(--bg-elevated);
+      display: flex; padding: 12px 20px; gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      background: rgba(0,0,0,0.2);
+      position: relative;
     }
+    .doc-tabs::after {
+      content: '← Select document';
+      position: absolute;
+      right: 20px; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      color: var(--text-muted);
+      opacity: 0.5;
+      animation: fadeHint 3s ease 2s forwards;
+    }
+    @keyframes fadeHint { to { opacity: 0; } }
     
     .doc-tab {
-      position: relative;
-      padding: 12px 20px;
-      background: transparent;
-      border: 1px solid var(--border);
+      position: relative; padding: 10px 16px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
       border-radius: 10px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all 0.2s;
-      opacity: 0;
-      transform: translateY(10px);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6875rem; font-weight: 600;
+      color: var(--text-muted); 
+      cursor: pointer; 
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0; transform: translateY(8px);
     }
-    
-    .doc-tab.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .doc-tab:hover:not(.active) {
-      background: var(--bg-hover);
-      border-color: var(--border-active);
+    .doc-tab.visible { opacity: 1; transform: translateY(0); }
+    .doc-tab:hover { 
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(255,255,255,0.12);
       color: var(--text-secondary);
+      transform: translateY(-2px);
     }
-    
-    .doc-tab.active {
-      background: var(--bg-card);
-      border-color: var(--border-active);
-      color: var(--text);
+    .doc-tab.active { 
+      background: rgba(222, 255, 155, 0.08);
+      border-color: rgba(222, 255, 155, 0.25);
+      color: var(--lime);
+      box-shadow: 0 4px 20px rgba(222, 255, 155, 0.15);
     }
-    
     .doc-tab.checked::after {
-      content: '✓';
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      width: 20px;
-      height: 20px;
-      background: var(--lime);
+      content: '✓'; position: absolute; top: -6px; right: -6px;
+      width: 16px; height: 16px; 
+      background: var(--lime); 
       border-radius: 50%;
-      font-size: 0.625rem;
-      line-height: 20px;
-      text-align: center;
-      color: var(--bg);
-      font-weight: 700;
-      box-shadow: 0 0 10px var(--lime-glow);
+      font-size: 0.5rem; line-height: 16px; text-align: center;
+      color: var(--bg); font-weight: 700; 
+      box-shadow: 0 2px 10px rgba(222, 255, 155, 0.5);
       animation: badgePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    
+    .doc-tab.has-error { 
+      background: rgba(255, 68, 68, 0.08);
+      border-color: rgba(255, 68, 68, 0.3);
+      color: var(--error);
+      box-shadow: 0 4px 20px rgba(255, 68, 68, 0.15);
+    }
     .doc-tab.has-error::after {
-      content: '!';
-      position: absolute;
-      top: -8px;
-      right: -8px;
-      width: 20px;
-      height: 20px;
-      background: var(--error);
+      content: '!'; position: absolute; top: -6px; right: -6px;
+      width: 16px; height: 16px; 
+      background: var(--error); 
       border-radius: 50%;
-      font-size: 0.75rem;
-      font-weight: 700;
-      line-height: 20px;
-      text-align: center;
-      color: white;
-      box-shadow: 0 0 10px var(--error-glow);
+      font-size: 0.625rem; font-weight: 700; line-height: 16px; text-align: center;
+      color: white; 
+      box-shadow: 0 2px 10px rgba(255, 68, 68, 0.5);
       animation: badgePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
-    
-    @keyframes badgePop {
-      0% { transform: scale(0); }
-      50% { transform: scale(1.3); }
-      100% { transform: scale(1); }
-    }
-    
-    /* === TAB CONTENT === */
-    .tab-content {
-      padding: 32px 28px;
-      min-height: 300px;
-    }
-    
-    .tab-pane {
-      display: none;
-      animation: fadeInTab 0.3s ease;
-    }
-    
-    .tab-pane.active {
-      display: block;
-    }
-    
-    @keyframes fadeInTab {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes badgePop { 0% { transform: scale(0); } 50% { transform: scale(1.3); } 100% { transform: scale(1); } }
+
+    .tab-content { padding: 18px 20px; }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
     
     /* Document Header */
-    .doc-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 28px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--border);
+    .doc-header { 
+      display: flex; align-items: center; justify-content: space-between; 
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
     }
-    
-    .doc-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.125rem;
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 4px;
-    }
-    
-    .doc-subtitle {
-      font-size: 0.8125rem;
-      color: var(--text-muted);
-    }
-    
-    .doc-badge {
-      padding: 6px 14px;
-      border-radius: 100px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6875rem;
-      font-weight: 600;
+    .doc-header-left { display: flex; align-items: baseline; gap: 10px; }
+    .doc-title { font-family: 'Space Grotesk', sans-serif; font-size: 0.9375rem; font-weight: 600; color: var(--text); }
+    .doc-subtitle { font-size: 0.6875rem; color: var(--text-muted); }
+    .doc-badge { 
+      padding: 5px 10px; 
+      border-radius: 6px; 
+      font-family: 'JetBrains Mono', monospace; 
+      font-size: 0.5625rem; 
+      font-weight: 600; 
       text-transform: uppercase;
-      letter-spacing: 0.03em;
+      letter-spacing: 0.05em;
     }
+    .doc-badge.master { background: rgba(222, 255, 155, 0.1); color: var(--lime); border: 1px solid rgba(222, 255, 155, 0.2); }
+    .doc-badge.verified { background: rgba(222, 255, 155, 0.08); color: var(--lime); }
+    .doc-badge.issue { background: rgba(255, 68, 68, 0.1); color: var(--error); border: 1px solid rgba(255, 68, 68, 0.2); }
+    .doc-badge.checking { background: rgba(255,255,255,0.05); color: var(--text-muted); }
     
-    .doc-badge.master {
-      background: var(--lime-subtle);
-      color: var(--lime);
-      border: 1px solid var(--lime-border);
-    }
-    
-    .doc-badge.verified {
-      background: var(--lime-subtle);
-      color: var(--lime);
-    }
-    
-    .doc-badge.issue {
-      background: var(--error-subtle);
-      color: var(--error);
-    }
+    .check-pending { color: var(--text-muted); font-size: 0.7em; }
     
     /* Field Rows */
-    .field-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+    .field-list { display: flex; flex-direction: column; gap: 6px; }
+    .field-row { 
+      display: flex; align-items: center; justify-content: space-between; 
+      padding: 10px 14px; 
+      background: rgba(255,255,255,0.02);
+      border-radius: 10px; 
+      border: 1px solid rgba(255,255,255,0.04);
+      transition: all 0.3s ease; 
     }
-    
-    .field-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 18px;
-      background: var(--bg-elevated);
-      border-radius: 12px;
-      border: 1px solid var(--border);
+    .field-row:hover { background: rgba(255,255,255,0.04); }
+    .field-row.error { 
+      background: rgba(255, 68, 68, 0.06);
+      border-color: rgba(255, 68, 68, 0.2);
     }
-    
-    .field-row.error {
-      background: var(--error-subtle);
-      border-color: var(--error-border);
-    }
-    
-    .field-label {
-      font-size: 0.8125rem;
-      color: var(--text-secondary);
-    }
-    
-    .field-value {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.875rem;
-      font-weight: 500;
+    .field-label { font-size: 0.6875rem; color: var(--text-secondary); }
+    .field-value { 
+      font-family: 'JetBrains Mono', monospace; 
+      font-size: 0.75rem; 
+      font-weight: 500; 
+      display: flex; align-items: center; gap: 8px; 
       color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
-    
-    .field-value .check {
-      color: var(--lime);
-    }
+    .field-value .check { color: var(--lime); font-size: 0.75rem; }
     
     /* Error Block */
     .error-block {
-      margin-top: 24px;
-      padding: 24px;
-      background: var(--error-subtle);
-      border: 1px solid var(--error-border);
-      border-radius: 16px;
-    }
-    
-    .error-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--error);
-      margin-bottom: 20px;
-    }
-    
-    .error-title svg {
-      width: 18px;
-      height: 18px;
-    }
-    
-    .error-correction {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-      padding: 20px;
-      background: var(--bg-card);
+      background: linear-gradient(135deg, rgba(255, 68, 68, 0.08) 0%, rgba(255, 68, 68, 0.04) 100%);
+      border: 1px solid rgba(255, 68, 68, 0.15);
       border-radius: 12px;
-      margin-bottom: 20px;
+      opacity: 0; max-height: 0; overflow: hidden;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    
-    .correction-from {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: var(--error);
-      text-decoration: line-through;
-      opacity: 0.6;
+    .error-block.visible {
+      opacity: 1; max-height: 100px; padding: 14px 16px; margin-top: 14px;
     }
-    
-    .correction-arrow {
-      color: var(--text-muted);
-      font-size: 1.5rem;
+    .error-content { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .error-correction { 
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 14px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
     }
-    
-    .correction-to {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.5rem;
-      font-weight: 600;
+    .correction-from { 
+      font-family: 'JetBrains Mono', monospace; 
+      font-size: 1rem; 
+      font-weight: 600; 
+      color: var(--error); 
+      text-decoration: line-through; 
+      opacity: 0.7; 
+    }
+    .correction-arrow { color: var(--text-muted); font-size: 1rem; }
+    .correction-to { 
+      font-family: 'JetBrains Mono', monospace; 
+      font-size: 1rem; 
+      font-weight: 600; 
       color: var(--lime);
+      text-shadow: 0 0 20px rgba(222, 255, 155, 0.3);
     }
-    
-    .error-meta {
-      display: flex;
-      gap: 24px;
-    }
-    
-    .error-stat {
-      flex: 1;
-      text-align: center;
-    }
-    
-    .error-stat-label {
-      font-size: 0.6875rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .error-meta { display: flex; gap: 20px; }
+    .error-stat { text-align: center; }
+    .error-stat-label { 
+      font-size: 0.5rem; 
+      text-transform: uppercase; 
+      letter-spacing: 0.08em; 
       color: var(--text-muted);
-      margin-bottom: 6px;
+      margin-bottom: 2px;
     }
-    
-    .error-stat-value {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.125rem;
-      font-weight: 600;
+    .error-stat-value { 
+      font-family: 'JetBrains Mono', monospace; 
+      font-size: 0.875rem; 
+      font-weight: 700; 
       color: var(--error);
     }
     
-    .error-stat-value.neutral {
-      color: var(--text);
+    .master-note { 
+      margin-top: 14px; padding: 10px 12px; 
+      background: rgba(222, 255, 155, 0.04);
+      border: 1px solid rgba(222, 255, 155, 0.1);
+      border-radius: 8px; 
+      font-size: 0.6875rem; 
+      color: var(--text-secondary); 
     }
+    .master-note strong { color: var(--lime); }
     
-    /* Master Note */
-    .master-note {
-      margin-top: 24px;
-      padding: 20px;
-      background: var(--lime-subtle);
-      border: 1px solid var(--lime-border);
-      border-radius: 12px;
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-    
-    .master-note strong {
-      color: var(--lime);
-    }
-    
-    /* === CARD FOOTER === */
+    /* Card Footer */
     .card-footer {
-      padding: 20px 28px;
-      background: var(--bg-elevated);
-      border-top: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      opacity: 0;
-      transform: translateY(10px);
+      padding: 14px 20px; 
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.2) 100%);
+      border-top: 1px solid rgba(255,255,255,0.04);
+      display: flex; align-items: center; justify-content: space-between;
+      opacity: 0; transform: translateY(8px); 
       transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    
-    .card-footer.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .verdict-main {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    
-    .verdict-badge {
-      padding: 10px 18px;
-      border-radius: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.875rem;
+    .card-footer.visible { opacity: 1; transform: translateY(0); }
+    .verdict-main { display: flex; align-items: center; gap: 12px; }
+    .verdict-badge { 
+      padding: 8px 14px; 
+      border-radius: 8px; 
+      font-family: 'JetBrains Mono', monospace; 
+      font-size: 0.75rem; 
       font-weight: 700;
       letter-spacing: 0.05em;
     }
-    
-    .verdict-badge.go {
-      background: var(--lime);
-      color: var(--bg);
-      box-shadow: 0 0 20px var(--lime-glow);
+    .verdict-badge.go { 
+      background: var(--lime); 
+      color: var(--bg); 
+      box-shadow: 0 4px 20px rgba(222, 255, 155, 0.4);
     }
-    
-    .verdict-badge.no-go {
-      background: var(--error);
-      color: white;
-      box-shadow: 0 0 20px var(--error-glow);
+    .verdict-badge.no-go { 
+      background: var(--error); 
+      color: white; 
+      box-shadow: 0 4px 20px rgba(255, 68, 68, 0.4);
     }
-    
-    .verdict-text {
-      font-size: 0.9375rem;
-      color: var(--text-secondary);
-    }
-    
-    .verdict-text strong {
-      color: var(--text);
-      font-weight: 600;
-    }
-    
-    .verdict-time {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8125rem;
+    .verdict-text { font-size: 0.75rem; color: var(--text-secondary); }
+    .verdict-text strong { color: var(--text); }
+    .verdict-time { 
+      font-family: 'JetBrains Mono', monospace; 
+      font-size: 0.6875rem; 
       color: var(--text-muted);
-    }
-    
-    /* === CTA === */
-    .cta-section {
-      margin-top: 80px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    .cta-section.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .cta-headline {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(1.75rem, 4vw, 2.5rem);
-      font-weight: 600;
-      color: var(--text);
-      margin-bottom: 40px;
-      letter-spacing: -0.02em;
-    }
-    
-    .cta-email-card {
-      position: relative;
-      text-decoration: none;
-      border-radius: 20px;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    .cta-email-inner {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      padding: 24px 36px;
-      background: linear-gradient(135deg, var(--bg-elevated) 0%, var(--bg-card) 100%);
-      border: 1px solid var(--border-active);
-      border-radius: 20px;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    
-    .cta-email-card:hover .cta-email-inner {
-      border-color: var(--lime-border);
-      transform: translateY(-4px);
-    }
-    
-    .cta-email-glow {
-      position: absolute;
-      inset: -1px;
-      border-radius: 20px;
-      background: linear-gradient(135deg, var(--lime) 0%, transparent 50%);
-      opacity: 0;
-      filter: blur(20px);
-      transition: opacity 0.4s ease;
-      z-index: 0;
-    }
-    
-    .cta-email-card:hover .cta-email-glow {
-      opacity: 0.3;
-    }
-    
-    .cta-email-icon {
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--lime-subtle);
-      border: 1px solid var(--lime-border);
-      border-radius: 12px;
-      transition: all 0.3s ease;
-    }
-    
-    .cta-email-icon svg {
-      width: 24px;
-      height: 24px;
-      stroke: var(--lime);
-    }
-    
-    .cta-email-card:hover .cta-email-icon {
-      background: var(--lime);
-      border-color: var(--lime);
-    }
-    
-    .cta-email-card:hover .cta-email-icon svg {
-      stroke: var(--bg);
-    }
-    
-    .cta-email-content {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 4px;
-    }
-    
-    .cta-email-address {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.125rem;
-      font-weight: 500;
-      color: var(--text);
-      letter-spacing: -0.01em;
-    }
-    
-    .cta-email-hint {
-      font-size: 0.8125rem;
-      color: var(--text-muted);
-    }
-    
-    .cta-email-arrow {
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-left: 12px;
-      transition: all 0.3s ease;
-    }
-    
-    .cta-email-arrow svg {
-      width: 20px;
-      height: 20px;
-      stroke: var(--text-muted);
-      transition: all 0.3s ease;
-    }
-    
-    .cta-email-card:hover .cta-email-arrow svg {
-      stroke: var(--lime);
-      transform: translateX(4px);
-    }
-    
-    /* Proof Points */
-    .cta-proof-points {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
-      margin-top: 32px;
-      flex-wrap: wrap;
-    }
-    
-    .proof-point {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-    }
-    
-    .proof-icon {
-      font-size: 0.875rem;
-    }
-    
-    .proof-icon.lime {
-      color: var(--lime);
-    }
-    
-    .proof-divider {
-      color: var(--text-muted);
-      font-size: 0.75rem;
-    }
-    
-    .moat-accent {
-      color: var(--lime);
-      font-weight: 500;
+      padding: 4px 10px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 6px;
     }
 
+    /* CTA */
+    .cta-section {
+      margin-top: 40px; text-align: center;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .cta-intro {
+      opacity: 0.2;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cta-intro.visible { opacity: 1; }
+    .cta-extra {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      opacity: 0.2;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cta-extra.visible { opacity: 1; }
+    .cta-headline { font-family: 'Space Grotesk', sans-serif; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 600; margin-bottom: 8px; }
+    .cta-soul {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text-secondary);
+      margin-bottom: 28px;
+    }
+    .cta-email-card { text-decoration: none; border-radius: 20px; }
+    .cta-email-inner {
+      display: flex; align-items: center; gap: 20px; padding: 24px 36px;
+      background: linear-gradient(135deg, var(--bg-elevated), var(--bg-card));
+      border: 1px solid var(--border-active); border-radius: 20px;
+      transition: all 0.3s ease;
+    }
+    .cta-email-card:hover .cta-email-inner { border-color: var(--lime-border); transform: translateY(-4px); }
+    .cta-email-icon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: var(--lime-subtle); border: 1px solid var(--lime-border); border-radius: 12px; }
+    .cta-email-icon svg { width: 24px; height: 24px; stroke: var(--lime); }
+    .cta-email-content { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+    .cta-email-address { font-family: 'JetBrains Mono', monospace; font-size: 1.125rem; font-weight: 500; color: var(--text); }
+    .cta-email-hint { font-size: 0.8125rem; color: var(--text-muted); }
+    .cta-proof-points { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
+    .proof-point { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--text-secondary); }
+    .proof-icon { font-size: 0.875rem; }
+    .proof-icon.lime { color: var(--lime); }
+    
     .cta-whatsapp {
       display: inline-flex;
       align-items: center;
@@ -965,254 +546,142 @@
       border: 1px solid var(--border);
       border-radius: 16px;
       cursor: default;
+      opacity: 0.5;
     }
-    
     .cta-whatsapp svg {
       width: 24px;
       height: 24px;
       fill: var(--text-muted);
-      opacity: 0.5;
     }
-    
     .whatsapp-text {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
       gap: 2px;
     }
-    
     .whatsapp-title {
       font-size: 0.875rem;
       font-weight: 500;
       color: var(--text-secondary);
     }
-    
     .whatsapp-status {
       font-size: 0.75rem;
       color: var(--text-muted);
     }
     
-    /* === FOOTER === */
-    .footer {
-      padding: 40px 48px;
-      text-align: center;
-      opacity: 0;
-      animation: fadeIn 1s ease 0.6s forwards;
+    /* Footer - Premium */
+    .footer { 
+      padding: 48px 48px 40px; 
+      text-align: center; 
+      opacity: 0; 
+      animation: fadeIn 1s ease 0.6s forwards; 
     }
-    
-    .social-proof {
-      font-size: 0.875rem;
+    .footer-built {
+      font-size: 0.8125rem;
+      font-weight: 500;
       color: var(--text-secondary);
-      margin-bottom: 16px;
-      line-height: 1.6;
+      margin-bottom: 20px;
+      letter-spacing: 0.01em;
     }
-    
-    .social-proof strong {
+    .footer-built strong {
       color: var(--lime);
       font-weight: 600;
     }
-    
-    .social-proof-secondary {
-      display: block;
-      margin-top: 6px;
-      opacity: 0.5;
+    .footer-cities {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 28px;
     }
-    
-    .company {
-      font-size: 0.75rem;
+    .footer-city {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6875rem;
+      font-weight: 500;
       color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: color 0.2s ease;
+    }
+    .footer-city:hover {
+      color: var(--text-secondary);
+    }
+    .footer-city.home {
+      color: var(--lime);
+      opacity: 0.7;
+    }
+    .footer-divider {
+      width: 3px;
+      height: 3px;
+      background: var(--text-muted);
+      border-radius: 50%;
+      opacity: 0.3;
+    }
+    .footer-company {
+      font-size: 0.6875rem;
+      color: var(--text-muted);
+      opacity: 0.5;
+      letter-spacing: 0.02em;
     }
     
-    /* === ANIMATIONS === */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     
-    /* === RESPONSIVE === */
     @media (max-width: 640px) {
-      .header {
-        padding: 32px 20px 24px;
-      }
-      
-      .brand-block {
-        gap: 14px;
-      }
-      
-      .logo img {
-        height: 56px;
-      }
-      
-      .brand-tagline {
-        font-size: 0.6875rem;
-        letter-spacing: 0.12em;
-      }
-      
-      .main {
-        padding: 0 16px 60px;
-      }
-      
-      .hero {
-        margin-top: 16px;
-        margin-bottom: 56px;
-      }
-      
-      .hero-title {
-        font-size: 2.5rem;
-      }
-      
-      .hero-soul {
-        font-size: 1rem;
-        margin-top: 20px;
-      }
-      
-      .hero-stats {
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      
-      .hero-stat {
-        font-size: 0.75rem;
-      }
-      
-      .analysis-card {
-        border-radius: 20px;
-      }
-      
-      .card-header {
-        padding: 16px 20px;
-      }
-      
-      .doc-tabs {
-        padding: 14px 20px;
-        gap: 8px;
-        overflow-x: auto;
-      }
-      
-      .doc-tab {
-        padding: 10px 14px;
-        font-size: 0.6875rem;
-        flex-shrink: 0;
-      }
-      
-      .tab-content {
-        padding: 24px 20px;
-        min-height: 280px;
-      }
-      
-      .error-correction {
-        gap: 12px;
-        padding: 16px;
-      }
-      
-      .correction-from,
-      .correction-to {
-        font-size: 1.25rem;
-      }
-      
-      .card-footer {
-        padding: 16px 20px;
-        flex-direction: column;
-        gap: 14px;
-        align-items: flex-start;
-      }
-      
-      .cta-section {
-        margin-top: 48px;
-        padding: 0 8px;
-      }
-      
-      .cta-headline {
-        font-size: 1.5rem;
-        margin-bottom: 28px;
-      }
-      
-      .cta-email-inner {
-        flex-direction: column;
-        padding: 20px 24px;
-        gap: 16px;
-        text-align: center;
-      }
-      
-      .cta-email-content {
-        align-items: center;
-      }
-      
-      .cta-email-arrow {
-        display: none;
-      }
-      
-      .cta-proof-points {
-        flex-direction: column;
-        gap: 12px;
-      }
-      
-      .proof-divider {
-        display: none;
-      }
-      
-      .footer {
-        padding: 32px 20px;
-      }
-      
-      .social-proof {
-        font-size: 0.8125rem;
-        line-height: 1.5;
-      }
+      .header { padding: 32px 20px 24px; }
+      .logo img { height: 56px; }
+      .main { padding: 0 16px 60px; }
+      .hero { margin-bottom: 56px; }
+      .hero-title { font-size: 2.5rem; }
+      .hero-stats { flex-wrap: wrap; gap: 8px; }
+      .analysis-card { border-radius: 20px; }
+      .card-header, .card-footer { padding: 16px 20px; }
+      .doc-tabs { padding: 14px 20px; gap: 8px; overflow-x: auto; }
+      .doc-tab { padding: 10px 14px; font-size: 0.6875rem; flex-shrink: 0; }
+      .tab-content { padding: 24px 20px; min-height: 280px; }
+      .card-footer { flex-direction: column; gap: 14px; align-items: flex-start; }
+      .cta-section { margin-top: 48px; }
+      .cta-email-inner { flex-direction: column; padding: 20px; text-align: center; }
+      .cta-email-content { align-items: center; }
+      .cta-proof-points { flex-direction: column; gap: 12px; }
+      .footer { padding: 32px 20px; }
     }
   </style>
 </head>
 <body>
-  <!-- Screen Effects -->
   <div class="screen-flash" id="screenFlash"></div>
   <div class="vignette-danger" id="vignetteDanger"></div>
   <div class="vignette-success" id="vignetteSuccess"></div>
   
   <div class="page">
-    <!-- Header -->
     <header class="header">
       <div class="brand-block">
-        <div class="logo">
-          <img src="https://raw.githubusercontent.com/LucasDotTrade/website/main/logo.png" alt="LUCAS">
-        </div>
+        <div class="logo"><img src="https://raw.githubusercontent.com/LucasDotTrade/website/main/logo.png" alt="LUCAS"></div>
         <span class="brand-tagline">Trade Finance Intelligence</span>
       </div>
     </header>
     
-    <!-- Main -->
     <main class="main">
-      <!-- Hero -->
       <section class="hero" id="hero">
         <h1 class="hero-title">
           <span class="hero-line-1">
-            <span class="typo-word" id="typoWord">
-              <span class="char">S</span><span class="char">h</span><span class="char">a</span><span class="char">n</span><span class="char">g</span><span class="char">a</span><span class="char">i</span>
-              <span class="typo-slash" id="typoSlash"></span>
-            </span> is fine.
+            <span class="typo-word" id="typoWord"><span class="char">S</span><span class="char">h</span><span class="char">a</span><span class="char">n</span><span class="char">g</span><span class="char">a</span><span class="char">i</span></span> is fine.
           </span>
-          <span class="hero-line-2">Until the bank rejects it.</span>
+          <span class="hero-line-2" id="heroLine2">Until the bank rejects it.</span>
         </h1>
         <div class="hero-stats">
-          <span class="hero-stat">Your LC has a 70% chance of rejection</span>
+          <span class="hero-stat">70% of LCs get rejected</span>
           <span class="hero-stat-divider">·</span>
-          <span class="hero-stat">$800 to fix it</span>
+          <span class="hero-stat">$800 to fix</span>
           <span class="hero-stat-divider">·</span>
           <span class="hero-stat">3 days delay</span>
         </div>
-        <p class="hero-soul">"I'll check. You ship." — Lucas</p>
       </section>
       
-      <!-- Analysis Card -->
       <div class="analysis-card" id="analysisCard">
         <div class="card-header">
-          <span class="shipment-id">SHIPMENT LC-2024-0847</span>
-          <div class="card-status" id="cardStatus">
-            <span class="status-dot pulse"></span>
-            <span id="statusText">Analyzing</span>
-          </div>
+          <span class="shipment-id">SHIPMENT LC-2025-0808</span>
+          <div class="card-status" id="cardStatus"><span class="status-dot pulse"></span><span id="statusText">Analyzing</span></div>
         </div>
-        
-        <!-- Document Tabs -->
         <div class="doc-tabs">
           <button class="doc-tab" id="tabLC" data-tab="lc">LC</button>
           <button class="doc-tab" id="tabBL" data-tab="bl">BL</button>
@@ -1220,184 +689,62 @@
           <button class="doc-tab" id="tabPL" data-tab="pl">PL</button>
           <button class="doc-tab" id="tabCO" data-tab="co">CO</button>
         </div>
-        
-        <!-- Tab Content -->
         <div class="tab-content">
-          <!-- LC Tab -->
           <div class="tab-pane" id="paneLC">
-            <div class="doc-header">
-              <div>
-                <div class="doc-title">Letter of Credit</div>
-                <div class="doc-subtitle">HSBC Bank · $847,000 USD</div>
-              </div>
-              <span class="doc-badge master">Master Doc</span>
-            </div>
+            <div class="doc-header"><div class="doc-header-left"><span class="doc-title">Letter of Credit</span><span class="doc-subtitle">HSBC · $847K</span></div><span class="doc-badge master">Master</span></div>
             <div class="field-list">
-              <div class="field-row">
-                <span class="field-label">Beneficiary</span>
-                <span class="field-value">Shenzhen Electronics Co. <span class="check">✓</span></span>
-              </div>
-              <div class="field-row">
-                <span class="field-label">Amount</span>
-                <span class="field-value">$847,000.00 <span class="check">✓</span></span>
-              </div>
-              <div class="field-row">
-                <span class="field-label">Port of Loading</span>
-                <span class="field-value">Shanghai <span class="check">✓</span></span>
-              </div>
-              <div class="field-row">
-                <span class="field-label">Port of Discharge</span>
-                <span class="field-value">Jebel Ali <span class="check">✓</span></span>
-              </div>
+              <div class="field-row"><span class="field-label">Beneficiary</span><span class="field-value">Shenzhen Electronics Co. <span class="check">✓</span></span></div>
+              <div class="field-row"><span class="field-label">Amount</span><span class="field-value">$847,000.00 <span class="check">✓</span></span></div>
+              <div class="field-row"><span class="field-label">Port of Loading</span><span class="field-value">Shanghai <span class="check">✓</span></span></div>
+              <div class="field-row"><span class="field-label">Port of Discharge</span><span class="field-value">Jebel Ali <span class="check">✓</span></span></div>
             </div>
-            <div class="master-note">
-              <strong>Master Document.</strong> All other documents in this shipment are cross-referenced against the Letter of Credit for compliance.
-            </div>
+            <div class="master-note"><strong>Master Document.</strong> All other documents are cross-referenced against the LC.</div>
           </div>
-          
-          <!-- BL Tab -->
           <div class="tab-pane active" id="paneBL">
-            <div class="doc-header">
-              <div>
-                <div class="doc-title">Bill of Lading</div>
-                <div class="doc-subtitle">COSCO Shipping · 2x40HC</div>
-              </div>
-              <span class="doc-badge issue">1 Issue</span>
-            </div>
+            <div class="doc-header"><div class="doc-header-left"><span class="doc-title">Bill of Lading</span><span class="doc-subtitle">COSCO · 2x40HC</span></div><span class="doc-badge checking" id="blBadge">Checking</span></div>
             <div class="field-list">
-              <div class="field-row">
-                <span class="field-label">Shipper</span>
-                <span class="field-value">Shenzhen Electronics Co. <span class="check">✓</span></span>
-              </div>
-              <div class="field-row">
-                <span class="field-label">Consignee</span>
-                <span class="field-value">Gulf Trading FZE <span class="check">✓</span></span>
-              </div>
-              <div class="field-row error">
-                <span class="field-label">Port of Loading</span>
-                <span class="field-value" style="color: var(--error)">Shangai</span>
-              </div>
+              <div class="field-row"><span class="field-label">Shipper</span><span class="field-value">Shenzhen Electronics Co. <span class="check">✓</span></span></div>
+              <div class="field-row"><span class="field-label">Consignee</span><span class="field-value">Gulf Trading FZE <span class="check">✓</span></span></div>
+              <div class="field-row" id="portRow"><span class="field-label">Port of Loading</span><span class="field-value" id="portValue">Shangai <span class="check-pending">○</span></span></div>
             </div>
-            <div class="error-block">
-              <div class="error-title">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <line x1="12" y1="8" x2="12" y2="12"></line>
-                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
-                Mismatch with Letter of Credit
-              </div>
-              <div class="error-correction">
-                <span class="correction-from">Shangai</span>
-                <span class="correction-arrow">→</span>
-                <span class="correction-to">Shanghai</span>
-              </div>
-              <div class="error-meta">
-                <div class="error-stat">
-                  <div class="error-stat-label">Amendment Fee</div>
-                  <div class="error-stat-value">$800</div>
-                </div>
-                <div class="error-stat">
-                  <div class="error-stat-label">Delay</div>
-                  <div class="error-stat-value">~3 days</div>
-                </div>
-                <div class="error-stat">
-                  <div class="error-stat-label">Confidence</div>
-                  <div class="error-stat-value neutral">99.8%</div>
+            <div class="error-block" id="errorBlock">
+              <div class="error-content">
+                <div class="error-correction"><span class="correction-from">Shangai</span><span class="correction-arrow">→</span><span class="correction-to">Shanghai</span></div>
+                <div class="error-meta">
+                  <div class="error-stat"><div class="error-stat-label">Fee</div><div class="error-stat-value">$800</div></div>
+                  <div class="error-stat"><div class="error-stat-label">Delay</div><div class="error-stat-value">3d</div></div>
                 </div>
               </div>
             </div>
           </div>
-          
-          <!-- INV Tab -->
           <div class="tab-pane" id="paneINV">
-            <div class="doc-header">
-              <div>
-                <div class="doc-title">Commercial Invoice</div>
-                <div class="doc-subtitle">INV-2024-1847</div>
-              </div>
-              <span class="doc-badge verified">Verified</span>
-            </div>
+            <div class="doc-header"><div class="doc-header-left"><span class="doc-title">Commercial Invoice</span><span class="doc-subtitle">INV-2024-1847</span></div><span class="doc-badge verified">OK</span></div>
             <div class="field-list">
-              <div class="field-row">
-                <span class="field-label">Invoice Amount</span>
-                <span class="field-value">$847,000.00 <span class="check">✓</span></span>
-              </div>
-              <div class="field-row">
-                <span class="field-label">Goods Description</span>
-                <span class="field-value">Electronic Components <span class="check">✓</span></span>
-              </div>
-              <div class="field-row">
-                <span class="field-label">Unit Price</span>
-                <span class="field-value">$678.40 × 1,248 <span class="check">✓</span></span>
-              </div>
-              <div class="field-row">
-                <span class="field-label">Incoterm</span>
-                <span class="field-value">FOB Shanghai <span class="check">✓</span></span>
-              </div>
+              <div class="field-row"><span class="field-label">Invoice Amount</span><span class="field-value">$847,000.00 <span class="check">✓</span></span></div>
+              <div class="field-row"><span class="field-label">Goods</span><span class="field-value">Electronic Components <span class="check">✓</span></span></div>
+              <div class="field-row"><span class="field-label">Unit Price</span><span class="field-value">$678.40 × 1,248 <span class="check">✓</span></span></div>
+              <div class="field-row"><span class="field-label">Incoterm</span><span class="field-value">FOB Shanghai <span class="check">✓</span></span></div>
             </div>
           </div>
-          
-          <!-- PL Tab -->
           <div class="tab-pane" id="panePL">
-            <div class="doc-header">
-              <div>
-                <div class="doc-title">Packing List</div>
-                <div class="doc-subtitle">PL-2024-1847</div>
-              </div>
-              <span class="doc-badge verified">Verified</span>
-            </div>
+            <div class="doc-header"><div class="doc-header-left"><span class="doc-title">Packing List</span><span class="doc-subtitle">PL-2024-1847</span></div><span class="doc-badge verified">OK</span></div>
             <div class="field-list">
-              <div class="field-row">
-                <span class="field-label">Total Packages</span>
-                <span class="field-value">48 cartons <span class="check">✓</span></span>
-              </div>
-              <div class="field-row">
-                <span class="field-label">Total Quantity</span>
-                <span class="field-value">1,248 units <span class="check">✓</span></span>
-              </div>
-              <div class="field-row">
-                <span class="field-label">Gross Weight</span>
-                <span class="field-value">2,847 kg <span class="check">✓</span></span>
-              </div>
-              <div class="field-row">
-                <span class="field-label">Net Weight</span>
-                <span class="field-value">2,496 kg <span class="check">✓</span></span>
-              </div>
+              <div class="field-row"><span class="field-label">Packages</span><span class="field-value">48 cartons <span class="check">✓</span></span></div>
+              <div class="field-row"><span class="field-label">Quantity</span><span class="field-value">1,248 units <span class="check">✓</span></span></div>
+              <div class="field-row"><span class="field-label">Gross Weight</span><span class="field-value">2,847 kg <span class="check">✓</span></span></div>
+              <div class="field-row"><span class="field-label">Net Weight</span><span class="field-value">2,496 kg <span class="check">✓</span></span></div>
             </div>
           </div>
-          
-          <!-- CO Tab -->
           <div class="tab-pane" id="paneCO">
-            <div class="doc-header">
-              <div>
-                <div class="doc-title">Certificate of Origin</div>
-                <div class="doc-subtitle">CCPIT China</div>
-              </div>
-              <span class="doc-badge verified">Verified</span>
-            </div>
+            <div class="doc-header"><div class="doc-header-left"><span class="doc-title">Certificate of Origin</span><span class="doc-subtitle">CCPIT</span></div><span class="doc-badge verified">OK</span></div>
             <div class="field-list">
-              <div class="field-row">
-                <span class="field-label">Country of Origin</span>
-                <span class="field-value">China <span class="check">✓</span></span>
-              </div>
-              <div class="field-row">
-                <span class="field-label">HS Code</span>
-                <span class="field-value">8542.31 <span class="check">✓</span></span>
-              </div>
-              <div class="field-row">
-                <span class="field-label">Manufacturer</span>
-                <span class="field-value">Shenzhen Electronics Co. <span class="check">✓</span></span>
-              </div>
-              <div class="field-row">
-                <span class="field-label">Certificate No.</span>
-                <span class="field-value">CCPIT-2024-847291 <span class="check">✓</span></span>
-              </div>
+              <div class="field-row"><span class="field-label">Origin</span><span class="field-value">China <span class="check">✓</span></span></div>
+              <div class="field-row"><span class="field-label">HS Code</span><span class="field-value">8542.31 <span class="check">✓</span></span></div>
+              <div class="field-row"><span class="field-label">Manufacturer</span><span class="field-value">Shenzhen Electronics Co. <span class="check">✓</span></span></div>
+              <div class="field-row"><span class="field-label">Certificate</span><span class="field-value">CCPIT-2024-847291 <span class="check">✓</span></span></div>
             </div>
           </div>
         </div>
-        
-        <!-- Footer -->
         <div class="card-footer" id="cardFooter">
           <div class="verdict-main">
             <span class="verdict-badge no-go" id="verdictBadge">NO_GO</span>
@@ -1407,73 +754,52 @@
         </div>
       </div>
       
-      <!-- CTA -->
       <div class="cta-section" id="ctaSection">
-        <h2 class="cta-headline">Ship with confidence.</h2>
-        
-        <a href="mailto:lucas@lucas.trade?subject=Document%20Verification" class="cta-email-card">
+        <div class="cta-intro" id="ctaIntro">
+          <h2 class="cta-headline">Ship with confidence.</h2>
+          <p class="cta-soul">"I'll check. You ship." — Lucas</p>
+        </div>
+        <a href="mailto:lucas@lucas.trade" class="cta-email-card">
           <div class="cta-email-inner">
-            <div class="cta-email-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <rect x="2" y="4" width="20" height="16" rx="2"/>
-                <path d="M22 6L12 13L2 6"/>
-              </svg>
-            </div>
+            <div class="cta-email-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6L12 13L2 6"/></svg></div>
             <div class="cta-email-content">
               <span class="cta-email-address">lucas@lucas.trade</span>
-              <span class="cta-email-hint">Forward your next doc · Free</span>
-            </div>
-            <div class="cta-email-arrow">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
+              <span class="cta-email-hint">Forward your docs · Free</span>
             </div>
           </div>
-          <div class="cta-email-glow"></div>
         </a>
-        
-        <div class="cta-proof-points">
-          <span class="proof-point">
-            <span class="proof-icon lime">✦</span>
-            <span class="moat-accent">100% free</span>
-          </span>
-          <span class="proof-divider">·</span>
-          <span class="proof-point">
-            <span class="proof-icon">⚡</span>
-            Reply in 2 min
-          </span>
-          <span class="proof-divider">·</span>
-          <span class="proof-point">
-            <span class="proof-icon">📄</span>
-            One doc is enough
-          </span>
-          <span class="proof-divider">·</span>
-          <span class="proof-point">
-            <span class="proof-icon">🧠</span>
-            Lucas remembers
-          </span>
-        </div>
-        
-        <div class="cta-whatsapp">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-          <div class="whatsapp-text">
-            <span class="whatsapp-title">WhatsApp with Lucas</span>
-            <span class="whatsapp-status">coming soon</span>
+        <div class="cta-extra" id="ctaExtra">
+          <div class="cta-proof-points">
+            <span class="proof-point"><span class="proof-icon lime">✦</span> 100% free</span>
+            <span class="proof-point"><span class="proof-icon">⚡</span> Reply in 2 min</span>
+            <span class="proof-point"><span class="proof-icon">📄</span> One doc is enough</span>
+            <span class="proof-point"><span class="proof-icon lime">🧠</span> Lucas remembers</span>
+          </div>
+          <div class="cta-whatsapp">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            <div class="whatsapp-text">
+              <span class="whatsapp-title">WhatsApp with Lucas</span>
+              <span class="whatsapp-status">coming soon</span>
+            </div>
           </div>
         </div>
       </div>
     </main>
     
-    <!-- Footer -->
     <footer class="footer">
-      <p class="social-proof">
-        Built for <strong>Jebel Ali traders 🇦🇪</strong>.
-        <span class="social-proof-secondary">Used in Dubai, Singapore, Panama and Rotterdam.</span>
-      </p>
-      <p class="company">by YOYOGI FZCO · Dubai Silicon Oasis, UAE</p>
+      <p class="footer-built">Built for <strong>Jebel Ali traders</strong></p>
+      <div class="footer-cities">
+        <span class="footer-city home">Dubai</span>
+        <span class="footer-divider"></span>
+        <span class="footer-city">Singapore</span>
+        <span class="footer-divider"></span>
+        <span class="footer-city">Panama</span>
+        <span class="footer-divider"></span>
+        <span class="footer-city">Rotterdam</span>
+      </div>
+      <p class="footer-company">YOYOGI FZCO · Dubai Silicon Oasis, UAE</p>
     </footer>
   </div>
 
@@ -1482,25 +808,31 @@
     
     // Elements
     const typoWord = document.getElementById('typoWord');
-    const typoSlash = document.getElementById('typoSlash');
-    const hero = document.getElementById('hero');
     const screenFlash = document.getElementById('screenFlash');
     const vignetteDanger = document.getElementById('vignetteDanger');
     const vignetteSuccess = document.getElementById('vignetteSuccess');
     const analysisCard = document.getElementById('analysisCard');
     const cardStatus = document.getElementById('cardStatus');
     const statusText = document.getElementById('statusText');
-    const tabLC = document.getElementById('tabLC');
-    const tabBL = document.getElementById('tabBL');
-    const tabINV = document.getElementById('tabINV');
-    const tabPL = document.getElementById('tabPL');
-    const tabCO = document.getElementById('tabCO');
     const cardFooter = document.getElementById('cardFooter');
     const verdictBadge = document.getElementById('verdictBadge');
     const verdictTime = document.getElementById('verdictTime');
     const ctaSection = document.getElementById('ctaSection');
+    const heroLine2 = document.getElementById('heroLine2');
     
-    const tabs = [tabLC, tabBL, tabINV, tabPL, tabCO];
+    // Card error elements
+    const blBadge = document.getElementById('blBadge');
+    const portRow = document.getElementById('portRow');
+    const portValue = document.getElementById('portValue');
+    const errorBlock = document.getElementById('errorBlock');
+    
+    const tabs = [
+      document.getElementById('tabLC'),
+      document.getElementById('tabBL'),
+      document.getElementById('tabINV'),
+      document.getElementById('tabPL'),
+      document.getElementById('tabCO')
+    ];
     const panes = {
       lc: document.getElementById('paneLC'),
       bl: document.getElementById('paneBL'),
@@ -1509,229 +841,270 @@
       co: document.getElementById('paneCO')
     };
     
-    // Tab switching
-    function switchTab(tabId) {
-      tabs.forEach(t => t.classList.remove('active'));
-      document.querySelector(`[data-tab="${tabId}"]`).classList.add('active');
-      Object.values(panes).forEach(p => p.classList.remove('active'));
-      panes[tabId].classList.add('active');
-    }
-    
     tabs.forEach(tab => {
-      tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+      tab.addEventListener('click', () => {
+        tabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        Object.values(panes).forEach(p => p.classList.remove('active'));
+        panes[tab.dataset.tab].classList.add('active');
+      });
     });
     
-    // Create particles
-    function createParticles(container, count = 12) {
-      for (let i = 0; i < count; i++) {
-        const particle = document.createElement('span');
-        particle.className = 'particle';
-        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
-        const distance = 60 + Math.random() * 80;
-        const tx = Math.cos(angle) * distance;
-        const ty = Math.sin(angle) * distance - 20;
-        particle.style.cssText = `
-          left: 50%;
-          top: 50%;
-          --tx: ${tx}px;
-          --ty: ${ty}px;
-        `;
-        container.appendChild(particle);
-        setTimeout(() => particle.classList.add('animate'), i * 30);
-        setTimeout(() => particle.remove(), 1000);
-      }
-    }
-    
     // Timer
-    let startTime;
+    let startTime, timerInterval;
     const updateTime = () => {
-      const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-      verdictTime.textContent = elapsed + 's';
+      verdictTime.textContent = ((Date.now() - startTime) / 1000).toFixed(1) + 's';
     };
     
+    // Surgical precision correction - no scanning, AI knows exactly where to fix
+    function runCorrection() {
+      return new Promise(async resolve => {
+        const chars = [...typoWord.querySelectorAll('.char')];
+        // Error is at position 5-6: "Shangai" should be "Shanghai"
+        // The 'a' at position 5 needs to become 'h', and we insert 'a' after
+        
+        const errorChar = chars[5]; // the 'a' that should be 'h'
+        const nextChar = chars[6];  // the 'i'
+        
+        // Step 1: Lift the error characters - AI is "picking them up"
+        errorChar.classList.add('lifting');
+        nextChar.classList.add('lifting');
+        
+        await sleep(400);
+        
+        // Step 2: Transform - change 'a' to 'h'
+        errorChar.textContent = 'h';
+        errorChar.style.color = 'var(--lime)';
+        errorChar.style.textShadow = '0 0 20px var(--lime-glow)';
+        
+        // Step 3: Insert the missing 'a'
+        const newA = document.createElement('span');
+        newA.className = 'char inserted';
+        newA.textContent = 'a';
+        newA.style.color = 'var(--lime)';
+        newA.style.textShadow = '0 0 20px var(--lime-glow)';
+        errorChar.after(newA);
+        
+        await sleep(100);
+        
+        // Step 4: Settle everything back down
+        errorChar.classList.remove('lifting');
+        errorChar.classList.add('settling');
+        nextChar.classList.remove('lifting');
+        nextChar.classList.add('settling');
+        nextChar.style.color = 'var(--lime)';
+        nextChar.style.textShadow = '0 0 20px var(--lime-glow)';
+        
+        // Turn all other chars lime too
+        chars.forEach((c, i) => {
+          if (i !== 5 && i !== 6) {
+            c.style.transition = 'all 0.4s ease';
+            c.style.color = 'var(--lime)';
+            c.style.textShadow = '0 0 20px var(--lime-glow)';
+          }
+        });
+        
+        await sleep(500);
+        resolve();
+      });
+    }
+    
+    // Main demo - refined flow
     async function runDemo() {
       const chars = typoWord.querySelectorAll('.char');
       
+      // === ARRIVAL === (confident entrance)
       await sleep(800);
       
-      // Show card
       analysisCard.classList.add('visible');
       
       await sleep(400);
       
-      // Start analysis
       cardStatus.classList.add('visible', 'analyzing');
       startTime = Date.now();
-      const timeInterval = setInterval(updateTime, 100);
+      timerInterval = setInterval(updateTime, 100);
       
       await sleep(300);
       
-      // Show tabs with stagger
-      for (const tab of tabs) {
-        tab.classList.add('visible');
+      // Tabs cascade in
+      for (let i = 0; i < tabs.length; i++) {
+        tabs[i].classList.add('visible');
         await sleep(60);
       }
       
-      await sleep(300);
+      await sleep(600);
       
-      // Scan headline characters - slower, more deliberate
-      for (let i = 0; i < chars.length; i++) {
+      // === SCAN === (intelligent, slows near error)
+      // Fast start - confident
+      for (let i = 0; i < 4; i++) {
         chars[i].classList.add('scanning');
-        await sleep(100);
-        if (i < chars.length - 1) {
-          chars[i].classList.remove('scanning');
-        }
+        await sleep(80);
+        chars[i].classList.remove('scanning');
       }
       
-      // Check LC first
-      tabLC.classList.add('checked');
+      // Slower approaching error - sensing something
+      chars[4].classList.add('scanning'); // 'g'
+      await sleep(150);
+      chars[4].classList.remove('scanning');
       
+      // Pause on error zone - found it
+      chars[5].classList.add('scanning');
+      chars[6].classList.add('scanning');
       await sleep(400);
       
-      // === TENSION PAUSE ===
-      chars.forEach(c => c.classList.remove('scanning'));
+      // LC checked during scan
+      tabs[0].classList.add('checked');
       
-      await sleep(600); // Dramatic pause
+      await sleep(300);
       
-      // === ERROR DISCOVERY ===
-      // Screen flash
-      screenFlash.classList.add('flash');
-      setTimeout(() => screenFlash.classList.remove('flash'), 400);
-      
-      // Danger vignette
-      vignetteDanger.classList.add('visible');
-      
-      // Error characters shake
+      // === DISCOVERY === (let danger land)
+      chars[5].classList.remove('scanning');
+      chars[6].classList.remove('scanning');
       chars[5].classList.add('error');
       chars[6].classList.add('error');
       
-      // Spotlight on typo word
+      await sleep(80);
+      
+      screenFlash.classList.add('flash');
+      setTimeout(() => screenFlash.classList.remove('flash'), 350);
+      
+      await sleep(120);
+      
+      vignetteDanger.classList.add('visible');
       typoWord.classList.add('spotlight');
       
-      // Card error state
+      await sleep(200);
+      
+      // Card reveals error
+      portRow.classList.add('error');
+      portValue.innerHTML = 'Shangai';
+      portValue.style.color = 'var(--error)';
+      blBadge.textContent = '1 Issue';
+      blBadge.classList.remove('checking');
+      blBadge.classList.add('issue');
+      
+      await sleep(200);
+      
+      errorBlock.classList.add('visible');
+      
+      await sleep(100);
+      
       analysisCard.classList.add('has-error');
-      
-      // Tab error state
-      tabBL.classList.add('has-error', 'active');
-      tabLC.classList.remove('active');
-      
-      // Status update
       cardStatus.classList.remove('analyzing');
       cardStatus.classList.add('error');
-      statusText.textContent = 'Issue Found';
+      statusText.textContent = 'Discrepancy';
       document.querySelector('.status-dot').classList.remove('pulse');
       
-      await sleep(1200);
+      await sleep(150);
       
-      // Check remaining docs
-      tabINV.classList.add('checked');
-      await sleep(200);
-      tabPL.classList.add('checked');
-      await sleep(200);
-      tabCO.classList.add('checked');
+      tabs[1].classList.add('has-error', 'active');
+      tabs[0].classList.remove('active');
       
-      await sleep(800);
+      // Dwell on error - let it sink in
+      await sleep(1400);
       
-      // === RESOLUTION / VICTORY ===
-      // Remove danger state
+      // Background checks (subtle)
+      tabs[2].classList.add('checked');
+      await sleep(180);
+      tabs[3].classList.add('checked');
+      await sleep(180);
+      tabs[4].classList.add('checked');
+      
+      await sleep(500);
+      
+      // === BREATH BEFORE CORRECTION === (AI understands, prepares)
+      vignetteDanger.style.transition = 'opacity 0.6s ease';
       vignetteDanger.classList.remove('visible');
+      typoWord.classList.remove('spotlight');
       
-      // Slash through the error
-      typoSlash.classList.add('animate');
+      await sleep(500); // Moment of stillness
+      
+      // === CORRECTION === (surgical precision)
+      await runCorrection();
+      
+      await sleep(400); // Let correction land
+      
+      // === SUCCESS CASCADE === (each moment gets respect)
+      
+      // 1. Word glows success
+      typoWord.classList.add('success');
+      vignetteSuccess.classList.add('visible');
       
       await sleep(300);
       
-      // Fix the characters with pop animation
-      chars.forEach(c => c.classList.remove('error'));
-      typoWord.classList.remove('spotlight');
-      typoWord.classList.add('success');
-      
-      // Replace with correct spelling
-      const charContainer = typoWord;
-      const oldChars = charContainer.querySelectorAll('.char');
-      oldChars.forEach(c => c.remove());
-      
-      const correctChars = 'Shanghai'.split('');
-      correctChars.forEach((char, i) => {
-        const span = document.createElement('span');
-        span.className = 'char fixed';
-        span.textContent = char;
-        span.style.animationDelay = `${i * 0.05}s`;
-        charContainer.insertBefore(span, typoSlash);
-      });
-      
-      // Particles!
-      createParticles(typoWord);
-      
-      // Success vignette
-      vignetteSuccess.classList.add('visible');
-      
-      // Hide slash after a moment
-      await sleep(400);
-      typoSlash.style.opacity = '0';
-      
-      // Update card state
+      // 2. Card border changes
       analysisCard.classList.remove('has-error');
       analysisCard.classList.add('resolved');
       
+      await sleep(250);
+      
+      // 3. Status updates
       cardStatus.classList.remove('error');
       cardStatus.classList.add('resolved');
-      statusText.textContent = 'Resolved';
+      statusText.textContent = 'Corrected';
       
-      // Update verdict to show learning
+      await sleep(250);
+      
+      // 4. GO badge - the hero moment
       verdictBadge.textContent = 'GO';
       verdictBadge.classList.remove('no-go');
       verdictBadge.classList.add('go');
       document.getElementById('verdictText').innerHTML = '<strong>Caught</strong> · Saved to your patterns';
       
-      // Fix BL tab
-      tabBL.classList.remove('has-error');
-      tabBL.classList.add('checked');
+      tabs[1].classList.remove('has-error');
+      tabs[1].classList.add('checked');
       
-      // Stop timer
-      clearInterval(timeInterval);
+      clearInterval(timerInterval);
       updateTime();
       
       await sleep(400);
       
-      // Fade success vignette
+      // 5. Vignette fades
+      vignetteSuccess.style.transition = 'opacity 0.6s ease';
       vignetteSuccess.classList.remove('visible');
       
-      // Show footer
+      await sleep(300);
+      
+      // 6. Footer appears
       cardFooter.classList.add('visible');
       
       await sleep(400);
       
-      // Show CTA
-      ctaSection.classList.add('visible');
+      // 7. CTA rises
+      document.getElementById('ctaIntro').classList.add('visible');
+      document.getElementById('ctaExtra').classList.add('visible');
       
       await sleep(600);
       
-      // Fade out the threat — Lucas eliminated it
-      const heroLine2 = document.querySelector('.hero-line-2');
-      heroLine2.style.transition = 'opacity 0.8s ease';
+      // === SETTLE === (gentle conclusion)
+      
+      // Threat line: first fade text, then collapse space
+      heroLine2.style.transition = 'opacity 0.6s ease';
       heroLine2.style.opacity = '0';
       
-      await sleep(800);
+      await sleep(500);
       
-      // Collapse the space smoothly
-      heroLine2.style.height = heroLine2.offsetHeight + 'px';
-      heroLine2.style.overflow = 'hidden';
-      heroLine2.style.transition = 'height 0.5s ease, margin 0.5s ease';
-      await sleep(50); // Let browser register the height
+      const h = heroLine2.offsetHeight;
+      heroLine2.style.height = h + 'px';
+      heroLine2.offsetHeight; // force reflow
+      heroLine2.style.transition = 'height 0.5s ease';
       heroLine2.style.height = '0';
-      heroLine2.style.marginTop = '0';
-      heroLine2.style.marginBottom = '0';
       
       await sleep(600);
       
-      // Subtle AI wink — highlight "ai" in Shanghai (persistent glow)
-      const fixedChars = typoWord.querySelectorAll('.char');
-      if (fixedChars.length >= 8) {
-        // "Shanghai" - chars 6 and 7 are "a" and "i"
-        fixedChars[6].classList.add('ai-wink');
-        fixedChars[7].classList.add('ai-wink');
-      }
+      // === AI SIGNATURE === (quiet confidence)
+      const finalChars = typoWord.querySelectorAll('.char');
+      // "Shanghai" = S(0) h(1) a(2) n(3) g(4) h(5) a(6) i(7)
+      // We want "ai" at positions 6 and 7
+      // Clean up animation classes and inline styles first
+      [6, 7].forEach(idx => {
+        const char = finalChars[idx];
+        if (char) {
+          char.classList.remove('inserted', 'settling', 'lifting', 'fixed');
+          char.removeAttribute('style');
+          char.classList.add('ai-wink');
+        }
+      });
     }
     
     runDemo();
