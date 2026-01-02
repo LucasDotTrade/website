@@ -635,19 +635,6 @@
       color: var(--text-secondary);
     }
     
-    .cta-mailto {
-      color: var(--text-secondary);
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    
-    .cta-mailto:hover {
-      color: var(--text);
-      border-bottom-color: var(--text-secondary);
-    }
-    
     .cta-email.copied {
       color: var(--lime);
       text-shadow: 0 0 20px var(--lime-glow);
@@ -1034,7 +1021,7 @@
           <h2 class="cta-headline">Ship with confidence.</h2>
           <p class="cta-soul">"I'll check. You ship." — Lucas</p>
         </div>
-        <a href="mailto:lucas@lucas.trade" class="cta-agent" id="ctaAgent">
+        <div class="cta-agent" id="ctaAgent">
           <div class="cta-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="4" width="20" height="16" rx="2"/>
@@ -1043,9 +1030,9 @@
           </div>
           <div class="cta-content">
             <span class="cta-email" id="ctaEmail">lucas@lucas.trade</span>
-            <span class="cta-hint">Forward your docs · <span class="cta-mailto">open draft</span></span>
+            <span class="cta-hint">Forward your docs</span>
           </div>
-        </a>
+        </div>
         <div class="cta-extra" id="ctaExtra">
           <div class="cta-proof-points">
             <span class="proof-point"><span class="proof-icon">📧</span> Just forward</span>
@@ -1530,7 +1517,6 @@
     // CTA Copy to Clipboard
     const ctaAgent = document.getElementById('ctaAgent');
     const ctaEmail = document.getElementById('ctaEmail');
-    const ctaMailto = document.querySelector('.cta-mailto');
     const ctaIcon = document.querySelector('.cta-icon');
     const emailAddress = 'lucas@lucas.trade';
     
@@ -1574,16 +1560,7 @@
       setTimeout(() => element.classList.remove('copied'), duration);
     }
     
-    ctaAgent.addEventListener('click', async (e) => {
-      // If user clicked "open draft", let mailto work
-      if (e.target.closest('.cta-mailto')) {
-        e.preventDefault();
-        window.location.href = 'mailto:' + emailAddress + '?subject=Doc%20check%20request';
-        return;
-      }
-      
-      e.preventDefault();
-      
+    ctaAgent.addEventListener('click', async () => {
       try {
         await navigator.clipboard.writeText(emailAddress);
         shootEnvelopes(ctaIcon);
@@ -1592,8 +1569,8 @@
           unscrambleText(ctaEmail, emailAddress, 300);
         }, 1200);
       } catch {
-        // Fallback to mailto if clipboard blocked
-        window.location.href = 'mailto:' + emailAddress;
+        // Fallback: show prompt to copy manually
+        prompt('Copy this email:', emailAddress);
       }
     });
   </script>
