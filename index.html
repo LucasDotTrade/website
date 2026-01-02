@@ -590,60 +590,110 @@
     }
     
     /* ═══════════════════════════════════════════════════════════
-       FAQ — V4 Monospace
+       FAQ — Collapsible Terminal
        ═══════════════════════════════════════════════════════════ */
     
-    .lucas-faq {
-      max-width: 420px;
-      margin: 0 auto;
-      padding: 64px 24px;
-    }
-
-    .lucas-faq-item + .lucas-faq-item {
-      margin-top: 24px;
-    }
-
-    .lucas-faq-q {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 12px;
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.28);
-      margin-bottom: 4px;
-      letter-spacing: -0.02em;
-    }
-
-    .lucas-faq-q::before {
-      content: '// ';
-      opacity: 0.5;
-    }
-
-    .lucas-faq-a {
+    .faq-trigger {
       font-family: 'JetBrains Mono', monospace;
       font-size: 13px;
       font-weight: 500;
-      color: rgba(255, 255, 255, 0.92);
-      letter-spacing: -0.02em;
+      color: var(--text-secondary);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 20px 0 8px;
+      margin-top: 20px;
+      transition: color 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0;
     }
-
-    .lucas-faq-item {
+    
+    .faq-trigger:hover {
+      color: var(--text);
+    }
+    
+    .faq-trigger .prompt {
+      color: var(--lime);
+      opacity: 0.6;
+      margin-right: 6px;
+    }
+    
+    .faq-trigger .cursor {
+      display: inline-block;
+      width: 8px;
+      height: 15px;
+      background: var(--lime);
+      opacity: 0.7;
+      margin-left: 2px;
+      animation: blink 1s step-end infinite;
+    }
+    
+    .faq-trigger.expanded .cursor {
+      animation: none;
       opacity: 0;
-      animation: lucasFaqFadeIn 0.5s ease forwards;
-      animation-delay: 8s;
     }
-
-    .lucas-faq-item:nth-child(1) { animation-delay: 8.1s; }
-    .lucas-faq-item:nth-child(2) { animation-delay: 8.18s; }
-    .lucas-faq-item:nth-child(3) { animation-delay: 8.26s; }
-
-    @keyframes lucasFaqFadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(6px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 0; }
+    }
+    
+    .faq-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .faq-content.expanded {
+      max-height: 300px;
+    }
+    
+    .faq-inner {
+      padding: 12px 0 8px 0;
+    }
+    
+    .faq-item {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    .faq-content.expanded .faq-item {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .faq-content.expanded .faq-item:nth-child(1) { transition-delay: 0.05s; }
+    .faq-content.expanded .faq-item:nth-child(2) { transition-delay: 0.15s; }
+    .faq-content.expanded .faq-item:nth-child(3) { transition-delay: 0.25s; }
+    
+    .faq-item + .faq-item {
+      margin-top: 10px;
+    }
+    
+    .faq-q {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.32);
+      white-space: nowrap;
+      min-width: 120px;
+    }
+    
+    .faq-q::before {
+      content: '// ';
+      opacity: 0.5;
+    }
+    
+    .faq-a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.8);
     }
     
     /* Footer - Premium */
@@ -723,16 +773,23 @@
       .footer { padding: 32px 20px; }
       
       /* FAQ Mobile */
-      .lucas-faq {
-        padding: 48px 20px;
-      }
-      
-      .lucas-faq-q {
-        font-size: 11px;
-      }
-      
-      .lucas-faq-a {
+      .faq-trigger {
+        padding: 16px 0 8px;
+        margin-top: 16px;
         font-size: 12px;
+      }
+      
+      .faq-q {
+        font-size: 10px;
+        min-width: 100px;
+      }
+      
+      .faq-a {
+        font-size: 10px;
+      }
+      
+      .faq-item {
+        gap: 8px;
       }
     }
   </style>
@@ -860,10 +917,10 @@
         </a>
         <div class="cta-extra" id="ctaExtra">
           <div class="cta-proof-points">
-            <span class="proof-point"><span class="proof-icon lime">✦</span> 100% free</span>
-            <span class="proof-point"><span class="proof-icon">⚡</span> Reply in 2 min</span>
-            <span class="proof-point"><span class="proof-icon">📄</span> One doc is enough</span>
-            <span class="proof-point"><span class="proof-icon lime">🧠</span> Lucas remembers</span>
+            <span class="proof-point"><span class="proof-icon">📧</span> Just forward</span>
+            <span class="proof-point"><span class="proof-icon">⚡</span> 2 min</span>
+            <span class="proof-point"><span class="proof-icon lime">🧠</span> Learns you</span>
+            <span class="proof-point"><span class="proof-icon lime">✦</span> Free</span>
           </div>
           <div class="cta-whatsapp">
             <svg viewBox="0 0 24 24" fill="currentColor">
@@ -874,24 +931,32 @@
               <span class="whatsapp-status">coming soon</span>
             </div>
           </div>
+          
+          <!-- Collapsible FAQ -->
+          <button class="faq-trigger" id="faqTrigger">
+            <span class="prompt">&gt;</span>
+            <span class="text">questions?</span>
+            <span class="cursor"></span>
+          </button>
+          <div class="faq-content" id="faqContent">
+            <div class="faq-inner">
+              <div class="faq-item">
+                <span class="faq-q">Free?</span>
+                <span class="faq-a">Yes. No signup, no credit card.</span>
+              </div>
+              <div class="faq-item">
+                <span class="faq-q">Secure?</span>
+                <span class="faq-a">Encrypted and auto-deleted.</span>
+              </div>
+              <div class="faq-item">
+                <span class="faq-q">Miss something?</span>
+                <span class="faq-a">Banks are the final check. Lucas is first.</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
-    
-    <div class="lucas-faq">
-      <div class="lucas-faq-item">
-        <p class="lucas-faq-q">Is it really free?</p>
-        <p class="lucas-faq-a">Yes. No signup, no credit card.</p>
-      </div>
-      <div class="lucas-faq-item">
-        <p class="lucas-faq-q">Is my data secure?</p>
-        <p class="lucas-faq-a">Encrypted and auto-deleted.</p>
-      </div>
-      <div class="lucas-faq-item">
-        <p class="lucas-faq-q">What if Lucas misses something?</p>
-        <p class="lucas-faq-a">Always verify with your bank.</p>
-      </div>
-    </div>
     
     <footer class="footer">
       <p class="footer-built">Built for <strong>Jebel Ali traders</strong></p>
@@ -1213,6 +1278,15 @@
     }
     
     runDemo();
+    
+    // FAQ Toggle
+    const faqTrigger = document.getElementById('faqTrigger');
+    const faqContent = document.getElementById('faqContent');
+    
+    faqTrigger.addEventListener('click', () => {
+      faqTrigger.classList.toggle('expanded');
+      faqContent.classList.toggle('expanded');
+    });
   </script>
 </body>
 </html>
