@@ -538,19 +538,129 @@
       color: var(--text-secondary);
       margin-bottom: 28px;
     }
-    .cta-email-card { text-decoration: none; border-radius: 20px; }
-    .cta-email-inner {
-      display: flex; align-items: center; gap: 20px; padding: 24px 36px;
-      background: linear-gradient(135deg, var(--bg-elevated), var(--bg-card));
-      border: 1px solid var(--border-active); border-radius: 20px;
+    
+    /* 2030 Agentic CTA - Glassmorphism */
+    .cta-agent {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      padding: 28px 48px 32px;
+      border-radius: 24px;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.03) 0%,
+        rgba(255, 255, 255, 0.01) 100%
+      );
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 
+        0 4px 24px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .cta-agent::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      padding: 1px;
+      background: linear-gradient(
+        135deg,
+        rgba(222, 255, 155, 0.15) 0%,
+        rgba(222, 255, 155, 0) 50%,
+        rgba(222, 255, 155, 0.08) 100%
+      );
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    
+    .cta-agent:hover {
+      transform: translateY(-4px);
+      border-color: rgba(222, 255, 155, 0.15);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+        0 0 40px rgba(222, 255, 155, 0.08);
+    }
+    
+    .cta-agent:hover::before {
+      opacity: 1;
+    }
+    
+    .cta-agent:hover .cta-email {
+      text-shadow: 0 0 30px var(--lime-glow);
+    }
+    
+    .cta-agent:hover .cta-status-dot {
+      box-shadow: 0 0 16px var(--lime-glow);
+    }
+    
+    .cta-agent:active {
+      transform: translateY(-2px);
+      transition: all 0.1s ease;
+    }
+    
+    .cta-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+    
+    .cta-status-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--lime);
+      border-radius: 50%;
+      animation: agentPulse 2.5s ease-in-out infinite;
+      box-shadow: 0 0 8px var(--lime-glow);
+    }
+    
+    @keyframes agentPulse {
+      0%, 100% { 
+        opacity: 0.7;
+        box-shadow: 0 0 6px rgba(222, 255, 155, 0.3);
+      }
+      50% { 
+        opacity: 1;
+        box-shadow: 0 0 12px var(--lime-glow);
+      }
+    }
+    
+    .cta-email {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.02em;
       transition: all 0.3s ease;
     }
-    .cta-email-card:hover .cta-email-inner { border-color: var(--lime-border); transform: translateY(-4px); }
-    .cta-email-icon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: var(--lime-subtle); border: 1px solid var(--lime-border); border-radius: 12px; }
-    .cta-email-icon svg { width: 24px; height: 24px; stroke: var(--lime); }
-    .cta-email-content { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
-    .cta-email-address { font-family: 'JetBrains Mono', monospace; font-size: 1.125rem; font-weight: 500; color: var(--text); }
-    .cta-email-hint { font-size: 0.8125rem; color: var(--text-muted); }
+    
+    .cta-lucas-voice {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9375rem;
+      font-style: italic;
+      color: var(--lime);
+      opacity: 0.75;
+      letter-spacing: 0.01em;
+    }
+    
     .cta-proof-points { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
     .proof-point { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--text-secondary); }
     .proof-icon { font-size: 0.875rem; }
@@ -767,8 +877,8 @@
       .tab-content { padding: 24px 20px; min-height: 280px; }
       .card-footer { flex-direction: column; gap: 14px; align-items: flex-start; }
       .cta-section { margin-top: 48px; }
-      .cta-email-inner { flex-direction: column; padding: 20px; text-align: center; }
-      .cta-email-content { align-items: center; }
+      .cta-agent { padding: 24px 20px; }
+      .cta-email { font-size: 1.125rem; }
       .cta-proof-points { flex-direction: column; gap: 12px; }
       .footer { padding: 32px 20px; }
       
@@ -906,14 +1016,13 @@
           <h2 class="cta-headline">Ship with confidence.</h2>
           <p class="cta-soul">"I'll check. You ship." — Lucas</p>
         </div>
-        <a href="mailto:lucas@lucas.trade" class="cta-email-card">
-          <div class="cta-email-inner">
-            <div class="cta-email-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6L12 13L2 6"/></svg></div>
-            <div class="cta-email-content">
-              <span class="cta-email-address">lucas@lucas.trade</span>
-              <span class="cta-email-hint">Forward your docs · Free</span>
-            </div>
+        <a href="mailto:lucas@lucas.trade" class="cta-agent">
+          <div class="cta-status">
+            <span class="cta-status-dot"></span>
+            <span>Lucas is ready</span>
           </div>
+          <span class="cta-email">lucas@lucas.trade</span>
+          <span class="cta-lucas-voice">"Send it. I'll check."</span>
         </a>
         <div class="cta-extra" id="ctaExtra">
           <div class="cta-proof-points">
