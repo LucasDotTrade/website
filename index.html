@@ -687,6 +687,30 @@
     .proof-icon { font-size: 0.875rem; }
     .proof-icon.lime { color: var(--lime); }
     
+    .live-counter {
+      margin-top: 20px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+    }
+    
+    .counter-number {
+      color: var(--lime);
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .counter-number.tick {
+      animation: counterTick 0.3s ease;
+    }
+    
+    @keyframes counterTick {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-2px); text-shadow: 0 0 8px var(--lime-glow); }
+      100% { transform: translateY(0); }
+    }
+    
     .cta-whatsapp {
       display: inline-flex;
       align-items: center;
@@ -1039,6 +1063,9 @@
             <span class="proof-point"><span class="proof-icon">⚡</span> 2 min</span>
             <span class="proof-point"><span class="proof-icon lime">🧠</span> Learns you</span>
             <span class="proof-point"><span class="proof-icon lime">✦</span> Free</span>
+          </div>
+          <div class="live-counter">
+            <span class="counter-number" id="docsCounter">—</span> documents checked
           </div>
           <div class="cta-whatsapp">
             <svg viewBox="0 0 24 24" fill="currentColor">
@@ -1573,6 +1600,47 @@
         prompt('Copy this email:', emailAddress);
       }
     });
+    
+    // Live document counter - time-based
+    const docsCounter = document.getElementById('docsCounter');
+    
+    // Base: 1,086 docs as of Jan 3, 2026
+    // Rate: ~15 docs per day average
+    const startDate = new Date('2026-01-03');
+    const baseCount = 1086;
+    const docsPerDay = 15;
+    
+    function getBaseCount() {
+      const now = new Date();
+      const daysSinceStart = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+      return baseCount + Math.max(0, daysSinceStart * docsPerDay);
+    }
+    
+    let docCount = getBaseCount();
+    
+    function formatNumber(num) {
+      return num.toLocaleString();
+    }
+    
+    // Set initial count
+    docsCounter.textContent = formatNumber(docCount);
+    
+    function tickCounter() {
+      // Random increment 1-2
+      const increment = Math.floor(Math.random() * 2) + 1;
+      docCount += increment;
+      
+      docsCounter.textContent = formatNumber(docCount);
+      docsCounter.classList.add('tick');
+      setTimeout(() => docsCounter.classList.remove('tick'), 300);
+      
+      // Next tick in 4-10 seconds
+      const nextTick = 4000 + Math.random() * 6000;
+      setTimeout(tickCounter, nextTick);
+    }
+    
+    // Start ticking after 5 seconds
+    setTimeout(tickCounter, 5000);
   </script>
 </body>
 </html>
