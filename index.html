@@ -589,6 +589,63 @@
       color: var(--text-muted);
     }
     
+    /* ═══════════════════════════════════════════════════════════
+       FAQ — V4 Monospace
+       ═══════════════════════════════════════════════════════════ */
+    
+    .lucas-faq {
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 64px 24px;
+    }
+
+    .lucas-faq-item + .lucas-faq-item {
+      margin-top: 24px;
+    }
+
+    .lucas-faq-q {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.28);
+      margin-bottom: 4px;
+      letter-spacing: -0.02em;
+    }
+
+    .lucas-faq-q::before {
+      content: '// ';
+      opacity: 0.5;
+    }
+
+    .lucas-faq-a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.92);
+      letter-spacing: -0.02em;
+    }
+
+    .lucas-faq-item {
+      opacity: 0;
+      animation: lucasFaqFadeIn 0.5s ease forwards;
+      animation-delay: 8s;
+    }
+
+    .lucas-faq-item:nth-child(1) { animation-delay: 8.1s; }
+    .lucas-faq-item:nth-child(2) { animation-delay: 8.18s; }
+    .lucas-faq-item:nth-child(3) { animation-delay: 8.26s; }
+
+    @keyframes lucasFaqFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
     /* Footer - Premium */
     .footer { 
       padding: 48px 48px 40px; 
@@ -664,6 +721,19 @@
       .cta-email-content { align-items: center; }
       .cta-proof-points { flex-direction: column; gap: 12px; }
       .footer { padding: 32px 20px; }
+      
+      /* FAQ Mobile */
+      .lucas-faq {
+        padding: 48px 20px;
+      }
+      
+      .lucas-faq-q {
+        font-size: 11px;
+      }
+      
+      .lucas-faq-a {
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -809,23 +879,20 @@
     </main>
     
     <div class="lucas-faq">
-  
-  <div class="lucas-faq-item">
-    <p class="lucas-faq-q">Is it really free?</p>
-    <p class="lucas-faq-a">Yes. No signup, no credit card.</p>
-  </div>
-  
-  <div class="lucas-faq-item">
-    <p class="lucas-faq-q">Is my data secure?</p>
-    <p class="lucas-faq-a">Encrypted and auto-deleted.</p>
-  </div>
-  
-  <div class="lucas-faq-item">
-    <p class="lucas-faq-q">What if Lucas misses something?</p>
-    <p class="lucas-faq-a">Always verify with your bank.</p>
-  </div>
-  
-</div>
+      <div class="lucas-faq-item">
+        <p class="lucas-faq-q">Is it really free?</p>
+        <p class="lucas-faq-a">Yes. No signup, no credit card.</p>
+      </div>
+      <div class="lucas-faq-item">
+        <p class="lucas-faq-q">Is my data secure?</p>
+        <p class="lucas-faq-a">Encrypted and auto-deleted.</p>
+      </div>
+      <div class="lucas-faq-item">
+        <p class="lucas-faq-q">What if Lucas misses something?</p>
+        <p class="lucas-faq-a">Always verify with your bank.</p>
+      </div>
+    </div>
+    
     <footer class="footer">
       <p class="footer-built">Built for <strong>Jebel Ali traders</strong></p>
       <div class="footer-cities">
