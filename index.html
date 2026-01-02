@@ -1442,7 +1442,7 @@
         const duration = 500 + Math.random() * 300;
         
         const destX = originX + Math.cos(angle) * distance;
-        const destY = originY + Math.sin(angle) * distance - 50;
+        const destY = originY + Math.sin(angle) * distance;
         
         const startTime = Date.now();
         let lastX = originX;
@@ -1455,8 +1455,9 @@
           // Ease out exponential for snappier start
           const eased = 1 - Math.pow(1 - progress, 4);
           
+          // Straight trajectory outward, no arc down
           const x = originX + (destX - originX) * eased;
-          const y = originY + (destY - originY) * eased - (Math.sin(progress * Math.PI) * 40);
+          const y = originY + (destY - originY) * eased;
           
           // Motion blur effect via stretch
           const speed = Math.sqrt(Math.pow(x - lastX, 2) + Math.pow(y - lastY, 2));
@@ -1465,8 +1466,8 @@
           
           particle.style.left = x + 'px';
           particle.style.top = y + 'px';
-          particle.style.opacity = 1 - (progress * 0.8);
-          particle.style.transform = `translate(-50%, -50%) rotate(${moveAngle}deg) scaleX(${stretchX}) scale(${1 - progress * 0.3})`;
+          particle.style.opacity = 1 - (progress * 0.7);
+          particle.style.transform = `translate(-50%, -50%) rotate(${moveAngle}deg) scaleX(${stretchX}) scale(${1 - progress * 0.2})`;
           particle.style.filter = `drop-shadow(0 0 ${8 - progress * 6}px var(--lime-glow))`;
           
           lastX = x;
@@ -1475,8 +1476,8 @@
           if (progress < 1) {
             requestAnimationFrame(animateParticle);
           } else {
-            // Dissolve into sparks
-            createSparks(x, y, 3);
+            // Dissolve into sparks continuing same trajectory
+            createSparks(x, y, 3, angle);
             particle.remove();
           }
         }
@@ -1485,8 +1486,8 @@
       }
     }
     
-    // Spark dissolution
-    function createSparks(x, y, count) {
+    // Spark dissolution - continues outward
+    function createSparks(x, y, count, trajectoryAngle) {
       for (let i = 0; i < count; i++) {
         const spark = document.createElement('div');
         spark.className = 'spark';
@@ -1494,12 +1495,13 @@
         spark.style.top = y + 'px';
         document.body.appendChild(spark);
         
-        const angle = Math.random() * Math.PI * 2;
-        const distance = 15 + Math.random() * 25;
-        const duration = 200 + Math.random() * 200;
+        // Spread sparks in a cone continuing the trajectory
+        const spreadAngle = trajectoryAngle + (Math.random() * 0.8 - 0.4);
+        const distance = 20 + Math.random() * 30;
+        const duration = 250 + Math.random() * 150;
         
-        const destX = x + Math.cos(angle) * distance;
-        const destY = y + Math.sin(angle) * distance;
+        const destX = x + Math.cos(spreadAngle) * distance;
+        const destY = y + Math.sin(spreadAngle) * distance;
         
         const startTime = Date.now();
         
@@ -1512,7 +1514,7 @@
           spark.style.left = (x + (destX - x) * eased) + 'px';
           spark.style.top = (y + (destY - y) * eased) + 'px';
           spark.style.opacity = 1 - progress;
-          spark.style.transform = `scale(${1 - progress})`;
+          spark.style.transform = `scale(${1 - progress * 0.5})`;
           
           if (progress < 1) {
             requestAnimationFrame(animateSpark);
