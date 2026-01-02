@@ -635,6 +635,34 @@
       color: var(--text-secondary);
     }
     
+    .cta-mailto {
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .cta-mailto:hover {
+      color: var(--text);
+      border-bottom-color: var(--text-secondary);
+    }
+    
+    .cta-email.copied {
+      color: var(--lime);
+      text-shadow: 0 0 20px var(--lime-glow);
+    }
+    
+    /* Envelope particles */
+    .envelope-particle {
+      position: fixed;
+      font-size: 16px;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 1;
+      transition: none;
+    }
+    
     .cta-proof-points { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
     .proof-point { display: flex; align-items: center; gap: 6px; font-size: 0.8125rem; color: var(--text-secondary); }
     .proof-icon { font-size: 0.875rem; }
@@ -974,7 +1002,7 @@
           <h2 class="cta-headline">Ship with confidence.</h2>
           <p class="cta-soul">"I'll check. You ship." — Lucas</p>
         </div>
-        <a href="mailto:lucas@lucas.trade" class="cta-agent">
+        <a href="mailto:lucas@lucas.trade" class="cta-agent" id="ctaAgent">
           <div class="cta-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="4" width="20" height="16" rx="2"/>
@@ -982,8 +1010,8 @@
             </svg>
           </div>
           <div class="cta-content">
-            <span class="cta-email">lucas@lucas.trade</span>
-            <span class="cta-hint">Forward your docs</span>
+            <span class="cta-email" id="ctaEmail">lucas@lucas.trade</span>
+            <span class="cta-hint">Forward your docs · <span class="cta-mailto">open draft</span></span>
           </div>
         </a>
         <div class="cta-extra" id="ctaExtra">
@@ -1031,7 +1059,7 @@
     
     <footer class="footer">
       <p class="footer-built">Built for <strong>Jebel Ali traders</strong></p>
-      <p class="footer-company">YOYOGI FZCO · Dubai</p>
+      <p class="footer-company">YOYOGI FZCO · Dubai Silicon Oasis, UAE</p>
     </footer>
   </div>
 
@@ -1348,6 +1376,131 @@
     faqTrigger.addEventListener('click', () => {
       faqTrigger.classList.toggle('expanded');
       faqContent.classList.toggle('expanded');
+    });
+    
+    // Envelope particle effect
+    function shootEnvelopes(originElement) {
+      const rect = originElement.getBoundingClientRect();
+      const originX = rect.left + rect.width / 2;
+      const originY = rect.top + rect.height / 2;
+      
+      const envelopes = ['✉', '📧', '💌', '✉', '✉'];
+      const particleCount = 8;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'envelope-particle';
+        particle.textContent = envelopes[Math.floor(Math.random() * envelopes.length)];
+        particle.style.left = originX + 'px';
+        particle.style.top = originY + 'px';
+        document.body.appendChild(particle);
+        
+        // Random direction and distance
+        const angle = (Math.PI * 2 * i / particleCount) + (Math.random() * 0.5 - 0.25);
+        const distance = 80 + Math.random() * 120;
+        const duration = 600 + Math.random() * 400;
+        
+        const destX = originX + Math.cos(angle) * distance;
+        const destY = originY + Math.sin(angle) * distance - 40; // Slight upward bias
+        
+        // Animate
+        const startTime = Date.now();
+        
+        function animateParticle() {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          // Ease out cubic
+          const eased = 1 - Math.pow(1 - progress, 3);
+          
+          const x = originX + (destX - originX) * eased;
+          const y = originY + (destY - originY) * eased - (Math.sin(progress * Math.PI) * 30); // Arc
+          
+          particle.style.left = x + 'px';
+          particle.style.top = y + 'px';
+          particle.style.opacity = 1 - progress;
+          particle.style.transform = `scale(${1 - progress * 0.5}) rotate(${progress * 360}deg)`;
+          
+          if (progress < 1) {
+            requestAnimationFrame(animateParticle);
+          } else {
+            particle.remove();
+          }
+        }
+        
+        // Stagger start
+        setTimeout(() => requestAnimationFrame(animateParticle), i * 30);
+      }
+    }
+    
+    // CTA Copy to Clipboard
+    const ctaAgent = document.getElementById('ctaAgent');
+    const ctaEmail = document.getElementById('ctaEmail');
+    const ctaMailto = document.querySelector('.cta-mailto');
+    const ctaIcon = document.querySelector('.cta-icon');
+    const emailAddress = 'lucas@lucas.trade';
+    
+    // Character scramble effect
+    function scrambleText(element, finalText, duration = 600) {
+      const chars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`0123456789';
+      const originalText = element.textContent;
+      const maxLength = Math.max(originalText.length, finalText.length);
+      const startTime = Date.now();
+      
+      element.classList.add('copied');
+      
+      function update() {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Eased progress for smoother landing
+        const easedProgress = 1 - Math.pow(1 - progress, 3);
+        
+        let result = '';
+        for (let i = 0; i < finalText.length; i++) {
+          if (easedProgress === 1 || Math.random() < easedProgress) {
+            result += finalText[i];
+          } else {
+            result += chars[Math.floor(Math.random() * chars.length)];
+          }
+        }
+        
+        element.textContent = result;
+        
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+      
+      requestAnimationFrame(update);
+    }
+    
+    function unscrambleText(element, finalText, duration = 400) {
+      scrambleText(element, finalText, duration);
+      setTimeout(() => element.classList.remove('copied'), duration);
+    }
+    
+    ctaAgent.addEventListener('click', async (e) => {
+      // If user clicked "open draft", let mailto work
+      if (e.target.closest('.cta-mailto')) {
+        e.preventDefault();
+        window.location.href = 'mailto:' + emailAddress + '?subject=Doc%20check%20request';
+        return;
+      }
+      
+      e.preventDefault();
+      
+      try {
+        await navigator.clipboard.writeText(emailAddress);
+        shootEnvelopes(ctaIcon);
+        scrambleText(ctaEmail, 'copied ✓', 400);
+        setTimeout(() => {
+          unscrambleText(ctaEmail, emailAddress, 300);
+        }, 1200);
+      } catch {
+        // Fallback to mailto if clipboard blocked
+        window.location.href = 'mailto:' + emailAddress;
+      }
     });
   </script>
 </body>
