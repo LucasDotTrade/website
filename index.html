@@ -539,71 +539,46 @@
       margin-bottom: 28px;
     }
     
-    /* 2030 Agentic CTA - Glassmorphism */
+    /* 2030 Agentic CTA - Original Structure, Premium Polish */
     .cta-agent {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 14px;
+      gap: 20px;
       text-decoration: none;
-      padding: 28px 48px 32px;
-      border-radius: 24px;
+      padding: 24px 36px;
+      border-radius: 20px;
       background: linear-gradient(
         135deg,
-        rgba(255, 255, 255, 0.03) 0%,
+        rgba(255, 255, 255, 0.04) 0%,
         rgba(255, 255, 255, 0.01) 100%
       );
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: 
         0 4px 24px rgba(0, 0, 0, 0.2),
         0 0 0 1px rgba(255, 255, 255, 0.03) inset;
-      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
       cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .cta-agent::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 24px;
-      padding: 1px;
-      background: linear-gradient(
-        135deg,
-        rgba(222, 255, 155, 0.15) 0%,
-        rgba(222, 255, 155, 0) 50%,
-        rgba(222, 255, 155, 0.08) 100%
-      );
-      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      opacity: 0;
-      transition: opacity 0.4s ease;
     }
     
     .cta-agent:hover {
       transform: translateY(-4px);
-      border-color: rgba(222, 255, 155, 0.15);
+      border-color: rgba(222, 255, 155, 0.2);
       box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 12px 40px rgba(0, 0, 0, 0.3),
         0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-        0 0 40px rgba(222, 255, 155, 0.08);
+        0 0 60px rgba(222, 255, 155, 0.08);
     }
     
-    .cta-agent:hover::before {
-      opacity: 1;
+    .cta-agent:hover .cta-icon {
+      border-color: var(--lime);
+      box-shadow: 0 0 20px rgba(222, 255, 155, 0.2);
+      transform: translateY(-2px);
     }
     
-    .cta-agent:hover .cta-email {
-      text-shadow: 0 0 30px var(--lime-glow);
-    }
-    
-    .cta-agent:hover .cta-status-dot {
-      box-shadow: 0 0 16px var(--lime-glow);
+    .cta-agent:hover .cta-icon svg {
+      stroke: var(--lime);
     }
     
     .cta-agent:active {
@@ -611,54 +586,53 @@
       transition: all 0.1s ease;
     }
     
-    .cta-status {
+    .cta-icon {
+      width: 52px;
+      height: 52px;
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
+      justify-content: center;
+      background: rgba(222, 255, 155, 0.06);
+      border: 1px solid rgba(222, 255, 155, 0.15);
+      border-radius: 14px;
+      transition: all 0.3s ease;
     }
     
-    .cta-status-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--lime);
-      border-radius: 50%;
-      animation: agentPulse 2.5s ease-in-out infinite;
-      box-shadow: 0 0 8px var(--lime-glow);
+    .cta-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--lime);
+      opacity: 0.9;
+      transition: all 0.3s ease;
     }
     
-    @keyframes agentPulse {
-      0%, 100% { 
-        opacity: 0.7;
-        box-shadow: 0 0 6px rgba(222, 255, 155, 0.3);
-      }
-      50% { 
-        opacity: 1;
-        box-shadow: 0 0 12px var(--lime-glow);
-      }
+    .envelope-flap {
+      transform-origin: center;
+      transition: transform 0.3s ease;
+    }
+    
+    .cta-agent:hover .envelope-flap {
+      transform: translateY(-2px);
+    }
+    
+    .cta-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
     
     .cta-email {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: 600;
       color: var(--text);
       letter-spacing: -0.02em;
-      transition: all 0.3s ease;
     }
     
-    .cta-lucas-voice {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.9375rem;
-      font-style: italic;
-      color: var(--lime);
-      opacity: 0.75;
-      letter-spacing: 0.01em;
+    .cta-hint {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--text-secondary);
     }
     
     .cta-proof-points { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
@@ -877,8 +851,21 @@
       .tab-content { padding: 24px 20px; min-height: 280px; }
       .card-footer { flex-direction: column; gap: 14px; align-items: flex-start; }
       .cta-section { margin-top: 48px; }
-      .cta-agent { padding: 24px 20px; }
-      .cta-email { font-size: 1.125rem; }
+      .cta-agent { 
+        padding: 20px 24px; 
+        gap: 16px;
+      }
+      .cta-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+      }
+      .cta-icon svg {
+        width: 22px;
+        height: 22px;
+      }
+      .cta-email { font-size: 1rem; }
+      .cta-hint { font-size: 0.8125rem; }
       .cta-proof-points { flex-direction: column; gap: 12px; }
       .footer { padding: 32px 20px; }
       
@@ -1017,12 +1004,16 @@
           <p class="cta-soul">"I'll check. You ship." — Lucas</p>
         </div>
         <a href="mailto:lucas@lucas.trade" class="cta-agent">
-          <div class="cta-status">
-            <span class="cta-status-dot"></span>
-            <span>Lucas is ready</span>
+          <div class="cta-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path class="envelope-flap" d="M22 6L12 13L2 6"/>
+            </svg>
           </div>
-          <span class="cta-email">lucas@lucas.trade</span>
-          <span class="cta-lucas-voice">"Send it. I'll check."</span>
+          <div class="cta-content">
+            <span class="cta-email">lucas@lucas.trade</span>
+            <span class="cta-hint">Forward your docs</span>
+          </div>
         </a>
         <div class="cta-extra" id="ctaExtra">
           <div class="cta-proof-points">
