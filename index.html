@@ -653,14 +653,46 @@
       text-shadow: 0 0 20px var(--lime-glow);
     }
     
-    /* Envelope particles */
+    /* 2030 Envelope particles */
     .envelope-particle {
       position: fixed;
-      font-size: 16px;
       pointer-events: none;
       z-index: 9999;
-      opacity: 1;
-      transition: none;
+      filter: drop-shadow(0 0 6px var(--lime-glow));
+    }
+    
+    .envelope-particle svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--lime);
+      fill: none;
+      stroke-width: 1.5;
+    }
+    
+    /* Origin pulse */
+    .cta-icon.pulse {
+      animation: iconPulse 0.4s ease-out;
+    }
+    
+    @keyframes iconPulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(222, 255, 155, 0.6);
+      }
+      100% {
+        box-shadow: 0 0 0 20px rgba(222, 255, 155, 0);
+      }
+    }
+    
+    /* Spark particles */
+    .spark {
+      position: fixed;
+      width: 4px;
+      height: 4px;
+      background: var(--lime);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      box-shadow: 0 0 6px var(--lime-glow);
     }
     
     .cta-proof-points { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 24px; flex-wrap: wrap; }
@@ -1378,58 +1410,118 @@
       faqContent.classList.toggle('expanded');
     });
     
-    // Envelope particle effect
+    // 2030 Envelope particle effect
     function shootEnvelopes(originElement) {
       const rect = originElement.getBoundingClientRect();
       const originX = rect.left + rect.width / 2;
       const originY = rect.top + rect.height / 2;
       
-      const envelopes = ['✉', '📧', '💌', '✉', '✉'];
-      const particleCount = 8;
+      // Pulse effect on icon
+      originElement.classList.add('pulse');
+      setTimeout(() => originElement.classList.remove('pulse'), 400);
+      
+      const particleCount = 10;
+      
+      // SVG envelope template
+      const envelopeSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <path d="M22 6L12 13L2 6"/>
+      </svg>`;
       
       for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
         particle.className = 'envelope-particle';
-        particle.textContent = envelopes[Math.floor(Math.random() * envelopes.length)];
+        particle.innerHTML = envelopeSVG;
         particle.style.left = originX + 'px';
         particle.style.top = originY + 'px';
         document.body.appendChild(particle);
         
-        // Random direction and distance
-        const angle = (Math.PI * 2 * i / particleCount) + (Math.random() * 0.5 - 0.25);
-        const distance = 80 + Math.random() * 120;
-        const duration = 600 + Math.random() * 400;
+        // Random direction with wider spread
+        const angle = (Math.PI * 2 * i / particleCount) + (Math.random() * 0.4 - 0.2);
+        const distance = 100 + Math.random() * 150;
+        const duration = 500 + Math.random() * 300;
         
         const destX = originX + Math.cos(angle) * distance;
-        const destY = originY + Math.sin(angle) * distance - 40; // Slight upward bias
+        const destY = originY + Math.sin(angle) * distance - 50;
         
-        // Animate
         const startTime = Date.now();
+        let lastX = originX;
+        let lastY = originY;
         
         function animateParticle() {
           const elapsed = Date.now() - startTime;
           const progress = Math.min(elapsed / duration, 1);
           
-          // Ease out cubic
-          const eased = 1 - Math.pow(1 - progress, 3);
+          // Ease out exponential for snappier start
+          const eased = 1 - Math.pow(1 - progress, 4);
           
           const x = originX + (destX - originX) * eased;
-          const y = originY + (destY - originY) * eased - (Math.sin(progress * Math.PI) * 30); // Arc
+          const y = originY + (destY - originY) * eased - (Math.sin(progress * Math.PI) * 40);
+          
+          // Motion blur effect via stretch
+          const speed = Math.sqrt(Math.pow(x - lastX, 2) + Math.pow(y - lastY, 2));
+          const stretchX = 1 + Math.min(speed * 0.03, 0.5);
+          const moveAngle = Math.atan2(y - lastY, x - lastX) * 180 / Math.PI;
           
           particle.style.left = x + 'px';
           particle.style.top = y + 'px';
-          particle.style.opacity = 1 - progress;
-          particle.style.transform = `scale(${1 - progress * 0.5}) rotate(${progress * 360}deg)`;
+          particle.style.opacity = 1 - (progress * 0.8);
+          particle.style.transform = `translate(-50%, -50%) rotate(${moveAngle}deg) scaleX(${stretchX}) scale(${1 - progress * 0.3})`;
+          particle.style.filter = `drop-shadow(0 0 ${8 - progress * 6}px var(--lime-glow))`;
+          
+          lastX = x;
+          lastY = y;
           
           if (progress < 1) {
             requestAnimationFrame(animateParticle);
           } else {
+            // Dissolve into sparks
+            createSparks(x, y, 3);
             particle.remove();
           }
         }
         
-        // Stagger start
-        setTimeout(() => requestAnimationFrame(animateParticle), i * 30);
+        setTimeout(() => requestAnimationFrame(animateParticle), i * 25);
+      }
+    }
+    
+    // Spark dissolution
+    function createSparks(x, y, count) {
+      for (let i = 0; i < count; i++) {
+        const spark = document.createElement('div');
+        spark.className = 'spark';
+        spark.style.left = x + 'px';
+        spark.style.top = y + 'px';
+        document.body.appendChild(spark);
+        
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 15 + Math.random() * 25;
+        const duration = 200 + Math.random() * 200;
+        
+        const destX = x + Math.cos(angle) * distance;
+        const destY = y + Math.sin(angle) * distance;
+        
+        const startTime = Date.now();
+        
+        function animateSpark() {
+          const elapsed = Date.now() - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          
+          const eased = 1 - Math.pow(1 - progress, 2);
+          
+          spark.style.left = (x + (destX - x) * eased) + 'px';
+          spark.style.top = (y + (destY - y) * eased) + 'px';
+          spark.style.opacity = 1 - progress;
+          spark.style.transform = `scale(${1 - progress})`;
+          
+          if (progress < 1) {
+            requestAnimationFrame(animateSpark);
+          } else {
+            spark.remove();
+          }
+        }
+        
+        requestAnimationFrame(animateSpark);
       }
     }
     
