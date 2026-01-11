@@ -795,6 +795,61 @@ body::before {
     display: flex;
     gap: var(--space-md);
     justify-content: center;
+    flex-wrap: wrap;
+}
+
+.cta-buttons .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.btn-whatsapp {
+    background: #25D366;
+    color: white;
+    border: none;
+}
+
+.btn-whatsapp:hover {
+    background: #20bd5a;
+    transform: translateY(-1px);
+}
+
+.btn-whatsapp svg {
+    fill: white;
+}
+
+.btn-email {
+    background: transparent;
+    border: 1px solid var(--border-default);
+    color: var(--text-primary);
+}
+
+.btn-email:hover {
+    background: var(--bg-elevated);
+    border-color: var(--lime);
+}
+
+.btn-email svg {
+    stroke: var(--text-secondary);
+}
+
+.btn-ghost {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 13px;
+    cursor: pointer;
+    margin-top: var(--space-sm);
+    padding: 8px 16px;
+    transition: color var(--transition-base);
+}
+
+.btn-ghost:hover {
+    color: var(--text-primary);
 }
 
 /* ============================================
