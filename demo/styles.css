@@ -23,6 +23,11 @@
     --accent-gold: #d4a853;
     --accent-gold-glow: rgba(212, 168, 83, 0.3);
 
+    /* Lucas Lime */
+    --lime: #deff9b;
+    --lime-glow: rgba(222, 255, 155, 0.5);
+    --lime-subtle: rgba(222, 255, 155, 0.1);
+
     --status-error: #ef4444;
     --status-error-bg: rgba(239, 68, 68, 0.1);
     --status-warning: #eab308;
@@ -122,21 +127,12 @@ body::before {
 .logo {
     display: flex;
     align-items: center;
-    gap: var(--space-sm);
     text-decoration: none;
-    color: var(--text-primary);
 }
 
-.logo-icon {
-    font-size: 24px;
-    color: var(--accent-gold);
-    text-shadow: 0 0 20px var(--accent-gold-glow);
-}
-
-.logo-text {
-    font-size: 18px;
-    font-weight: 600;
-    letter-spacing: -0.02em;
+.logo-img {
+    height: 32px;
+    width: auto;
 }
 
 .nav {
@@ -443,7 +439,7 @@ body::before {
 }
 
 .lucas-avatar-container.drop-active {
-    background: rgba(212, 168, 83, 0.05);
+    background: var(--lime-subtle);
 }
 
 .lucas-avatar-container.has-messages {
@@ -465,10 +461,21 @@ body::before {
 
 .avatar-glow {
     position: absolute;
-    inset: -20px;
-    background: radial-gradient(circle, var(--accent-gold-glow) 0%, transparent 70%);
-    opacity: 0.5;
-    animation: glow-pulse 3s ease-in-out infinite;
+    inset: -30px;
+    background: radial-gradient(circle, var(--lime-glow) 0%, transparent 70%);
+    opacity: 0.6;
+    animation: lime-pulse 2s ease-in-out infinite;
+}
+
+@keyframes lime-pulse {
+    0%, 100% {
+        opacity: 0.4;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: scale(1.1);
+    }
 }
 
 @keyframes glow-pulse {
@@ -478,15 +485,30 @@ body::before {
 
 .lucas-avatar-container.drop-active .avatar-glow {
     opacity: 1;
-    animation: glow-pulse 1s ease-in-out infinite;
+    animation: lime-pulse 1s ease-in-out infinite;
 }
 
 .avatar-ring {
     position: absolute;
     inset: 0;
-    border: 2px solid var(--accent-gold);
+    border: 2px solid var(--lime);
     border-radius: 50%;
     opacity: 0.3;
+}
+
+/* Avatar icon image */
+.avatar-icon-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 20px var(--lime-glow));
+    z-index: 1;
+}
+
+.lucas-avatar-container.has-messages .avatar-icon-img {
+    width: 100%;
+    height: 100%;
 }
 
 .avatar-core {
@@ -502,8 +524,8 @@ body::before {
 
 .avatar-icon {
     font-size: 48px;
-    color: var(--accent-gold);
-    text-shadow: 0 0 30px var(--accent-gold-glow);
+    color: var(--lime);
+    text-shadow: 0 0 30px var(--lime-glow);
 }
 
 .lucas-avatar-container.has-messages .avatar-icon {
