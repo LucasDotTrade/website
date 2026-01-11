@@ -183,6 +183,22 @@ body::before {
     transform: translateY(-1px);
 }
 
+.btn-whatsapp-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #25D366 !important;
+    color: white !important;
+}
+
+.btn-whatsapp-header:hover {
+    background: #20bd5a !important;
+}
+
+.btn-whatsapp-header svg {
+    fill: white;
+}
+
 .btn-secondary {
     background: var(--bg-elevated);
     color: var(--text-primary);
