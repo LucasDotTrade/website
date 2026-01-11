@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucas Demo | AI Agent for Trade Finance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◉</text></svg>">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <a href="/" class="logo">
+            <span class="logo-icon">◉</span>
+            <span class="logo-text">Lucas</span>
+        </a>
+        <nav class="nav">
+            <a href="/" class="nav-link">Back to Home</a>
+            <a href="#" class="btn btn-primary">Start Free</a>
+        </nav>
+    </header>
+
+    <!-- Main Demo Area -->
+    <main class="demo-container">
+        <!-- Left Panel: Documents -->
+        <section class="documents-panel">
+            <div class="panel-header">
+                <h2 class="panel-title">Trade Documents</h2>
+                <p class="panel-subtitle">Coffee Export · Ethiopia → Netherlands · USD 5.14M</p>
+            </div>
+
+            <div class="documents-grid" id="documentsGrid">
+                <!-- Documents will be inserted by JS -->
+            </div>
+
+            <div class="documents-actions">
+                <button class="btn btn-secondary btn-large" id="sendAllBtn">
+                    <span class="btn-icon">↗</span>
+                    Send All 6 Documents
+                </button>
+                <p class="hint-text">or drag documents individually to Lucas</p>
+            </div>
+        </section>
+
+        <!-- Center: Drop Zone Visual -->
+        <div class="drop-zone-indicator" id="dropIndicator">
+            <div class="drop-zone-arrow">→</div>
+        </div>
+
+        <!-- Right Panel: Lucas Chat -->
+        <section class="lucas-panel" id="lucasPanel">
+            <div class="lucas-avatar-container" id="lucasDropZone">
+                <div class="lucas-avatar" id="lucasAvatar">
+                    <div class="avatar-glow"></div>
+                    <div class="avatar-ring"></div>
+                    <div class="avatar-core">
+                        <span class="avatar-icon">◉</span>
+                    </div>
+                </div>
+                <div class="lucas-status" id="lucasStatus">
+                    <span class="status-text">Drop documents here</span>
+                </div>
+                <div class="docs-counter" id="docsCounter"></div>
+            </div>
+
+            <div class="chat-area" id="chatArea">
+                <!-- Chat messages appear here -->
+            </div>
+
+            <div class="cta-container" id="ctaContainer">
+                <!-- CTA appears after analysis -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Document Preview Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="documentModal">
+            <button class="modal-close" id="modalClose">×</button>
+            <div class="modal-header">
+                <span class="modal-doc-type" id="modalDocType"></span>
+                <span class="modal-doc-name" id="modalDocName"></span>
+            </div>
+            <div class="modal-content" id="modalContent">
+                <!-- Document preview content -->
+            </div>
+            <div class="modal-footer">
+                <span class="modal-hint">This document contains hidden errors. Can you spot them?</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="documents.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
