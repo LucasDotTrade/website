@@ -744,7 +744,47 @@
       font-size: 0.75rem;
       color: var(--text-muted);
     }
-    
+
+    /* Demo Link */
+    .cta-demo {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 16px;
+      padding: 14px 24px;
+      background: var(--lime-subtle);
+      border: 1px solid var(--lime-border);
+      border-radius: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .cta-demo:hover {
+      background: rgba(222, 255, 155, 0.12);
+      border-color: var(--lime);
+      transform: translateY(-1px);
+    }
+    .cta-demo svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--lime);
+    }
+    .demo-text {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+    .demo-title {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .demo-status {
+      font-size: 0.75rem;
+      color: var(--lime);
+    }
+
     /* ═══════════════════════════════════════════════════════════
        FAQ — Collapsible Terminal
        ═══════════════════════════════════════════════════════════ */
@@ -1077,6 +1117,15 @@
               <span class="whatsapp-status">coming soon</span>
             </div>
           </div>
+          <a href="/demo" class="cta-demo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <div class="demo-text">
+              <span class="demo-title">Interactive Demo</span>
+              <span class="demo-status">try it now</span>
+            </div>
+          </a>
           
           <!-- Collapsible FAQ -->
           <button class="faq-trigger" id="faqTrigger">
