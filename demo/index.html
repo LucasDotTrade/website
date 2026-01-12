@@ -29,13 +29,114 @@
         </nav>
     </header>
 
+    <!-- Scenario Selection -->
+    <section class="scenario-selection" id="scenarioSelection">
+        <div class="scenario-selection-header">
+            <p class="scenario-eyebrow">Interactive Demo</p>
+            <h1 class="scenario-title">Pick a real trade.<br><span class="title-highlight">See what Lucas finds.</span></h1>
+        </div>
+
+        <div class="scenario-cards">
+            <!-- Coffee Export -->
+            <div class="scenario-card" data-scenario="coffee">
+                <div class="scenario-card-inner">
+                    <div class="scenario-card-top">
+                        <div class="scenario-route">
+                            <span class="route-flag">🇪🇹</span>
+                            <span class="route-arrow">→</span>
+                            <span class="route-flag">🇳🇱</span>
+                        </div>
+                        <span class="scenario-docs-count">6 docs</span>
+                    </div>
+
+                    <div class="scenario-card-body">
+                        <span class="scenario-icon">☕</span>
+                        <h3 class="scenario-name">Coffee Export</h3>
+                        <p class="scenario-commodity">Yirgacheffe Arabica</p>
+                    </div>
+
+                    <div class="scenario-card-bottom">
+                        <span class="value-label">LC Value</span>
+                        <span class="value-amount">$5.14M</span>
+                    </div>
+                </div>
+                            </div>
+
+            <!-- Crude Oil -->
+            <div class="scenario-card featured" data-scenario="crude_oil">
+                <div class="scenario-card-inner">
+                    <div class="scenario-card-top">
+                        <div class="scenario-route">
+                            <span class="route-flag">🇦🇪</span>
+                            <span class="route-arrow">→</span>
+                            <span class="route-flag">🇮🇳</span>
+                        </div>
+                        <span class="scenario-docs-count">18 docs</span>
+                    </div>
+
+                    <div class="scenario-card-body">
+                        <span class="scenario-icon">🛢️</span>
+                        <h3 class="scenario-name">Crude Oil</h3>
+                        <p class="scenario-commodity">Murban Crude</p>
+                    </div>
+
+                    <div class="scenario-card-bottom">
+                        <span class="value-label">LC Value</span>
+                        <span class="value-amount">$52.8M</span>
+                    </div>
+                </div>
+                <div class="featured-glow"></div>
+                            </div>
+
+            <!-- Electronics Import -->
+            <div class="scenario-card" data-scenario="electronics">
+                <div class="scenario-card-inner">
+                    <div class="scenario-card-top">
+                        <div class="scenario-route">
+                            <span class="route-flag">🇨🇳</span>
+                            <span class="route-arrow">→</span>
+                            <span class="route-flag">🇦🇪</span>
+                        </div>
+                        <span class="scenario-docs-count">10 docs</span>
+                    </div>
+
+                    <div class="scenario-card-body">
+                        <span class="scenario-icon">📱</span>
+                        <h3 class="scenario-name">Electronics</h3>
+                        <p class="scenario-commodity">Smartphones</p>
+                    </div>
+
+                    <div class="scenario-card-bottom">
+                        <span class="value-label">LC Value</span>
+                        <span class="value-amount">$4.2M</span>
+                    </div>
+                </div>
+                            </div>
+        </div>
+
+        <p class="scenario-hint">Each scenario contains real document discrepancies. Let's see if Lucas catches them.</p>
+    </section>
+
     <!-- Main Demo Area -->
     <main class="demo-container">
         <!-- Left Panel: Documents -->
         <section class="documents-panel">
             <div class="panel-header">
                 <h2 class="panel-title">Trade Documents</h2>
-                <p class="panel-subtitle">Coffee Export · Ethiopia → Netherlands · USD 5.14M</p>
+                <div class="panel-tags">
+                    <span class="panel-tag tag-commodity">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+                        Coffee Export
+                    </span>
+                    <span class="panel-tag tag-route">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="2"/><circle cx="19" cy="12" r="2"/><path d="M7 12h3m4 0h3"/><path d="M12 9l2 3-2 3"/></svg>
+                        Ethiopia → Netherlands
+                    </span>
+                    <span class="panel-tag tag-value">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                        USD 5.14M
+                    </span>
+                </div>
             </div>
 
             <div class="documents-grid" id="documentsGrid">
@@ -53,7 +154,7 @@
 
         <!-- Center: Drop Zone Visual -->
         <div class="drop-zone-indicator" id="dropIndicator">
-            <div class="drop-zone-arrow">→</div>
+            <div class="drop-zone-arrow"><span></span></div>
         </div>
 
         <!-- Right Panel: Lucas Chat -->
@@ -81,17 +182,43 @@
 
     <!-- Document Preview Modal -->
     <div class="modal-overlay" id="modalOverlay">
+        <!-- Navigation arrows outside modal -->
+        <button class="modal-nav prev" id="modalPrev">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="modal-nav next" id="modalNext">
+            <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"/></svg>
+        </button>
+
         <div class="modal" id="documentModal">
-            <button class="modal-close" id="modalClose">×</button>
+            <button class="modal-close" id="modalClose">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
             <div class="modal-header">
-                <span class="modal-doc-type" id="modalDocType"></span>
-                <span class="modal-doc-name" id="modalDocName"></span>
+                <div class="modal-doc-icon" id="modalDocIcon">
+                    <!-- Icon inserted by JS -->
+                </div>
+                <div class="modal-header-text">
+                    <span class="modal-doc-type" id="modalDocType"></span>
+                    <div class="modal-doc-name" id="modalDocName"></div>
+                </div>
             </div>
             <div class="modal-content" id="modalContent">
                 <!-- Document preview content -->
             </div>
             <div class="modal-footer">
-                <span class="modal-hint">This document contains hidden errors. Can you spot them?</span>
+                <div class="modal-hint">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/>
+                    </svg>
+                    <span id="modalHintText">This document contains hidden errors</span>
+                </div>
+                <div class="modal-shortcuts">
+                    <span class="modal-shortcut"><kbd>←</kbd><kbd>→</kbd> Navigate</span>
+                    <span class="modal-shortcut"><kbd>Esc</kbd> Close</span>
+                </div>
             </div>
         </div>
     </div>
@@ -99,7 +226,7 @@
     <!-- Toast Notifications -->
     <div class="toast-container" id="toastContainer"></div>
 
-    <script src="documents.js"></script>
+    <script src="scenarios.js"></script>
     <script src="app.js"></script>
 </body>
 </html>
