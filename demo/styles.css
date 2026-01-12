@@ -115,6 +115,11 @@
     --doc-msds-glow: rgba(239, 68, 68, 0.15);
     --doc-msds-gradient: linear-gradient(135deg, rgba(239, 68, 68, 0.12) 0%, rgba(239, 68, 68, 0.04) 100%);
 
+    --doc-q88: #64748b;
+    --doc-q88-soft: #94a3b8;
+    --doc-q88-glow: rgba(100, 116, 139, 0.15);
+    --doc-q88-gradient: linear-gradient(135deg, rgba(100, 116, 139, 0.12) 0%, rgba(100, 116, 139, 0.04) 100%);
+
     /* Electronics specific document types */
     --doc-insp: #22c55e;
     --doc-insp-soft: #4ade80;
@@ -823,6 +828,13 @@ body::before {
     --doc-color-soft: var(--doc-msds-soft);
     --doc-glow: var(--doc-msds-glow);
     --doc-gradient: var(--doc-msds-gradient);
+}
+
+.doc-card[data-doc-type="q88"] {
+    --doc-color: var(--doc-q88);
+    --doc-color-soft: var(--doc-q88-soft);
+    --doc-glow: var(--doc-q88-glow);
+    --doc-gradient: var(--doc-q88-gradient);
 }
 
 /* Electronics specific document types */
