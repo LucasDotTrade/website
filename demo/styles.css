@@ -1743,6 +1743,7 @@ body::before {
         transparent 100%
     );
     display: none;
+    text-align: center;
 }
 
 .cta-container.visible {
@@ -1865,6 +1866,43 @@ body::before {
 .btn-ghost:hover {
     color: var(--text-secondary);
     background: rgba(255, 255, 255, 0.03);
+}
+
+/* Retry/Try Another Scenario Button */
+.cta-retry {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    color: var(--text-tertiary);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cta-retry svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--text-tertiary);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cta-retry:hover {
+    color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.cta-retry:hover svg {
+    stroke: var(--text-primary);
+    transform: rotate(-45deg);
 }
 
 /* ============================================
