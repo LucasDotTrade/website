@@ -4,7 +4,7 @@
 // Three trade scenarios for Lucas Demo:
 // 1. Coffee Export (Ethiopia → Netherlands) - 6 docs, Entry Level
 // 2. Crude Oil (UAE → India) - 18 docs, Expert Level
-// 3. Electronics Import (China → Dubai) - 10 docs, Mid Level
+// 3. Electronics Import (China → Brazil) - 10 docs, Mid Level
 
 const SCENARIOS = {
     // ============================================
@@ -2149,9 +2149,9 @@ Approved by: Dr. Fatima Al-Hosani, HSE Director
     electronics: {
         id: 'electronics',
         name: 'Electronics',
-        subtitle: 'Consumer Tech to Dubai',
+        subtitle: 'Consumer Tech to São Paulo',
         icon: '📱',
-        route: { from: 'China', to: 'UAE' },
+        route: { from: 'China', to: 'Brazil' },
         commodity: 'Smartphones & Tablets',
         value: 'USD 4.2M',
         valueNumeric: 4200000,
@@ -2160,7 +2160,7 @@ Approved by: Dr. Fatima Al-Hosani, HSE Director
         levelLabel: 'Mid Level',
         tags: [
             { label: 'Electronics', icon: 'electronics' },
-            { label: 'China → Dubai', icon: 'route' },
+            { label: 'China → Santos', icon: 'route' },
             { label: 'USD 4.2M', icon: 'value' }
         ],
         documents: [
@@ -2168,29 +2168,29 @@ Approved by: Dr. Fatima Al-Hosani, HSE Director
                 id: 'lc',
                 type: 'Letter of Credit',
                 shortType: 'LC',
-                filename: 'LC-MASH-2025-EL-4521.pdf',
+                filename: 'LC-ITAU-2025-EL-7892.pdf',
                 errorLines: ['HS Code: 8517.12', 'Warranty: Minimum 24 months'],
                 content: `
 ═══════════════════════════════════════════════════════════════════
                     IRREVOCABLE DOCUMENTARY CREDIT
 ═══════════════════════════════════════════════════════════════════
 
-ISSUING BANK:           Mashreq Bank PSC
-                        Mashreq Head Office
-                        P.O. Box 1250, Dubai, UAE
-                        SWIFT: BOMABORC
+ISSUING BANK:           Itaú Unibanco S.A.
+                        Av. Paulista, 1111 - Bela Vista
+                        São Paulo - SP, 01311-920, Brazil
+                        SWIFT: ITABORC
 
-CREDIT NUMBER:          LC-MASH-2025-EL-4521
+CREDIT NUMBER:          LC-ITAU-2025-EL-7892
 DATE OF ISSUE:          January 8, 2025
 DATE OF EXPIRY:         March 15, 2025
-PLACE OF EXPIRY:        Dubai, UAE
+PLACE OF EXPIRY:        São Paulo, Brazil
 
 ═══════════════════════════════════════════════════════════════════
 
-APPLICANT:              Gulf Digital Distribution LLC
-                        Al Quoz Industrial Area 3
-                        P.O. Box 54321, Dubai, UAE
-                        Trade License: 654321
+APPLICANT:              Distribuidora Tech Brasil Ltda
+                        Rua Funchal, 418 - Vila Olímpia
+                        São Paulo - SP, 04551-060, Brazil
+                        CNPJ: 12.345.678/0001-90
 
 BENEFICIARY:            Shenzhen TechWave Electronics Co. Ltd
                         Building 8, Nanshan High-Tech Park
@@ -2212,7 +2212,7 @@ CONSUMER ELECTRONICS - SMARTPHONES AND TABLETS
 - Quantity: 15,000 Units
 - HS Code: 8517.12
 - Origin: China
-- Unit Price: USD 280.00 per unit CIF Jebel Ali
+- Unit Price: USD 280.00 per unit CIF Santos
 
 SPECIFICATIONS:
 - 6.7" AMOLED Display
@@ -2225,9 +2225,9 @@ SPECIFICATIONS:
 SHIPMENT TERMS:
 
 PORT OF LOADING:        Shenzhen, Yantian Port, China
-PORT OF DISCHARGE:      Jebel Ali, Dubai, UAE
+PORT OF DISCHARGE:      Porto de Santos, São Paulo, Brazil
 LATEST SHIPMENT:        February 28, 2025
-INCOTERMS:              CIF Jebel Ali
+INCOTERMS:              CIF Santos
 PARTIAL SHIPMENTS:      Not Allowed
 TRANSSHIPMENT:          Allowed
 
@@ -2238,29 +2238,30 @@ DOCUMENTS REQUIRED:
 1. Commercial Invoice (3 originals + 3 copies)
 2. Packing List (3 copies)
 3. Full set 3/3 original Bills of Lading
-   to order of Mashreq Bank PSC
+   to order of Itaú Unibanco S.A.
 4. Certificate of Origin (Form A or standard)
 5. SGS Inspection Certificate
 6. Insurance Certificate for 110% CIF value
-7. HS Classification Certificate
+7. NCM Classification Certificate
 8. Manufacturer's Warranty Certificate
-9. UAE Import Declaration (Pre-Clearance)
-10. Conformity Certificate (if applicable)
+9. ANATEL Homologation Certificate
+10. Conformity Certificate (INMETRO)
 
 ═══════════════════════════════════════════════════════════════════
 
 SPECIAL CONDITIONS:
 
-- All documents must reference LC-MASH-2025-EL-4521
-- Products must comply with UAE TRA regulations
+- All documents must reference LC-ITAU-2025-EL-7892
+- Products must comply with ANATEL telecommunications regulations
 - Serial numbers must be included in packing list
 - Third party inspection (SGS) mandatory
+- INMETRO conformity marking required
 
 This credit is subject to UCP 600.
 
 ═══════════════════════════════════════════════════════════════════
                          AUTHORIZED SIGNATURE
-                    Mashreq Bank Trade Finance Division
+                    Itaú Unibanco Trade Finance Division
 ═══════════════════════════════════════════════════════════════════
                 `
             },
@@ -2268,26 +2269,26 @@ This credit is subject to UCP 600.
                 id: 'invoice',
                 type: 'Commercial Invoice',
                 shortType: 'INV',
-                filename: 'INV-TW-2025-4521.pdf',
+                filename: 'INV-TW-2025-7892.pdf',
                 errorLines: [],
                 content: `
 ═══════════════════════════════════════════════════════════════════
                        COMMERCIAL INVOICE
 ═══════════════════════════════════════════════════════════════════
 
-SELLER:                                 INVOICE NO: TW-INV-2025-4521
+SELLER:                                 INVOICE NO: TW-INV-2025-7892
 Shenzhen TechWave Electronics Co. Ltd   DATE: January 25, 2025
 Building 8, Nanshan High-Tech Park
-Shenzhen, China 518057                  LC REF: LC-MASH-2025-EL-4521
+Shenzhen, China 518057                  LC REF: LC-ITAU-2025-EL-7892
 Tax ID: 91440300MA5FXXX
 
 ═══════════════════════════════════════════════════════════════════
 
 BUYER:
-Gulf Digital Distribution LLC
-Al Quoz Industrial Area 3
-P.O. Box 54321, Dubai, UAE
-TRN: 100456789012345
+Distribuidora Tech Brasil Ltda
+Rua Funchal, 418 - Vila Olímpia
+São Paulo - SP, 04551-060, Brazil
+CNPJ: 12.345.678/0001-90
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -2313,28 +2314,28 @@ TOTAL INVOICE AMOUNT:                   USD 4,200,000.00
 
 PRICE BREAKDOWN:
 
-FOB Shenzhen:           USD 3,920,000.00
-Insurance:              USD    42,000.00
-Freight:                USD   238,000.00
+FOB Shenzhen:           USD 3,780,000.00
+Insurance:              USD    50,400.00
+Freight:                USD   369,600.00
 ────────────────────────────────────────
-CIF Jebel Ali:          USD 4,200,000.00
+CIF Santos:             USD 4,200,000.00
 
 ═══════════════════════════════════════════════════════════════════
 
 SHIPPING DETAILS:
 
 PORT OF LOADING:        Yantian Port, Shenzhen, China
-PORT OF DISCHARGE:      Jebel Ali, Dubai, UAE
-VESSEL:                 COSCO SHIPPING UNIVERSE
-VOYAGE:                 026E
-TERMS:                  CIF Jebel Ali
-B/L NUMBER:             COSU-SZN-JAL-2025-4521
+PORT OF DISCHARGE:      Porto de Santos, São Paulo, Brazil
+VESSEL:                 COSCO SHIPPING ANDES
+VOYAGE:                 038W
+TERMS:                  CIF Santos
+B/L NUMBER:             COSU-SZN-STS-2025-7892
 
 ═══════════════════════════════════════════════════════════════════
 
 PAYMENT TERMS:          Irrevocable Letter of Credit
-                        LC No: LC-MASH-2025-EL-4521
-                        Issuing Bank: Mashreq Bank PSC
+                        LC No: LC-ITAU-2025-EL-7892
+                        Issuing Bank: Itaú Unibanco S.A.
 
 BANK DETAILS:
 Bank: Bank of China, Shenzhen Branch
@@ -2355,25 +2356,25 @@ Shenzhen TechWave Electronics
                 id: 'packing',
                 type: 'Packing List',
                 shortType: 'PKG',
-                filename: 'PL-TW-2025-4521.pdf',
+                filename: 'PL-TW-2025-7892.pdf',
                 errorLines: ['S/N Range: TW240001-TW254850, TW255001-TW255150'],
                 content: `
 ═══════════════════════════════════════════════════════════════════
                          PACKING LIST
 ═══════════════════════════════════════════════════════════════════
 
-SHIPPER:                                REF: TW-PL-2025-4521
+SHIPPER:                                REF: TW-PL-2025-7892
 Shenzhen TechWave Electronics           DATE: January 24, 2025
 Building 8, Nanshan High-Tech Park
-Shenzhen, China 518057                  LC REF: LC-MASH-2025-EL-4521
-                                        INV REF: TW-INV-2025-4521
+Shenzhen, China 518057                  LC REF: LC-ITAU-2025-EL-7892
+                                        INV REF: TW-INV-2025-7892
 
 ═══════════════════════════════════════════════════════════════════
 
 CONSIGNEE:
-Gulf Digital Distribution LLC
-Al Quoz Industrial Area 3
-P.O. Box 54321, Dubai, UAE
+Distribuidora Tech Brasil Ltda
+Rua Funchal, 418 - Vila Olímpia
+São Paulo - SP, 04551-060, Brazil
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -2428,8 +2429,8 @@ TOTALS:
 CONTAINER DETAILS:
 
 Container Type:         2 x 40' HC
-Container Numbers:      COSU 7891234 / COSU 7891235
-Seal Numbers:           CN-2025-8801 / CN-2025-8802
+Container Numbers:      COSU 8823456 / COSU 8823457
+Seal Numbers:           CN-2025-9901 / CN-2025-9902
 
 ═══════════════════════════════════════════════════════════════════
 Prepared by: Logistics Department
@@ -2442,7 +2443,7 @@ Date: January 24, 2025
                 id: 'bl',
                 type: 'Bill of Lading',
                 shortType: 'B/L',
-                filename: 'BL-COSU-SZN-JAL-2025.pdf',
+                filename: 'BL-COSU-SZN-STS-2025.pdf',
                 errorLines: [],
                 content: `
 ═══════════════════════════════════════════════════════════════════
@@ -2453,8 +2454,8 @@ Date: January 24, 2025
 COSCO SHIPPING LINES CO., LTD
 Shanghai, China
 
-B/L NUMBER:             COSU-SZN-JAL-2025-4521
-BOOKING REF:            SZN2025-4521
+B/L NUMBER:             COSU-SZN-STS-2025-7892
+BOOKING REF:            SZN2025-7892
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -2464,37 +2465,37 @@ Building 8, Nanshan High-Tech Park
 Shenzhen, Guangdong, China 518057
 
 CONSIGNEE:
-TO THE ORDER OF MASHREQ BANK PSC
+TO THE ORDER OF ITAÚ UNIBANCO S.A.
 
 NOTIFY PARTY:
-Gulf Digital Distribution LLC
-Al Quoz Industrial Area 3
-P.O. Box 54321, Dubai, UAE
-Tel: +971 4 333 4567
+Distribuidora Tech Brasil Ltda
+Rua Funchal, 418 - Vila Olímpia
+São Paulo - SP, 04551-060, Brazil
+Tel: +55 11 3456 7890
 
 ═══════════════════════════════════════════════════════════════════
 
-VESSEL:                 COSCO SHIPPING UNIVERSE
-VOYAGE:                 026E
+VESSEL:                 COSCO SHIPPING ANDES
+VOYAGE:                 038W
 FLAG:                   Hong Kong
 
 PORT OF LOADING:        Yantian Port, Shenzhen, China
-PORT OF DISCHARGE:      Jebel Ali, Dubai, UAE
+PORT OF DISCHARGE:      Porto de Santos, São Paulo, Brazil
 
 ═══════════════════════════════════════════════════════════════════
 
 PARTICULARS FURNISHED BY SHIPPER:
 
 Containers:             2 x 40' HIGH CUBE
-Container Nos:          COSU 7891234 / COSU 7891235
-Seal Nos:               CN-2025-8801 / CN-2025-8802
+Container Nos:          COSU 8823456 / COSU 8823457
+Seal Nos:               CN-2025-9901 / CN-2025-9902
 
 DESCRIPTION OF GOODS:
 750 CARTONS CONTAINING:
 CONSUMER ELECTRONICS - SMARTPHONES
 TECHWAVE PRO 256GB (MODEL TW-PRO-256)
 15,000 UNITS
-HS CODE: 8517.12
+NCM CODE: 8517.12.31
 
 Gross Weight:           6,375 KGS
 Measurement:            54 CBM
@@ -2524,7 +2525,7 @@ Date of Issue:          January 28, 2025
                 id: 'coo',
                 type: 'Certificate of Origin',
                 shortType: 'COO',
-                filename: 'COO-CCPIT-2025-4521.pdf',
+                filename: 'COO-CCPIT-2025-7892.pdf',
                 errorLines: ['assembled in China, components from multiple origins'],
                 content: `
 ═══════════════════════════════════════════════════════════════════
@@ -2535,7 +2536,7 @@ CHINA COUNCIL FOR THE PROMOTION OF INTERNATIONAL TRADE
 CCPIT - Guangdong Sub-Council
 Shenzhen, China
 
-Certificate No:         CCPIT-GD-2025-4521
+Certificate No:         CCPIT-GD-2025-7892
 Date of Issue:          January 23, 2025
 
 ═══════════════════════════════════════════════════════════════════
@@ -2547,14 +2548,14 @@ Date of Issue:          January 23, 2025
    Registration: 91440300MA5FXXX
 
 2. CONSIGNEE:
-   Gulf Digital Distribution LLC
-   Al Quoz Industrial Area 3
-   P.O. Box 54321, Dubai, UAE
+   Distribuidora Tech Brasil Ltda
+   Rua Funchal, 418 - Vila Olímpia
+   São Paulo - SP, 04551-060, Brazil
 
 3. MEANS OF TRANSPORT:
-   Vessel: COSCO SHIPPING UNIVERSE V.026E
+   Vessel: COSCO SHIPPING ANDES V.038W
    Port of Loading: Yantian, Shenzhen
-   Port of Discharge: Jebel Ali, Dubai
+   Port of Discharge: Porto de Santos, Brazil
 
 4. COUNTRY OF ORIGIN:
    PEOPLE'S REPUBLIC OF CHINA
@@ -2564,15 +2565,15 @@ Date of Issue:          January 23, 2025
 5. DESCRIPTION OF GOODS:
    Consumer Electronics - Smartphones
    TechWave Pro 256GB (Model TW-PRO-256)
-   HS Code: 8517.12
+   NCM Code: 8517.12.31
 
 6. QUANTITY:
    15,000 Units in 750 Cartons
    Gross Weight: 6,375 kg
 
 7. COMMERCIAL REFERENCES:
-   Invoice No: TW-INV-2025-4521
-   LC Reference: LC-MASH-2025-EL-4521
+   Invoice No: TW-INV-2025-7892
+   LC Reference: LC-ITAU-2025-EL-7892
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -2588,7 +2589,7 @@ ORIGINATE IN THE PEOPLE'S REPUBLIC OF CHINA
         Authorized Signatory
         CCPIT Guangdong Sub-Council
 
-Verification: ccpit.org/verify/2025-4521
+Verification: ccpit.org/verify/2025-7892
 ═══════════════════════════════════════════════════════════════════
                 `
             },
@@ -2596,7 +2597,7 @@ Verification: ccpit.org/verify/2025-4521
                 id: 'inspection',
                 type: 'Inspection Certificate',
                 shortType: 'INSP',
-                filename: 'SGS-INSP-2025-4521.pdf',
+                filename: 'SGS-INSP-2025-7892.pdf',
                 errorLines: [],
                 content: `
 ═══════════════════════════════════════════════════════════════════
@@ -2607,14 +2608,14 @@ SGS-CSTC STANDARDS TECHNICAL SERVICES CO., LTD
 Shenzhen Branch
 Nanshan District, Shenzhen, China
 
-Certificate No:         SGS-SZN-2025-4521
+Certificate No:         SGS-SZN-2025-7892
 Date of Issue:          January 22, 2025
 Inspection Date:        January 20-21, 2025
 
 ═══════════════════════════════════════════════════════════════════
 
-CLIENT:                 Gulf Digital Distribution LLC
-                        Dubai, UAE
+CLIENT:                 Distribuidora Tech Brasil Ltda
+                        São Paulo, Brazil
 
 MANUFACTURER:           Shenzhen TechWave Electronics Co. Ltd
                         Shenzhen, China
@@ -2653,8 +2654,8 @@ INSPECTION RESULTS:
    Result:              PASSED
 
 5. SAFETY COMPLIANCE:
-   CE Marking:          Present and correct
-   FCC ID:              Valid
+   ANATEL Marking:      Present and correct
+   INMETRO Compliance:  Verified
    Battery Safety:      UN38.3 certified
    Result:              PASSED
 
@@ -2675,7 +2676,7 @@ quality requirements. Shipment approved for export.
         Senior Electronics Inspector
         SGS-CSTC Shenzhen
 
-Verify: sgs.com/verify/SZN-2025-4521
+Verify: sgs.com/verify/SZN-2025-7892
 ═══════════════════════════════════════════════════════════════════
                 `
             },
@@ -2683,7 +2684,7 @@ Verify: sgs.com/verify/SZN-2025-4521
                 id: 'insurance',
                 type: 'Insurance Certificate',
                 shortType: 'INS',
-                filename: 'INS-PICC-2025-4521.pdf',
+                filename: 'INS-PICC-2025-7892.pdf',
                 errorLines: [],
                 content: `
 ═══════════════════════════════════════════════════════════════════
@@ -2694,23 +2695,23 @@ PICC PROPERTY AND CASUALTY COMPANY LIMITED
 Shenzhen Branch
 Futian District, Shenzhen, China
 
-Certificate No:         PICC-MC-2025-4521
-Policy No:              PYII2025440300000001
+Certificate No:         PICC-MC-2025-7892
+Policy No:              PYII2025440300000002
 Date of Issue:          January 24, 2025
 
 ═══════════════════════════════════════════════════════════════════
 
 ASSURED:                Shenzhen TechWave Electronics Co. Ltd
-                        and/or Gulf Digital Distribution LLC
+                        and/or Distribuidora Tech Brasil Ltda
                         and/or their respective assigns
 
 ═══════════════════════════════════════════════════════════════════
 
 PARTICULARS OF SHIPMENT:
 
-Vessel:                 COSCO SHIPPING UNIVERSE V.026E
+Vessel:                 COSCO SHIPPING ANDES V.038W
 From:                   Yantian Port, Shenzhen, China
-To:                     Jebel Ali, Dubai, UAE
+To:                     Porto de Santos, São Paulo, Brazil
 Sailing Date:           January 28, 2025 (approx.)
 
 DESCRIPTION OF CARGO:
@@ -2751,7 +2752,7 @@ PICC Claims Department
 Tel: +86 755 8256 7890
 Email: claims.sz@picc.com.cn
 
-Survey Agents: McLarens China / Crawford UAE
+Survey Agents: McLarens China / Crawford Brazil
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -2766,26 +2767,28 @@ Survey Agents: McLarens China / Crawford UAE
             },
             {
                 id: 'hs_class',
-                type: 'HS Classification Certificate',
-                shortType: 'HS',
-                filename: 'HS-CLASS-2025-4521.pdf',
-                errorLines: ['HS Code Assigned: 8471.30'],
+                type: 'NCM Classification Certificate',
+                shortType: 'NCM',
+                filename: 'NCM-CLASS-2025-7892.pdf',
+                errorLines: ['NCM Code Assigned: 8471.30.19'],
                 content: `
 ═══════════════════════════════════════════════════════════════════
-                HS CLASSIFICATION CERTIFICATE
+                NCM CLASSIFICATION CERTIFICATE
 ═══════════════════════════════════════════════════════════════════
 
 CHINA CUSTOMS - SHENZHEN DISTRICT
 Classification & Valuation Department
 Futian District, Shenzhen
 
-Certificate No:         SZC-HS-2025-4521
+Certificate No:         SZC-NCM-2025-7892
 Date of Issue:          January 15, 2025
 
 ═══════════════════════════════════════════════════════════════════
 
 APPLICANT:              Shenzhen TechWave Electronics Co. Ltd
                         Shenzhen, China
+
+DESTINATION:            Brazil (Mercosur NCM Classification)
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -2809,7 +2812,7 @@ Technical Description:
 
 CLASSIFICATION DETERMINATION:
 
-HS Code Assigned: 8471.30
+NCM Code Assigned: 8471.30.19
 
 Classification Basis:
 Heading 8471 - Automatic data processing machines and
@@ -2817,11 +2820,15 @@ Heading 8471 - Automatic data processing machines and
 Subheading 8471.30 - Portable digital automatic data
                      processing machines, weighing not
                      more than 10 kg
+Item 8471.30.19 -    Other portable machines
 
 ═══════════════════════════════════════════════════════════════════
 
-TARIFF RATE:            5% (Most Favored Nation)
-VAT RATE:               13%
+BRAZILIAN IMPORT TARIFFS (Reference):
+II (Import Tax):        16%
+IPI:                    15%
+PIS/COFINS:             11.75%
+ICMS (São Paulo):       18%
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -2841,7 +2848,7 @@ Valid for 12 months from date of issue.
         Senior Classification Officer
         Shenzhen Customs District
 
-Verification: customs.gov.cn/verify/2025-4521
+Verification: customs.gov.cn/verify/2025-7892
 ═══════════════════════════════════════════════════════════════════
                 `
             },
@@ -2849,7 +2856,7 @@ Verification: customs.gov.cn/verify/2025-4521
                 id: 'warranty',
                 type: 'Warranty Certificate',
                 shortType: 'WTY',
-                filename: 'WARRANTY-TW-2025-4521.pdf',
+                filename: 'WARRANTY-TW-2025-7892.pdf',
                 errorLines: ['Warranty Period: 12 months'],
                 content: `
 ═══════════════════════════════════════════════════════════════════
@@ -2860,7 +2867,7 @@ SHENZHEN TECHWAVE ELECTRONICS CO. LTD
 Building 8, Nanshan High-Tech Park
 Shenzhen, Guangdong, China 518057
 
-Certificate No:         TW-WTY-2025-4521
+Certificate No:         TW-WTY-2025-7892
 Date of Issue:          January 20, 2025
 
 ═══════════════════════════════════════════════════════════════════
@@ -2871,7 +2878,7 @@ Product Name:           TechWave Pro 256GB Smartphone
 Model:                  TW-PRO-256
 Serial Number Range:    TW240001 - TW255000
 Quantity:               15,000 Units
-Shipment Reference:     LC-MASH-2025-EL-4521
+Shipment Reference:     LC-ITAU-2025-EL-7892
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -2906,10 +2913,11 @@ NOT COVERED:
 
 WARRANTY SERVICE:
 
-Service Center:         TechWave Service Center Dubai
-Address:               Dubai Silicon Oasis, Building A4
-Contact:               +971 4 555 7890
-Email:                 service.mea@techwave.cn
+Service Center:         TechWave Service Center São Paulo
+Address:                Av. Paulista, 1000 - Bela Vista
+                        São Paulo - SP, 01310-100
+Contact:                +55 11 3456 7890
+Email:                  service.latam@techwave.cn
 
 Process:
 1. Contact service center with proof of purchase
@@ -2919,10 +2927,10 @@ Process:
 
 ═══════════════════════════════════════════════════════════════════
 
-AUTHORIZED WARRANTY PROVIDER (UAE):
+AUTHORIZED WARRANTY PROVIDER (BRAZIL):
 
-Company:                Gulf Digital Distribution LLC
-Coverage Area:          UAE, Oman, Bahrain, Qatar, Kuwait
+Company:                Distribuidora Tech Brasil Ltda
+Coverage Area:          Brazil, Argentina, Chile, Colombia
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -2937,34 +2945,34 @@ Coverage Area:          UAE, Oman, Bahrain, Qatar, Kuwait
             },
             {
                 id: 'import_dec',
-                type: 'Import Declaration',
-                shortType: 'IMP',
-                filename: 'IMP-DXB-2025-4521.pdf',
+                type: 'Import Declaration (DI)',
+                shortType: 'DI',
+                filename: 'DI-RFB-2025-7892.pdf',
                 errorLines: [],
                 content: `
 ═══════════════════════════════════════════════════════════════════
-                UAE IMPORT DECLARATION
-                (PRE-CLEARANCE APPLICATION)
+            DECLARAÇÃO DE IMPORTAÇÃO (DI)
+              BRAZILIAN IMPORT DECLARATION
 ═══════════════════════════════════════════════════════════════════
 
-DUBAI CUSTOMS
-Jebel Ali Free Zone Authority
-Dubai, United Arab Emirates
+RECEITA FEDERAL DO BRASIL
+Alfândega do Porto de Santos
+Santos - SP, Brazil
 
-Declaration No:         DXB-IMP-2025-4521
-Date of Application:    January 26, 2025
-Status:                 PRE-APPROVED
+DI Number:              25/0147892-3
+Registration Date:      January 26, 2025
+Channel:                YELLOW (Documentary Check)
 
 ═══════════════════════════════════════════════════════════════════
 
 IMPORTER DETAILS:
 
-Company:                Gulf Digital Distribution LLC
-Trade License:          654321
-TRN:                    100456789012345
-Address:                Al Quoz Industrial Area 3
-                        P.O. Box 54321, Dubai, UAE
-Contact:                +971 4 333 4567
+Company:                Distribuidora Tech Brasil Ltda
+CNPJ:                   12.345.678/0001-90
+RADAR:                  Active (Unlimited modality)
+Address:                Rua Funchal, 418 - Vila Olímpia
+                        São Paulo - SP, 04551-060
+Contact:                +55 11 3456 7890
 
 ═══════════════════════════════════════════════════════════════════
 
@@ -2972,19 +2980,19 @@ SHIPMENT DETAILS:
 
 Exporter:               Shenzhen TechWave Electronics Co. Ltd
 Country of Origin:      China
-Country of Export:      China
+Country of Acquisition: China
 
-Vessel:                 COSCO SHIPPING UNIVERSE
-Voyage:                 026E
-B/L Number:             COSU-SZN-JAL-2025-4521
-ETA Jebel Ali:          February 8, 2025
+Vessel:                 COSCO SHIPPING ANDES
+Voyage:                 038W
+B/L Number:             COSU-SZN-STS-2025-7892
+ETA Santos:             February 18, 2025
 
 ═══════════════════════════════════════════════════════════════════
 
 CARGO DETAILS:
 
 Description:            Consumer Electronics - Smartphones
-HS Code:                8517.12.00
+NCM Code:               8517.12.31
 Quantity:               15,000 Units
 Gross Weight:           6,375 kg
 No. of Packages:        750 Cartons
@@ -2995,50 +3003,53 @@ Container:              2 x 40'HC
 VALUE DECLARATION:
 
 CIF Value:              USD 4,200,000.00
-Exchange Rate:          1 USD = 3.6725 AED
-AED Value:              AED 15,424,500.00
+Exchange Rate:          1 USD = 4.9250 BRL
+BRL Value:              BRL 20,685,000.00
 
 ═══════════════════════════════════════════════════════════════════
 
 DUTIES & TAXES CALCULATION:
 
-Customs Duty (5%):      AED   771,225.00
-VAT (5%):               AED   809,786.25
+II (Import Tax 16%):           BRL  3,309,600.00
+IPI (15%):                     BRL  3,599,190.00
+PIS/COFINS (11.75%):           BRL  2,430,487.50
+ICMS (São Paulo 18%):          BRL  5,422,435.98
 ────────────────────────────────────────
-TOTAL PAYABLE:          AED 1,581,011.25
+TOTAL ESTIMATED:               BRL 14,761,713.48
 
-Payment Status:         SECURED (Bank Guarantee)
+Payment Status:         PENDING (Awaiting clearance)
 
 ═══════════════════════════════════════════════════════════════════
 
-COMPLIANCE:
+COMPLIANCE REQUIREMENTS:
 
-TRA Type Approval:      Required - Pending
-Emirates Conformity:    ECAS compliant
+ANATEL Homologation:    Required - Certificate attached
+INMETRO Conformity:     Required - Certificate attached
+Siscomex LI:            25/0147892-3/001
 Restricted Goods:       No
 
 ═══════════════════════════════════════════════════════════════════
 
-                    [DUBAI CUSTOMS SEAL]
+                    [RECEITA FEDERAL SEAL]
 
         _________________________________
         Customs Clearance Department
-        Dubai Customs - Jebel Ali
+        Alfândega do Porto de Santos
 
-Reference: dubaitrade.ae/verify/2025-4521
+Reference: portaldeuniconet.gov.br/verify/2025-7892
 ═══════════════════════════════════════════════════════════════════
                 `
             }
         ],
         lucasResponse: {
             summary: "USD 4.2M electronics shipment has 2 critical issues requiring immediate attention.",
-            quickCheck: "Analyzed 10 documents for 15,000 units Shenzhen → Dubai. Found HS code and warranty discrepancies.",
+            quickCheck: "Analyzed 10 documents for 15,000 units Shenzhen → Santos. Found NCM code and warranty discrepancies.",
             verdict: "CAUTION",
             score: 58,
             criticalErrors: [
                 {
-                    label: "HS CODE MISMATCH",
-                    description: "LC specifies 8517.12 (mobile phones) but Classification shows 8471.30 (computers). 5% tariff difference = potential customs issues and bank rejection."
+                    label: "NCM CODE MISMATCH",
+                    description: "LC specifies 8517.12 (mobile phones) but Classification shows 8471.30 (computers). Different tax rates apply - II, IPI, and ICMS calculations will be incorrect."
                 },
                 {
                     label: "WARRANTY NON-COMPLIANT",
@@ -3048,7 +3059,7 @@ Reference: dubaitrade.ae/verify/2025-4521
             warnings: [
                 {
                     label: "ORIGIN STATEMENT VAGUE",
-                    description: "COO states 'components from multiple origins' - may trigger additional customs scrutiny in UAE."
+                    description: "COO states 'components from multiple origins' - may trigger additional Receita Federal scrutiny and YELLOW channel delay."
                 },
                 {
                     label: "SERIAL NUMBER DISCREPANCY",
@@ -3056,12 +3067,12 @@ Reference: dubaitrade.ae/verify/2025-4521
                 }
             ],
             actions: [
-                "Get corrected HS Classification Certificate (confirm product is 8517.12 for mobile phones)",
+                "Get corrected NCM Classification Certificate (confirm product is 8517.12.31 for mobile phones)",
                 "Request extended warranty certificate (24 months) from manufacturer",
-                "Clarify component origins with supplier for customs purposes",
+                "Clarify component origins with supplier for Brazilian customs purposes",
                 "Reconcile serial number ranges between invoice and packing list"
             ],
-            closing: "Shipment is close to compliant but HS code and warranty issues will cause bank rejection. Both are correctable with supplier cooperation. Recommend 48-72 hour hold for document amendments."
+            closing: "Shipment is close to compliant but NCM code and warranty issues will cause bank rejection. Both are correctable with supplier cooperation. Recommend 48-72 hour hold for document amendments."
         }
     }
 };
