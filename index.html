@@ -189,16 +189,16 @@
     
     /* Typo Word */
     .typo-word {
-      position: relative; 
+      position: relative;
       display: inline-block;
-      transition: all 0.3s ease;
+      transition: all 0.4s ease-out;
     }
     .typo-word.spotlight { text-shadow: 0 0 60px var(--error-glow), 0 0 120px var(--error-glow); }
     .typo-word.success { text-shadow: 0 0 60px var(--lime-glow), 0 0 120px var(--lime-glow); }
-    
-    .typo-word .char { 
-      display: inline-block; 
-      transition: all 0.15s ease; 
+
+    .typo-word .char {
+      display: inline-block;
+      transition: all 0.25s ease-out;
     }
     .typo-word .char.scanning {
       color: var(--lime);
@@ -502,13 +502,13 @@
     
     /* Field Rows */
     .field-list { display: flex; flex-direction: column; gap: 6px; }
-    .field-row { 
-      display: flex; align-items: center; justify-content: space-between; 
-      padding: 10px 14px; 
+    .field-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px;
       background: rgba(255,255,255,0.02);
-      border-radius: 10px; 
+      border-radius: 10px;
       border: 1px solid rgba(255,255,255,0.04);
-      transition: all 0.3s ease; 
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .field-row:hover { background: rgba(255,255,255,0.04); }
     .field-row.error { 
@@ -675,10 +675,10 @@
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 
+      box-shadow:
         0 4px 24px rgba(0, 0, 0, 0.2),
         0 0 0 1px rgba(255, 255, 255, 0.03) inset;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
     }
     
@@ -703,9 +703,9 @@
     
     .cta-agent:active {
       transform: translateY(-2px);
-      transition: all 0.1s ease;
+      transition: all 0.15s ease-out;
     }
-    
+
     .cta-icon {
       width: 52px;
       height: 52px;
@@ -715,20 +715,20 @@
       background: rgba(222, 255, 155, 0.06);
       border: 1px solid rgba(222, 255, 155, 0.15);
       border-radius: 14px;
-      transition: all 0.3s ease;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
+
     .cta-icon svg {
       width: 26px;
       height: 26px;
       stroke: var(--lime);
       opacity: 0.9;
-      transition: all 0.3s ease;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    
+
     .envelope-flap {
       transform-origin: center;
-      transition: transform 0.3s ease;
+      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     .cta-agent:hover .envelope-flap {
@@ -829,7 +829,7 @@
       text-decoration: none;
       position: relative;
       padding-bottom: 2px;
-      transition: color 0.2s ease;
+      transition: color 0.3s ease-out;
     }
     .cta-demo::after {
       content: '';
@@ -839,7 +839,7 @@
       width: 0;
       height: 1px;
       background: var(--lime);
-      transition: width 0.3s ease;
+      transition: width 0.35s ease-out;
     }
     .cta-demo:hover {
       color: var(--text);
@@ -850,7 +850,7 @@
     .cta-demo .arrow {
       display: inline-block;
       margin-left: 4px;
-      transition: transform 0.2s ease;
+      transition: transform 0.3s ease-out;
     }
     .cta-demo:hover .arrow {
       transform: translateX(3px);
@@ -870,7 +870,7 @@
       cursor: pointer;
       padding: 20px 0 8px;
       margin-top: 20px;
-      transition: color 0.2s ease;
+      transition: color 0.3s ease-out;
       display: flex;
       align-items: center;
       gap: 0;
