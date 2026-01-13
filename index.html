@@ -251,45 +251,37 @@
       }
     }
     
-    /* Correction - fluid single motion */
-    .typo-word .char.lifting {
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      transform: translateY(-6px);
+    /* Correction - smooth in-place transformation */
+    .typo-word .char.fixing {
       color: var(--lime) !important;
-      text-shadow: 0 0 20px var(--lime-glow) !important;
+      text-shadow: 0 0 25px var(--lime-glow) !important;
+      transition: color 0.3s ease, text-shadow 0.3s ease;
     }
 
-    .typo-word .char.swapping {
-      transition: all 0.3s ease-out;
-      opacity: 0;
-      transform: translateY(-6px) scale(0.8);
+    .typo-word .char.morphing {
+      animation: charMorph 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
-
-    .typo-word .char.swapped {
-      opacity: 0;
-      transform: translateY(-6px) scale(0.8);
-      animation: swapIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-    @keyframes swapIn {
-      0% { opacity: 0; transform: translateY(-6px) scale(0.8); }
-      100% { opacity: 1; transform: translateY(-6px) scale(1); }
+    @keyframes charMorph {
+      0% { transform: scale(1); opacity: 1; }
+      40% { transform: scale(0); opacity: 0; }
+      60% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
     }
 
     .typo-word .char.inserted {
       display: inline-block;
-      opacity: 0;
-      transform: scale(0);
-      animation: charInsert 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation: charSlideIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
-    @keyframes charInsert {
-      0% { opacity: 0; transform: scale(0); }
-      60% { opacity: 1; transform: scale(1.15); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-
-    .typo-word .char.settling {
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      transform: translateY(0) scale(1);
+    @keyframes charSlideIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(8px);
+        color: var(--lime);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
     
     .hero-stats {
@@ -1515,60 +1507,46 @@
       verdictTime.textContent = ((Date.now() - startTime) / 1000).toFixed(1) + 's';
     };
     
-    // Surgical precision correction - fluid single motion
+    // Smooth in-place correction animation
     function runCorrection() {
       return new Promise(async resolve => {
         const chars = [...typoWord.querySelectorAll('.char')];
-        // "Shangai" → "Shanghai": change 'a' at [5] to 'h', insert 'a' after
+        const errorChar = chars[5]; // 'a' → 'h'
+        const nextChar = chars[6];  // 'i'
 
-        const errorChar = chars[5]; // the 'a' that should be 'h'
-        const nextChar = chars[6];  // the 'i'
-
-        // Step 1: Lift both chars together - remove error state, turn lime
+        // Step 1: Clear error state, turn both lime
         errorChar.classList.remove('error');
         nextChar.classList.remove('error');
-        errorChar.classList.add('lifting');
-        nextChar.classList.add('lifting');
+        errorChar.classList.add('fixing');
+        nextChar.classList.add('fixing');
 
-        await sleep(400);
+        await sleep(300);
 
-        // Step 2: Quick swap 'a' → 'h'
-        errorChar.classList.add('swapping');
+        // Step 2: Morph 'a' → 'h' (shrink, swap, grow)
+        errorChar.classList.add('morphing');
 
-        await sleep(200);
+        await sleep(250); // Wait until char is scaled to 0
+        errorChar.textContent = 'h'; // Swap while invisible
 
-        errorChar.textContent = 'h';
-        errorChar.classList.remove('swapping');
-        errorChar.classList.add('swapped');
+        await sleep(300); // Wait for grow back
 
-        await sleep(350);
-
-        // Step 3: Pop in the new 'a'
+        // Step 3: Insert new 'a'
         const newA = document.createElement('span');
-        newA.className = 'char inserted';
+        newA.className = 'char inserted fixing';
         newA.textContent = 'a';
-        newA.style.color = 'var(--lime)';
-        newA.style.textShadow = '0 0 20px var(--lime-glow)';
         errorChar.after(newA);
 
-        await sleep(400);
-
-        // Step 4: Settle everything down together
-        errorChar.classList.remove('lifting', 'swapped');
-        errorChar.classList.add('settling');
-        nextChar.classList.remove('lifting');
-        nextChar.classList.add('settling');
-
-        // Other chars turn lime together
-        chars.forEach((c, i) => {
-          if (i !== 5 && i !== 6) {
-            c.style.transition = 'all 0.4s ease';
-            c.style.color = 'var(--lime)';
-            c.style.textShadow = '0 0 20px var(--lime-glow)';
-          }
-        });
-
         await sleep(450);
+
+        // Step 4: Rest of word turns lime (wave effect)
+        for (let i = 0; i < chars.length; i++) {
+          if (i !== 5 && i !== 6) {
+            chars[i].classList.add('fixing');
+            await sleep(50);
+          }
+        }
+
+        await sleep(300);
         resolve();
       });
     }
