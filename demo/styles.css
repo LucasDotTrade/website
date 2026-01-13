@@ -3886,13 +3886,13 @@ body::before {
 }
 
 /* ============================================
-   Mobile Modal - Full Screen
+   Mobile Modal - Full Screen Native Feel
    ============================================ */
 @media (max-width: 640px) {
     .modal-overlay {
         padding: 0;
     }
-    
+
     .modal {
         width: 100%;
         height: 100%;
@@ -3900,65 +3900,126 @@ body::before {
         max-height: 100%;
         border-radius: 0;
         margin: 0;
-    }
-    
-    .modal-header {
-        padding: 16px;
-        padding-top: max(16px, env(safe-area-inset-top));
-    }
-    
-    .modal-doc-icon {
-        width: 40px;
-        height: 40px;
-    }
-    
-    .modal-doc-type {
-        font-size: 11px;
-    }
-    
-    .modal-doc-name {
-        font-size: 16px;
-    }
-    
-    .modal-close {
-        top: max(16px, env(safe-area-inset-top));
-        right: 16px;
-        width: 44px;
-        height: 44px;
-    }
-    
-    .modal-content {
-        padding: 16px;
-    }
-    
-    .modal-footer {
-        padding: 16px;
-        padding-bottom: max(16px, env(safe-area-inset-bottom));
+        display: flex;
         flex-direction: column;
-        gap: 12px;
     }
-    
-    .modal-shortcuts {
-        display: none; /* Hide keyboard shortcuts on mobile */
+
+    .modal-header {
+        padding: 12px 16px;
+        padding-top: max(12px, env(safe-area-inset-top));
+        flex-shrink: 0;
     }
-    
-    .modal-hint {
-        font-size: 12px;
+
+    .modal-doc-icon {
+        width: 36px;
+        height: 36px;
     }
-    
-    /* Modal navigation arrows */
-    .modal-nav {
+
+    .modal-doc-type {
+        font-size: 10px;
+    }
+
+    .modal-doc-name {
+        font-size: 14px;
+    }
+
+    .modal-close {
+        top: max(12px, env(safe-area-inset-top));
+        right: 12px;
         width: 44px;
         height: 44px;
+    }
+
+    .modal-content {
+        flex: 1;
+        padding: 0;
+        overflow-x: auto;
+        overflow-y: auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .modal-content.text-preview {
+        padding: 0;
+    }
+
+    /* Document page - mobile optimized */
+    .doc-page {
+        min-width: auto !important;
+        max-width: 100% !important;
+        width: 100%;
+        margin: 0;
+        padding: 24px 20px;
+        font-size: 10px;
+        line-height: 1.6;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .doc-page::after {
+        /* Hide corner fold on mobile */
+        display: none;
+    }
+
+    .doc-page-watermark {
+        font-size: 40px;
+    }
+
+    .doc-page.show-line-numbers {
+        padding-left: 50px;
+    }
+
+    .doc-page.show-line-numbers .doc-line::before {
+        left: -36px;
+        font-size: 9px;
+    }
+
+    .modal-footer {
+        padding: 12px 16px;
+        padding-bottom: max(12px, env(safe-area-inset-bottom));
+        flex-shrink: 0;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .modal-shortcuts {
+        display: none;
+    }
+
+    .modal-hint {
+        font-size: 11px;
+        flex: 1;
+    }
+
+    /* Navigation arrows - bottom positioned on mobile */
+    .modal-nav {
+        position: fixed;
+        top: auto;
+        bottom: max(70px, calc(env(safe-area-inset-bottom) + 60px));
+        transform: none;
+        width: 48px;
+        height: 48px;
         border-radius: 50%;
+        background: rgba(0, 0, 0, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        z-index: 210;
     }
-    
+
     .modal-nav.prev {
-        left: 8px;
+        left: 16px;
     }
-    
+
     .modal-nav.next {
-        right: 8px;
+        right: 16px;
+    }
+
+    .modal-nav svg {
+        width: 20px;
+        height: 20px;
     }
 }
 
