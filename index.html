@@ -1524,7 +1524,9 @@
         const errorChar = chars[5]; // the 'a' that should be 'h'
         const nextChar = chars[6];  // the 'i'
 
-        // Step 1: Lift both chars together - they turn lime as they lift
+        // Step 1: Lift both chars together - remove error state, turn lime
+        errorChar.classList.remove('error');
+        nextChar.classList.remove('error');
         errorChar.classList.add('lifting');
         nextChar.classList.add('lifting');
 
