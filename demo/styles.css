@@ -1075,6 +1075,75 @@ body::before {
     }
 }
 
+/* Skeleton Loading State */
+.doc-card.skeleton {
+    pointer-events: none;
+    cursor: default;
+}
+
+.doc-card.skeleton .doc-card-content {
+    padding: 16px;
+}
+
+.skeleton-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.04) 0%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(255, 255, 255, 0.04) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-line {
+    border-radius: 4px;
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.04) 0%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(255, 255, 255, 0.04) 100%
+    );
+    background-size: 200% 100%;
+    animation: skeletonPulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-title {
+    width: 120px;
+    height: 14px;
+    margin-bottom: 8px;
+}
+
+.skeleton-subtitle {
+    width: 160px;
+    height: 12px;
+}
+
+.doc-card.skeleton:nth-child(1) .skeleton-icon,
+.doc-card.skeleton:nth-child(1) .skeleton-line { animation-delay: 0s; }
+.doc-card.skeleton:nth-child(2) .skeleton-icon,
+.doc-card.skeleton:nth-child(2) .skeleton-line { animation-delay: 0.1s; }
+.doc-card.skeleton:nth-child(3) .skeleton-icon,
+.doc-card.skeleton:nth-child(3) .skeleton-line { animation-delay: 0.2s; }
+.doc-card.skeleton:nth-child(4) .skeleton-icon,
+.doc-card.skeleton:nth-child(4) .skeleton-line { animation-delay: 0.3s; }
+.doc-card.skeleton:nth-child(5) .skeleton-icon,
+.doc-card.skeleton:nth-child(5) .skeleton-line { animation-delay: 0.4s; }
+.doc-card.skeleton:nth-child(6) .skeleton-icon,
+.doc-card.skeleton:nth-child(6) .skeleton-line { animation-delay: 0.5s; }
+
+@keyframes skeletonPulse {
+    0%, 100% {
+        background-position: 200% 0;
+    }
+    50% {
+        background-position: -200% 0;
+    }
+}
+
 /* Documents Actions */
 .documents-actions {
     margin-top: auto;
