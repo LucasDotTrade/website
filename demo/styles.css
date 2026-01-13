@@ -3557,3 +3557,510 @@ body::before {
         font-size: 16px;
     }
 }
+
+/* ============================================
+   MOBILE-FIRST OPTIMIZATIONS
+   Apple HIG & Material Design Best Practices
+   ============================================ */
+
+/* Safe Area Support */
+@supports (padding: env(safe-area-inset-top)) {
+    .header {
+        padding-top: env(safe-area-inset-top);
+        height: calc(72px + env(safe-area-inset-top));
+    }
+    
+    .scenario-selection {
+        padding-left: max(var(--space-md), env(safe-area-inset-left));
+        padding-right: max(var(--space-md), env(safe-area-inset-right));
+    }
+    
+    .demo-container {
+        padding-left: max(var(--space-md), env(safe-area-inset-left));
+        padding-right: max(var(--space-md), env(safe-area-inset-right));
+        padding-bottom: max(var(--space-lg), env(safe-area-inset-bottom));
+    }
+}
+
+/* ============================================
+   Mobile Header - Compact & Touch-Friendly
+   ============================================ */
+@media (max-width: 640px) {
+    .header {
+        height: 60px;
+        padding: 0 16px;
+        padding-top: env(safe-area-inset-top, 0);
+    }
+    
+    .logo-img {
+        height: 28px;
+    }
+    
+    .nav {
+        gap: 8px;
+    }
+    
+    /* Hide "Back to Home" text, show just arrow */
+    .nav-link {
+        font-size: 0;
+        padding: 12px;
+        min-width: 44px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .nav-link::before {
+        font-size: 18px;
+        margin-right: 0;
+        opacity: 0.7;
+    }
+    
+    /* Compact WhatsApp button */
+    .btn-whatsapp-header {
+        padding: 10px 12px;
+        font-size: 0;
+        min-width: 44px;
+        min-height: 44px;
+        border-radius: 12px;
+    }
+    
+    .btn-whatsapp-header svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* ============================================
+   Mobile Scenario Selection - Native Feel
+   ============================================ */
+@media (max-width: 640px) {
+    .scenario-selection {
+        padding: calc(60px + env(safe-area-inset-top, 0) + 24px) 20px 40px;
+        min-height: auto;
+    }
+    
+    .scenario-eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.12em;
+        margin-bottom: 12px;
+    }
+    
+    .scenario-title {
+        font-size: 24px;
+        line-height: 1.2;
+    }
+    
+    .scenario-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 32px;
+        max-width: 100%;
+    }
+    
+    .scenario-card {
+        /* Remove hover transform on mobile - interferes with scrolling */
+        transform: none !important;
+    }
+    
+    .scenario-card-inner {
+        padding: 16px;
+        border-radius: 14px;
+        /* Horizontal layout on mobile */
+        flex-direction: row;
+        align-items: center;
+        gap: 16px;
+    }
+    
+    .scenario-card-top {
+        display: none;
+    }
+    
+    .scenario-card-body {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        text-align: left;
+    }
+    
+    .scenario-icon {
+        font-size: 32px;
+        flex-shrink: 0;
+    }
+    
+    .scenario-name {
+        font-size: 17px;
+        margin-bottom: 2px;
+    }
+    
+    .scenario-commodity {
+        font-size: 13px;
+    }
+    
+    .scenario-card-bottom {
+        flex-shrink: 0;
+        text-align: right;
+        padding-left: 12px;
+        border-left: 1px solid var(--border-subtle);
+    }
+    
+    .scenario-card-bottom .value-label {
+        font-size: 10px;
+    }
+    
+    .scenario-card-bottom .value-amount {
+        font-size: 17px;
+    }
+    
+    /* Featured card - same layout on mobile */
+    .scenario-card.featured .scenario-card-inner {
+        border-color: rgba(222, 255, 155, 0.25);
+    }
+    
+    .featured-glow {
+        display: none;
+    }
+    
+    .scenario-hint {
+        font-size: 12px;
+        margin-top: 24px;
+        padding: 0 8px;
+    }
+}
+
+/* ============================================
+   Mobile Demo Container - Stacked Layout
+   ============================================ */
+@media (max-width: 640px) {
+    .demo-container {
+        padding: calc(60px + env(safe-area-inset-top, 0) + 16px) 16px 24px;
+        gap: 24px;
+    }
+    
+    /* Panel headers */
+    .panel-header {
+        padding: 16px;
+    }
+    
+    .panel-title {
+        font-size: 16px;
+    }
+    
+    .panel-tags {
+        gap: 8px;
+        margin-top: 12px;
+    }
+    
+    .panel-tag {
+        font-size: 11px;
+        padding: 6px 10px;
+    }
+    
+    /* Documents Grid - 2 column on mobile */
+    .documents-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 12px;
+    }
+    
+    .doc-card {
+        border-radius: 12px;
+    }
+    
+    .doc-card-content {
+        padding: 12px;
+        gap: 10px;
+    }
+    
+    .doc-icon {
+        width: 36px;
+        height: 36px;
+    }
+    
+    .doc-icon svg {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .doc-type {
+        font-size: 12px;
+    }
+    
+    .doc-name {
+        font-size: 9px;
+    }
+    
+    .doc-card-footer {
+        padding: 8px 12px;
+    }
+    
+    .doc-preview-hint,
+    .doc-drag-hint {
+        font-size: 8px;
+    }
+    
+    /* Documents actions */
+    .documents-actions {
+        padding: 16px;
+    }
+    
+    .documents-actions .btn-large {
+        width: 100%;
+        padding: 16px 24px;
+        font-size: 15px;
+        min-height: 52px;
+        border-radius: 14px;
+    }
+    
+    .hint-text {
+        font-size: 12px;
+        margin-top: 12px;
+    }
+    
+    /* Lucas Panel */
+    .lucas-panel {
+        min-height: 350px;
+        border-radius: 16px;
+    }
+    
+    .lucas-avatar-container {
+        padding: 24px 16px;
+    }
+    
+    .lucas-avatar {
+        width: 64px;
+        height: 64px;
+    }
+    
+    .avatar-icon-img {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .lucas-status {
+        margin-top: 12px;
+    }
+    
+    .status-text {
+        font-size: 13px;
+    }
+    
+    /* Chat area */
+    .chat-area {
+        padding: 16px;
+        gap: 16px;
+    }
+    
+    .chat-message {
+        padding: 14px 16px;
+        border-radius: 14px;
+        font-size: 14px;
+    }
+    
+    /* CTA Container */
+    .cta-container {
+        padding: 16px;
+    }
+    
+    .final-cta-grid {
+        gap: 10px;
+    }
+    
+    .final-cta-btn {
+        padding: 14px 16px;
+        font-size: 14px;
+        min-height: 52px;
+        border-radius: 14px;
+    }
+}
+
+/* ============================================
+   Mobile Modal - Full Screen
+   ============================================ */
+@media (max-width: 640px) {
+    .modal-overlay {
+        padding: 0;
+    }
+    
+    .modal {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        border-radius: 0;
+        margin: 0;
+    }
+    
+    .modal-header {
+        padding: 16px;
+        padding-top: max(16px, env(safe-area-inset-top));
+    }
+    
+    .modal-doc-icon {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .modal-doc-type {
+        font-size: 11px;
+    }
+    
+    .modal-doc-name {
+        font-size: 16px;
+    }
+    
+    .modal-close {
+        top: max(16px, env(safe-area-inset-top));
+        right: 16px;
+        width: 44px;
+        height: 44px;
+    }
+    
+    .modal-content {
+        padding: 16px;
+    }
+    
+    .modal-footer {
+        padding: 16px;
+        padding-bottom: max(16px, env(safe-area-inset-bottom));
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .modal-shortcuts {
+        display: none; /* Hide keyboard shortcuts on mobile */
+    }
+    
+    .modal-hint {
+        font-size: 12px;
+    }
+    
+    /* Modal navigation arrows */
+    .modal-nav {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+    }
+    
+    .modal-nav.prev {
+        left: 8px;
+    }
+    
+    .modal-nav.next {
+        right: 8px;
+    }
+}
+
+/* ============================================
+   Mobile Toast Notifications
+   ============================================ */
+@media (max-width: 640px) {
+    .toast-container {
+        bottom: max(16px, env(safe-area-inset-bottom));
+        left: 16px;
+        right: 16px;
+    }
+    
+    .toast {
+        font-size: 13px;
+        padding: 14px 16px;
+        border-radius: 12px;
+    }
+}
+
+/* ============================================
+   Extra Small Devices (iPhone SE, etc.)
+   ============================================ */
+@media (max-width: 375px) {
+    .scenario-title {
+        font-size: 22px;
+    }
+    
+    .scenario-card-inner {
+        padding: 14px;
+        gap: 12px;
+    }
+    
+    .scenario-icon {
+        font-size: 28px;
+    }
+    
+    .scenario-name {
+        font-size: 15px;
+    }
+    
+    .scenario-card-bottom .value-amount {
+        font-size: 15px;
+    }
+    
+    .documents-grid {
+        gap: 8px;
+        padding: 10px;
+    }
+    
+    .doc-card-content {
+        padding: 10px;
+    }
+    
+    .doc-icon {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .doc-type {
+        font-size: 11px;
+    }
+}
+
+/* ============================================
+   Touch Optimizations
+   ============================================ */
+@media (hover: none) and (pointer: coarse) {
+    /* Remove hover effects that interfere with touch */
+    .scenario-card:hover {
+        transform: none;
+    }
+    
+    .doc-card:hover {
+        transform: none;
+    }
+    
+    /* Add active states for touch feedback */
+    .scenario-card:active .scenario-card-inner {
+        background: rgba(255, 255, 255, 0.06);
+        transform: scale(0.98);
+    }
+    
+    .doc-card:active {
+        transform: scale(0.97);
+    }
+    
+    .btn:active {
+        transform: scale(0.97);
+    }
+    
+    /* Larger touch targets */
+    .doc-card {
+        min-height: 100px;
+    }
+}
+
+/* ============================================
+   Prevent iOS zoom on input focus
+   ============================================ */
+@media (max-width: 640px) {
+    input, textarea, select {
+        font-size: 16px !important;
+    }
+}
+
+/* ============================================
+   Smooth scrolling for iOS
+   ============================================ */
+.documents-grid,
+.chat-area,
+.modal-content {
+    -webkit-overflow-scrolling: touch;
+}
