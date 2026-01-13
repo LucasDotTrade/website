@@ -3734,7 +3734,9 @@ body::before {
     }
     
     .scenario-card-inner {
+        position: relative;
         padding: 14px 16px;
+        padding-bottom: 38px; /* Room for flags row */
         border-radius: 14px;
         /* Horizontal layout on mobile */
         flex-direction: row;
@@ -3743,6 +3745,29 @@ body::before {
     }
 
     .scenario-card-top {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: 0;
+        padding: 0 16px 14px;
+        padding-left: 54px; /* Align with text after icon */
+    }
+
+    .scenario-route {
+        gap: 5px;
+    }
+
+    .route-flag {
+        font-size: 14px;
+    }
+
+    .route-arrow {
+        font-size: 10px;
+        opacity: 0.5;
+    }
+
+    .scenario-docs-count {
         display: none;
     }
 
@@ -3795,7 +3820,7 @@ body::before {
     /* Featured card - same size as others on mobile */
     .scenario-card.featured .scenario-card-inner {
         border-color: rgba(222, 255, 155, 0.2);
-        padding: 14px 16px; /* Match other cards exactly */
+        padding: 14px 16px 38px; /* Match other cards exactly */
     }
 
     .scenario-card.featured .scenario-icon,
