@@ -707,69 +707,46 @@
     .proof-icon { font-size: 0.875rem; }
     .proof-icon.lime { color: var(--lime); }
     
-    .live-counter {
-      margin-top: 20px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      letter-spacing: 0.02em;
-    }
-    
-    .counter-number {
-      color: var(--lime);
-      font-weight: 600;
-      transition: all 0.3s ease;
-    }
-    
-    .counter-number.tick {
-      animation: counterTick 0.3s ease;
-    }
-    
-    @keyframes counterTick {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-2px); text-shadow: 0 0 8px var(--lime-glow); }
-      100% { transform: translateY(0); }
-    }
-    
 
-    /* Demo Link */
+    /* Demo Link - Minimal Play Button */
     .cta-demo {
       display: inline-flex;
       align-items: center;
-      gap: 14px;
-      margin-top: 16px;
-      padding: 14px 24px;
-      background: var(--lime-subtle);
-      border: 1px solid var(--lime-border);
-      border-radius: 16px;
+      justify-content: center;
+      margin-top: 32px;
+      width: 56px;
+      height: 56px;
+      background: rgba(222, 255, 155, 0.08);
+      border: 1px solid rgba(222, 255, 155, 0.2);
+      border-radius: 50%;
       cursor: pointer;
       text-decoration: none;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
+      animation: demoPulse 3s ease-in-out infinite;
     }
     .cta-demo:hover {
-      background: rgba(222, 255, 155, 0.12);
+      background: rgba(222, 255, 155, 0.15);
       border-color: var(--lime);
-      transform: translateY(-1px);
+      transform: scale(1.08);
+      animation: none;
+      box-shadow: 0 0 24px rgba(222, 255, 155, 0.2);
     }
     .cta-demo svg {
-      width: 20px;
-      height: 20px;
-      stroke: var(--lime);
+      width: 22px;
+      height: 22px;
+      stroke: none;
+      fill: var(--lime);
+      margin-left: 2px; /* optical centering for play icon */
     }
-    .demo-text {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 2px;
-    }
-    .demo-title {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--text);
-    }
-    .demo-status {
-      font-size: 0.75rem;
-      color: var(--lime);
+    @keyframes demoPulse {
+      0%, 100% {
+        box-shadow: 0 0 0 0 rgba(222, 255, 155, 0);
+        opacity: 0.85;
+      }
+      50% {
+        box-shadow: 0 0 20px 4px rgba(222, 255, 155, 0.15);
+        opacity: 1;
+      }
     }
 
     /* ═══════════════════════════════════════════════════════════
@@ -1108,14 +1085,10 @@
             <span class="proof-point"><span class="proof-icon lime">🧠</span> Learns you</span>
             <span class="proof-point"><span class="proof-icon lime">✦</span> Free</span>
           </div>
-          <a href="/demo" class="cta-demo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          <a href="/demo" class="cta-demo" aria-label="Interactive Demo">
+            <svg viewBox="0 0 24 24">
+              <polygon points="6 3 20 12 6 21 6 3"></polygon>
             </svg>
-            <div class="demo-text">
-              <span class="demo-title">Interactive Demo</span>
-              <span class="demo-status">try it now</span>
-            </div>
           </a>
           
           <!-- Collapsible FAQ -->
