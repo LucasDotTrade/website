@@ -251,79 +251,45 @@
       }
     }
     
-    /* Correction - surgical precision with smooth morphing */
+    /* Correction - fluid single motion */
     .typo-word .char.lifting {
-      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-                  opacity 0.3s ease,
-                  filter 0.3s ease;
-      transform: translateY(-10px) scale(1.1);
-      opacity: 0.7;
-      filter: blur(1px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: translateY(-6px);
+      color: var(--lime) !important;
+      text-shadow: 0 0 20px var(--lime-glow) !important;
     }
 
-    .typo-word .char.morphing {
-      transition: opacity 0.25s ease-out, transform 0.3s ease-out, filter 0.25s ease;
+    .typo-word .char.swapping {
+      transition: all 0.3s ease-out;
       opacity: 0;
-      transform: translateY(-10px) scale(0.8);
-      filter: blur(3px);
+      transform: translateY(-6px) scale(0.8);
     }
 
-    .typo-word .char.morphed {
-      animation: morphIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    .typo-word .char.swapped {
+      opacity: 0;
+      transform: translateY(-6px) scale(0.8);
+      animation: swapIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
-    @keyframes morphIn {
-      0% {
-        opacity: 0;
-        transform: translateY(-10px) scale(0.8);
-        filter: blur(3px);
-      }
-      60% {
-        opacity: 1;
-        transform: translateY(-5px) scale(1.05);
-        filter: blur(0);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(-10px) scale(1.1);
-        filter: blur(1px);
-      }
-    }
-
-    .typo-word .char.making-room {
-      transition: margin-right 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      margin-right: 0.5em;
+    @keyframes swapIn {
+      0% { opacity: 0; transform: translateY(-6px) scale(0.8); }
+      100% { opacity: 1; transform: translateY(-6px) scale(1); }
     }
 
     .typo-word .char.inserted {
+      display: inline-block;
       opacity: 0;
-      transform: translateY(15px) scale(0.5);
-      filter: blur(2px);
-      animation: insertChar 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      transform: scale(0);
+      animation: charInsert 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
     }
-    @keyframes insertChar {
-      0% {
-        opacity: 0;
-        transform: translateY(15px) scale(0.5);
-        filter: blur(2px);
-      }
-      50% {
-        opacity: 0.8;
-        transform: translateY(-3px) scale(1.1);
-        filter: blur(0);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-        filter: blur(0);
-      }
+    @keyframes charInsert {
+      0% { opacity: 0; transform: scale(0); }
+      60% { opacity: 1; transform: scale(1.15); }
+      100% { opacity: 1; transform: scale(1); }
     }
 
     .typo-word .char.settling {
-      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       transform: translateY(0) scale(1);
-      opacity: 1;
-      filter: blur(0);
-      margin-right: 0;
     }
     
     .hero-stats {
@@ -1549,44 +1515,33 @@
       verdictTime.textContent = ((Date.now() - startTime) / 1000).toFixed(1) + 's';
     };
     
-    // Surgical precision correction - smooth morphing animation
+    // Surgical precision correction - fluid single motion
     function runCorrection() {
       return new Promise(async resolve => {
         const chars = [...typoWord.querySelectorAll('.char')];
-        // Error is at position 5-6: "Shangai" should be "Shanghai"
-        // The 'a' at position 5 needs to become 'h', and we insert 'a' after
+        // "Shangai" → "Shanghai": change 'a' at [5] to 'h', insert 'a' after
 
         const errorChar = chars[5]; // the 'a' that should be 'h'
         const nextChar = chars[6];  // the 'i'
 
-        // Step 1: Lift the error characters - AI is "picking them up"
+        // Step 1: Lift both chars together - they turn lime as they lift
         errorChar.classList.add('lifting');
         nextChar.classList.add('lifting');
 
-        await sleep(500);
+        await sleep(400);
 
-        // Step 2: Morph 'a' → 'h' with crossfade effect
-        errorChar.classList.add('morphing');
+        // Step 2: Quick swap 'a' → 'h'
+        errorChar.classList.add('swapping');
 
-        await sleep(250); // Wait for fade out
+        await sleep(200);
 
-        // Change the letter while invisible
         errorChar.textContent = 'h';
-        errorChar.style.color = 'var(--lime)';
-        errorChar.style.textShadow = '0 0 20px var(--lime-glow)';
+        errorChar.classList.remove('swapping');
+        errorChar.classList.add('swapped');
 
-        // Remove morphing, add morphed to fade back in
-        errorChar.classList.remove('morphing', 'lifting');
-        errorChar.classList.add('morphed');
+        await sleep(350);
 
-        await sleep(400); // Wait for morph in
-
-        // Step 3: Make room for the new character
-        errorChar.classList.add('making-room');
-
-        await sleep(300);
-
-        // Step 4: Insert the missing 'a' - slides up into place
+        // Step 3: Pop in the new 'a'
         const newA = document.createElement('span');
         newA.className = 'char inserted';
         newA.textContent = 'a';
@@ -1594,28 +1549,24 @@
         newA.style.textShadow = '0 0 20px var(--lime-glow)';
         errorChar.after(newA);
 
-        await sleep(500); // Wait for insert animation
+        await sleep(400);
 
-        // Step 5: Settle everything back down
-        errorChar.classList.remove('morphed', 'making-room');
+        // Step 4: Settle everything down together
+        errorChar.classList.remove('lifting', 'swapped');
         errorChar.classList.add('settling');
         nextChar.classList.remove('lifting');
         nextChar.classList.add('settling');
-        nextChar.style.color = 'var(--lime)';
-        nextChar.style.textShadow = '0 0 20px var(--lime-glow)';
 
-        // Turn all other chars lime too with staggered timing
+        // Other chars turn lime together
         chars.forEach((c, i) => {
           if (i !== 5 && i !== 6) {
-            setTimeout(() => {
-              c.style.transition = 'all 0.5s ease';
-              c.style.color = 'var(--lime)';
-              c.style.textShadow = '0 0 20px var(--lime-glow)';
-            }, i * 40);
+            c.style.transition = 'all 0.4s ease';
+            c.style.color = 'var(--lime)';
+            c.style.textShadow = '0 0 20px var(--lime-glow)';
           }
         });
 
-        await sleep(600);
+        await sleep(450);
         resolve();
       });
     }
