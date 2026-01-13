@@ -685,16 +685,13 @@
     .cta-agent:hover {
       transform: translateY(-4px);
       border-color: rgba(222, 255, 155, 0.2);
-      box-shadow: 
-        0 12px 40px rgba(0, 0, 0, 0.3),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-        0 0 60px rgba(222, 255, 155, 0.08);
+      animation: buttonGlow 2s ease-in-out infinite;
     }
-    
+
     .cta-agent:hover .cta-icon {
       border-color: var(--lime);
-      box-shadow: 0 0 20px rgba(222, 255, 155, 0.2);
       transform: translateY(-2px);
+      animation: iconGlow 2s ease-in-out infinite;
     }
     
     .cta-agent:hover .cta-icon svg {
@@ -798,6 +795,32 @@
       }
       100% {
         box-shadow: 0 0 0 20px rgba(222, 255, 155, 0);
+      }
+    }
+
+    @keyframes buttonGlow {
+      0%, 100% {
+        box-shadow:
+          0 12px 40px rgba(0, 0, 0, 0.3),
+          0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+          0 0 40px rgba(222, 255, 155, 0.08),
+          0 0 80px rgba(222, 255, 155, 0.04);
+      }
+      50% {
+        box-shadow:
+          0 12px 40px rgba(0, 0, 0, 0.3),
+          0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+          0 0 60px rgba(222, 255, 155, 0.15),
+          0 0 100px rgba(222, 255, 155, 0.08);
+      }
+    }
+
+    @keyframes iconGlow {
+      0%, 100% {
+        box-shadow: 0 0 20px rgba(222, 255, 155, 0.2);
+      }
+      50% {
+        box-shadow: 0 0 30px rgba(222, 255, 155, 0.35);
       }
     }
     
