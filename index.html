@@ -708,45 +708,41 @@
     .proof-icon.lime { color: var(--lime); }
     
 
-    /* Demo Link - Minimal Play Button */
+    /* Demo Link - Minimal Text Link */
     .cta-demo {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      display: inline-block;
       margin-top: 32px;
-      width: 56px;
-      height: 56px;
-      background: rgba(222, 255, 155, 0.08);
-      border: 1px solid rgba(222, 255, 155, 0.2);
-      border-radius: 50%;
-      cursor: pointer;
+      font-size: 0.9375rem;
+      font-weight: 400;
+      color: var(--text-secondary);
       text-decoration: none;
-      transition: all 0.3s ease;
-      animation: demoPulse 3s ease-in-out infinite;
+      position: relative;
+      padding-bottom: 2px;
+      transition: color 0.2s ease;
+    }
+    .cta-demo::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      height: 1px;
+      background: var(--lime);
+      transition: width 0.3s ease;
     }
     .cta-demo:hover {
-      background: rgba(222, 255, 155, 0.15);
-      border-color: var(--lime);
-      transform: scale(1.08);
-      animation: none;
-      box-shadow: 0 0 24px rgba(222, 255, 155, 0.2);
+      color: var(--text);
     }
-    .cta-demo svg {
-      width: 22px;
-      height: 22px;
-      stroke: none;
-      fill: var(--lime);
-      margin-left: 2px; /* optical centering for play icon */
+    .cta-demo:hover::after {
+      width: 100%;
     }
-    @keyframes demoPulse {
-      0%, 100% {
-        box-shadow: 0 0 0 0 rgba(222, 255, 155, 0);
-        opacity: 0.85;
-      }
-      50% {
-        box-shadow: 0 0 20px 4px rgba(222, 255, 155, 0.15);
-        opacity: 1;
-      }
+    .cta-demo .arrow {
+      display: inline-block;
+      margin-left: 4px;
+      transition: transform 0.2s ease;
+    }
+    .cta-demo:hover .arrow {
+      transform: translateX(3px);
     }
 
     /* ═══════════════════════════════════════════════════════════
@@ -1085,11 +1081,7 @@
             <span class="proof-point"><span class="proof-icon lime">🧠</span> Learns you</span>
             <span class="proof-point"><span class="proof-icon lime">✦</span> Free</span>
           </div>
-          <a href="/demo" class="cta-demo" aria-label="Interactive Demo">
-            <svg viewBox="0 0 24 24">
-              <polygon points="6 3 20 12 6 21 6 3"></polygon>
-            </svg>
-          </a>
+          <a href="/demo" class="cta-demo">Watch Demo<span class="arrow">→</span></a>
           
           <!-- Collapsible FAQ -->
           <button class="faq-trigger" id="faqTrigger">
