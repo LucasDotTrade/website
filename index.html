@@ -880,62 +880,202 @@
     
     @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
     
+    /* ═══════════════════════════════════════════════════════════
+       MOBILE OPTIMIZATIONS — 640px and below
+       Best practices: Apple HIG, Material Design, mobile-first
+       ═══════════════════════════════════════════════════════════ */
     @media (max-width: 640px) {
-      .header { padding: 32px 20px 24px; }
-      .logo img { height: 56px; }
-      .main { padding: 0 16px 60px; }
-      .hero { margin-bottom: 56px; }
-      .hero-title { font-size: 2.5rem; }
-      .hero-stats { flex-wrap: wrap; gap: 8px; }
-      .analysis-card { border-radius: 20px; }
-      .card-header, .card-footer { padding: 16px 20px; }
-      .doc-tabs { padding: 14px 20px; gap: 8px; overflow-x: auto; }
-      .doc-tab { padding: 10px 14px; font-size: 0.6875rem; flex-shrink: 0; }
-      .tab-content { padding: 24px 20px; min-height: 280px; }
-      .card-footer { flex-direction: column; gap: 14px; align-items: flex-start; }
-      .cta-section { margin-top: 48px; }
-      .cta-buttons { flex-direction: column; align-items: center; }
-      .cta-agent {
-        padding: 20px 24px;
-        gap: 16px;
+      /* Safe area support for notched devices */
+      .page {
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+      }
+
+      /* Header - more breathing room */
+      .header {
+        padding: 24px 20px 20px;
+        padding-top: max(24px, env(safe-area-inset-top));
+      }
+      .logo img { height: 48px; }
+      .brand-tagline { font-size: 0.625rem; letter-spacing: 0.12em; }
+
+      /* Main content area */
+      .main {
+        padding: 0 20px 40px;
+      }
+
+      /* Hero section - refined typography */
+      .hero {
+        margin-bottom: 40px;
+      }
+      .hero-title {
+        font-size: 2.25rem;
+        line-height: 1.1;
+      }
+      .hero-line-2 {
+        font-size: 0.95em;
+      }
+      .hero-stats {
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 20px;
+      }
+      .hero-stat {
+        font-size: 0.75rem;
+      }
+
+      /* Analysis card - tighter on mobile */
+      .analysis-card {
+        border-radius: 16px;
+      }
+      .card-header, .card-footer {
+        padding: 14px 16px;
+      }
+      .doc-tabs {
+        padding: 12px 16px;
+        gap: 6px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .doc-tab {
+        padding: 10px 12px;
+        font-size: 0.6875rem;
+        flex-shrink: 0;
+        /* 44px min touch target */
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+      }
+      .tab-content {
+        padding: 20px 16px;
+        min-height: 260px;
+      }
+      .card-footer {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      /* CTA Section - mobile-optimized */
+      .cta-section {
+        margin-top: 40px;
+        padding-bottom: 20px;
+      }
+      .cta-title {
+        font-size: 1.75rem;
+      }
+      .cta-subtitle {
+        font-size: 0.9375rem;
+        margin-top: 8px;
+      }
+      .cta-buttons {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
         width: 100%;
-        justify-content: center;
+        margin-top: 28px;
+      }
+
+      /* CTA buttons - full width, proper touch targets */
+      .cta-agent {
+        padding: 16px 20px;
+        gap: 14px;
+        width: 100%;
+        min-height: 72px; /* comfortable touch target */
+        border-radius: 16px;
       }
       .cta-icon {
         width: 44px;
         height: 44px;
         border-radius: 12px;
+        flex-shrink: 0;
       }
       .cta-icon svg {
         width: 22px;
         height: 22px;
       }
-      .cta-email { font-size: 1rem; }
-      .cta-hint { font-size: 0.8125rem; }
-      .cta-proof-points { flex-direction: column; gap: 12px; }
-      .footer { padding: 32px 20px; }
-      
-      /* FAQ Mobile */
+      .cta-content {
+        text-align: left;
+      }
+      .cta-email {
+        font-size: 0.9375rem;
+      }
+      .cta-hint {
+        font-size: 0.75rem;
+        margin-top: 2px;
+      }
+
+      /* Proof points - compact horizontal on mobile */
+      .cta-proof-points {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px 16px;
+        margin-top: 24px;
+      }
+      .proof-point {
+        font-size: 0.75rem;
+      }
+      .proof-icon {
+        font-size: 0.8125rem;
+      }
+
+      /* Demo link */
+      .cta-demo {
+        margin-top: 24px;
+        font-size: 0.875rem;
+        /* Ensure 44px touch target */
+        padding: 12px 0;
+      }
+
+      /* FAQ - mobile optimized */
       .faq-trigger {
-        padding: 16px 0 8px;
-        margin-top: 16px;
-        font-size: 12px;
+        padding: 14px 0;
+        margin-top: 8px;
+        font-size: 13px;
+        /* 44px touch target */
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
       }
-      
-      .faq-q {
-        font-size: 10px;
-        min-width: 100px;
+      .faq-content {
+        padding: 16px 0;
       }
-      
-      .faq-a {
-        font-size: 10px;
-      }
-      
       .faq-item {
         gap: 8px;
+        padding: 8px 0;
       }
-      .cta-demo {
-        margin-top: 20px;
+      .faq-q {
+        font-size: 0.6875rem;
+        min-width: 70px;
+      }
+      .faq-a {
+        font-size: 0.6875rem;
+      }
+
+      /* Footer - with safe area */
+      .footer {
+        padding: 28px 20px;
+        padding-bottom: max(28px, env(safe-area-inset-bottom));
+        font-size: 0.75rem;
+      }
+    }
+
+    /* Extra small devices (iPhone SE, etc.) */
+    @media (max-width: 375px) {
+      .hero-title {
+        font-size: 2rem;
+      }
+      .cta-title {
+        font-size: 1.5rem;
+      }
+      .cta-email {
+        font-size: 0.875rem;
+      }
+      .cta-proof-points {
+        gap: 6px 12px;
       }
     }
   </style>
@@ -959,7 +1099,7 @@
           <span class="hero-line-1">
             <span class="typo-word" id="typoWord"><span class="char">S</span><span class="char">h</span><span class="char">a</span><span class="char">n</span><span class="char">g</span><span class="char">a</span><span class="char">i</span></span> is fine.
           </span>
-          <span class="hero-line-2" id="heroLine2">Until the bank rejects it.</span>
+          <span class="hero-line-2" id="heroLine2">Until the bank rejects&nbsp;it.</span>
         </h1>
         <div class="hero-stats">
           <span class="hero-stat">70% of LCs get rejected</span>
