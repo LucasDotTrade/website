@@ -971,38 +971,89 @@
       .cta-buttons {
         flex-direction: column;
         align-items: stretch;
-        gap: 12px;
+        gap: 0;
         width: 100%;
         margin-top: 28px;
+        /* iOS-style grouped list container */
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 14px;
+        overflow: hidden;
       }
 
-      /* CTA buttons - full width, proper touch targets */
+      /* Native iOS-style list cells */
       .cta-agent {
-        padding: 16px 20px;
+        padding: 14px 16px;
         gap: 14px;
         width: 100%;
-        min-height: 72px; /* comfortable touch target */
-        border-radius: 16px;
+        min-height: 60px;
+        border-radius: 0;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        position: relative;
       }
+
+      /* Subtle separator between items */
+      .cta-agent:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 72px;
+        right: 16px;
+        height: 0.5px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .cta-agent:active {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
       .cta-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
         flex-shrink: 0;
       }
       .cta-icon svg {
-        width: 22px;
-        height: 22px;
+        width: 20px;
+        height: 20px;
       }
       .cta-content {
+        flex: 1;
         text-align: left;
       }
       .cta-email {
         font-size: 0.9375rem;
+        font-weight: 500;
       }
       .cta-hint {
         font-size: 0.75rem;
-        margin-top: 2px;
+        margin-top: 1px;
+        opacity: 0.6;
+      }
+
+      /* Add chevron indicator */
+      .cta-agent::before {
+        content: '›';
+        position: absolute;
+        right: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 20px;
+        color: rgba(255, 255, 255, 0.25);
+        font-weight: 300;
+      }
+
+      /* WhatsApp - subtle green tint */
+      .cta-agent[href*="whatsapp"],
+      .cta-agent[href*="wa.me"] {
+        background: rgba(37, 211, 102, 0.08);
+      }
+      .cta-agent[href*="whatsapp"]:active,
+      .cta-agent[href*="wa.me"]:active {
+        background: rgba(37, 211, 102, 0.15);
       }
 
       /* Proof points - compact horizontal on mobile */

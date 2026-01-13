@@ -3723,11 +3723,20 @@ body::before {
         font-size: 16px;
     }
     
-    /* Featured card - same layout on mobile */
+    /* Featured card - same size as others on mobile */
     .scenario-card.featured .scenario-card-inner {
-        border-color: rgba(222, 255, 155, 0.25);
+        border-color: rgba(222, 255, 155, 0.2);
+        padding: 14px 16px; /* Match other cards exactly */
     }
-    
+
+    .scenario-card.featured .scenario-icon,
+    .scenario-card.featured .scenario-name,
+    .scenario-card.featured .scenario-commodity,
+    .scenario-card.featured .scenario-card-bottom .value-amount {
+        /* Reset any featured-specific sizing */
+        font-size: inherit;
+    }
+
     .featured-glow {
         display: none;
     }
