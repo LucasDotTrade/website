@@ -852,10 +852,31 @@ class LucasDemo {
         this.chatArea.appendChild(message);
         this.scrollChatToBottom();
 
+        // Auto-expand error items with staggered animation
+        this.autoExpandErrorItems(message);
+
         // Show CTA after analysis
         setTimeout(() => {
             this.showCTA();
         }, 1000);
+    }
+
+    autoExpandErrorItems(container) {
+        const errorItems = container.querySelectorAll('.error-item');
+        const baseDelay = 300; // Start after a brief pause
+        const staggerDelay = 200; // Delay between each item
+
+        errorItems.forEach((item, index) => {
+            // Only auto-expand items that have evidence
+            const hasEvidence = item.querySelector('.error-evidence');
+            if (hasEvidence) {
+                setTimeout(() => {
+                    item.classList.add('expanded');
+                    // Scroll to keep expanded content visible
+                    this.scrollChatToBottom();
+                }, baseDelay + (index * staggerDelay));
+            }
+        });
     }
 
     showCTA() {

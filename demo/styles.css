@@ -1932,7 +1932,7 @@ body::before {
 .error-evidence {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.3s ease-out;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .error-item.expanded .error-evidence {
@@ -1942,6 +1942,14 @@ body::before {
 .error-evidence-inner {
     padding: 0 16px 16px 16px;
     border-top: 1px solid rgba(255, 255, 255, 0.06);
+    opacity: 0;
+    transform: translateY(-8px);
+    transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+}
+
+.error-item.expanded .error-evidence-inner {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .evidence-row {
