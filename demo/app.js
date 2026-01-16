@@ -22,6 +22,7 @@ class LucasDemo {
         this.ctaContainer = document.getElementById('ctaContainer');
         this.dropIndicator = document.getElementById('dropIndicator');
         this.sendAllBtn = document.getElementById('sendAllBtn');
+        this.sendAllBtnTop = document.getElementById('sendAllBtnTop');
         this.modalOverlay = document.getElementById('modalOverlay');
         this.modalContent = document.getElementById('modalContent');
         this.modalDocType = document.getElementById('modalDocType');
@@ -476,9 +477,22 @@ class LucasDemo {
             }
         });
 
-        // Send all button
-        this.sendAllBtn.addEventListener('click', () => {
-            this.sendAllDocuments();
+        // Send all buttons (both top and bottom)
+        const handleSendAll = () => this.sendAllDocuments();
+        this.sendAllBtn.addEventListener('click', handleSendAll);
+        if (this.sendAllBtnTop) {
+            this.sendAllBtnTop.addEventListener('click', handleSendAll);
+        }
+
+        // Expandable error cards - delegate from chat area
+        this.chatArea.addEventListener('click', (e) => {
+            const header = e.target.closest('.error-header');
+            if (header) {
+                const errorItem = header.closest('.error-item');
+                if (errorItem) {
+                    errorItem.classList.toggle('expanded');
+                }
+            }
         });
 
         // Modal close
@@ -560,14 +574,94 @@ class LucasDemo {
 
         const documents = this.getActiveDocuments();
 
+        // Disable send buttons and show loading state
+        this.setSendButtonsLoading(true);
+
+        // Show loading progress in chat
+        this.showLoadingProgress(documents);
+
         // Send all documents with staggered animation
         documents.forEach((doc, index) => {
             setTimeout(() => {
                 if (!this.sentDocs.has(doc.id)) {
                     this.sendDocument(doc.id);
+                    this.updateLoadingProgress(index + 1, documents.length);
                 }
-            }, index * 150);
+            }, index * 300); // 300ms between each for visible progress
         });
+    }
+
+    setSendButtonsLoading(loading) {
+        const buttons = [this.sendAllBtn, this.sendAllBtnTop].filter(Boolean);
+        buttons.forEach(btn => {
+            if (loading) {
+                btn.classList.add('loading');
+                btn.disabled = true;
+            } else {
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        });
+    }
+
+    showLoadingProgress(documents) {
+        // Remove any existing loading progress
+        const existing = document.getElementById('loadingProgress');
+        if (existing) existing.remove();
+
+        const loadingHtml = `
+            <div class="loading-progress" id="loadingProgress">
+                <div class="loading-header">
+                    <span class="loading-title">Sending documents to Lucas...</span>
+                    <span class="loading-count" id="loadingCount">0/${documents.length}</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div class="loading-docs-list" id="loadingDocsList">
+                    ${documents.map(doc => `
+                        <div class="loading-doc-item" data-loading-doc="${doc.id}">
+                            <span class="loading-doc-icon">○</span>
+                            <span>${doc.type}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+
+        // Add has-messages class to shrink avatar
+        document.getElementById('lucasPanel').querySelector('.lucas-avatar-container').classList.add('has-messages');
+
+        this.chatArea.insertAdjacentHTML('beforeend', loadingHtml);
+        this.scrollChatToBottom();
+    }
+
+    updateLoadingProgress(current, total) {
+        const countEl = document.getElementById('loadingCount');
+        const fillEl = document.getElementById('progressFill');
+        const listEl = document.getElementById('loadingDocsList');
+
+        if (countEl) {
+            countEl.textContent = `${current}/${total}`;
+        }
+
+        if (fillEl) {
+            fillEl.style.width = `${(current / total) * 100}%`;
+        }
+
+        if (listEl) {
+            const items = listEl.querySelectorAll('.loading-doc-item');
+            items.forEach((item, index) => {
+                if (index < current) {
+                    item.classList.add('sent');
+                    item.classList.remove('current');
+                    item.querySelector('.loading-doc-icon').textContent = '✓';
+                } else if (index === current) {
+                    item.classList.add('current');
+                    item.querySelector('.loading-doc-icon').textContent = '●';
+                }
+            });
+        }
     }
 
     updateDocsCounter() {
@@ -595,14 +689,19 @@ class LucasDemo {
 
         const documents = this.getActiveDocuments();
 
-        // Add has-messages class to shrink avatar
+        // Fade loading progress
         setTimeout(() => {
-            document.getElementById('lucasPanel').querySelector('.lucas-avatar-container').classList.add('has-messages');
+            const loadingProgress = document.getElementById('loadingProgress');
+            if (loadingProgress) {
+                loadingProgress.style.opacity = '0.5';
+            }
         }, 500);
 
-        // Show acknowledgment
+        // Show acknowledgment and remove loading progress
         setTimeout(() => {
-            this.addMessage(`Got all ${documents.length}, checking together...`, 'acknowledgment');
+            const loadingProgress = document.getElementById('loadingProgress');
+            if (loadingProgress) loadingProgress.remove();
+            this.addMessage(`All ${documents.length} documents received. Analyzing now...`, 'acknowledgment');
         }, 800);
 
         // Show typing indicator
@@ -610,11 +709,11 @@ class LucasDemo {
             this.showTypingIndicator();
         }, 1500);
 
-        // Show analysis after delay
+        // Show analysis after delay (simulating AI processing)
         setTimeout(() => {
             this.hideTypingIndicator();
             this.showAnalysis();
-        }, 4500);
+        }, 4000);
     }
 
     addMessage(content, type = 'default') {
@@ -656,6 +755,38 @@ class LucasDemo {
         }
     }
 
+    renderErrorItem(error, type) {
+        const isWarning = type === 'warning';
+        const hasEvidence = error.lcEvidence || error.docEvidence;
+        return `
+            <div class="error-item ${isWarning ? 'warning' : ''}">
+                <div class="error-header">
+                    <div class="error-header-content">
+                        <div class="error-label">${error.label}</div>
+                        <div class="error-description">${error.description}</div>
+                    </div>
+                    ${hasEvidence ? '<div class="error-expand-icon">▼</div>' : ''}
+                </div>
+                ${hasEvidence ? `
+                    <div class="error-evidence">
+                        <div class="error-evidence-inner">
+                            <div class="evidence-row">
+                                <div class="evidence-box lc">
+                                    <div class="evidence-label">LC Requirement</div>
+                                    <div class="evidence-value">${error.lcEvidence || 'Not specified'}</div>
+                                </div>
+                                <div class="evidence-box doc">
+                                    <div class="evidence-label">Document Shows</div>
+                                    <div class="evidence-value">${error.docEvidence || 'Not found'}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                ` : ''}
+            </div>
+        `;
+    }
+
     showAnalysis() {
         this.analysisShown = true;
         const response = this.currentScenario?.lucasResponse;
@@ -686,27 +817,17 @@ class LucasDemo {
                 <div class="analysis-section">
                     <div class="section-header critical">
                         <span>❌</span>
-                        <span>Critical Failures</span>
+                        <span>Critical Failures (${response.criticalErrors.length})</span>
                     </div>
-                    ${response.criticalErrors.map(err => `
-                        <div class="error-item">
-                            <div class="error-label">${err.label}</div>
-                            <div class="error-description">${err.description}</div>
-                        </div>
-                    `).join('')}
+                    ${response.criticalErrors.map(err => this.renderErrorItem(err, 'critical')).join('')}
                 </div>
 
                 <div class="analysis-section">
                     <div class="section-header warning">
                         <span>⚠️</span>
-                        <span>Warnings</span>
+                        <span>Warnings (${response.warnings.length})</span>
                     </div>
-                    ${response.warnings.map(warn => `
-                        <div class="error-item warning">
-                            <div class="error-label">${warn.label}</div>
-                            <div class="error-description">${warn.description}</div>
-                        </div>
-                    `).join('')}
+                    ${response.warnings.map(warn => this.renderErrorItem(warn, 'warning')).join('')}
                 </div>
 
                 <div class="analysis-section">

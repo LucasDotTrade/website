@@ -1144,7 +1144,143 @@ body::before {
     }
 }
 
-/* Documents Actions */
+/* Documents Actions - Top (Primary CTA) */
+.documents-actions-top {
+    margin-bottom: 24px;
+}
+
+.btn-send-all {
+    width: 100%;
+    padding: 16px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--lime) 0%, #b8e635 100%);
+    color: var(--bg);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 16px rgba(222, 255, 155, 0.2);
+}
+
+.btn-send-all:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(222, 255, 155, 0.3);
+}
+
+.btn-send-all:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-send-all .btn-icon {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+/* Loading state for Send All button */
+.btn-send-all.loading {
+    pointer-events: none;
+}
+
+.btn-send-all.loading .btn-text::after {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Loading Progress Bar */
+.loading-progress {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.loading-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.loading-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.loading-count {
+    font-size: 13px;
+    color: var(--lime);
+    font-weight: 500;
+}
+
+.progress-bar {
+    height: 6px;
+    background: var(--bg-elevated);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--lime) 0%, #b8e635 100%);
+    border-radius: 3px;
+    transition: width 0.3s ease-out;
+}
+
+.loading-docs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.loading-doc-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-tertiary);
+    padding: 4px 0;
+}
+
+.loading-doc-item.sent {
+    color: #22c55e;
+}
+
+.loading-doc-item.current {
+    color: var(--lime);
+}
+
+.loading-doc-icon {
+    width: 16px;
+    text-align: center;
+}
+
+/* Documents Actions - Bottom */
 .documents-actions {
     margin-top: auto;
     padding-top: 32px;
@@ -1678,9 +1814,9 @@ body::before {
     color: #60a5fa;
 }
 
-/* Error Items - Premium Cards */
+/* Error Items - Premium Expandable Cards */
 .error-item {
-    padding: 14px 16px;
+    padding: 0;
     background: linear-gradient(
         135deg,
         rgba(239, 68, 68, 0.08) 0%,
@@ -1716,6 +1852,24 @@ body::before {
     background: linear-gradient(180deg, #fbbf24 0%, #eab308 100%);
 }
 
+/* Expandable Error Header */
+.error-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.error-header:hover {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.error-header-content {
+    flex: 1;
+}
+
 .error-label {
     font-size: 12px;
     font-weight: 700;
@@ -1728,6 +1882,80 @@ body::before {
     font-size: 13px;
     color: var(--text-secondary);
     line-height: 1.5;
+}
+
+.error-expand-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-tertiary);
+    font-size: 12px;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+}
+
+.error-item.expanded .error-expand-icon {
+    transform: rotate(180deg);
+}
+
+/* Expandable Evidence Section */
+.error-evidence {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.error-item.expanded .error-evidence {
+    max-height: 500px;
+}
+
+.error-evidence-inner {
+    padding: 0 16px 16px 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.evidence-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.evidence-box {
+    flex: 1;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 10px 12px;
+}
+
+.evidence-label {
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-tertiary);
+    margin-bottom: 6px;
+}
+
+.evidence-value {
+    font-size: 12px;
+    font-family: var(--font-mono);
+    color: var(--text-primary);
+    word-break: break-word;
+    line-height: 1.4;
+}
+
+.evidence-box.lc {
+    border-left: 2px solid #60a5fa;
+}
+
+.evidence-box.doc {
+    border-left: 2px solid #ef4444;
+}
+
+.error-item.warning .evidence-box.doc {
+    border-left-color: #eab308;
 }
 
 /* Action Items - Premium */
@@ -4234,6 +4462,63 @@ body::before {
 @media (max-width: 640px) {
     input, textarea, select {
         font-size: 16px !important;
+    }
+}
+
+/* ============================================
+   Mobile: New UX Components
+   ============================================ */
+@media (max-width: 768px) {
+    /* Send All button at top */
+    .documents-actions-top {
+        margin-bottom: 16px;
+    }
+
+    .btn-send-all {
+        padding: 14px 20px;
+        font-size: 15px;
+    }
+
+    /* Loading progress - simplified on mobile */
+    .loading-progress {
+        padding: 16px;
+    }
+
+    .loading-docs-list {
+        display: none; /* Hide doc list on mobile for cleaner UI */
+    }
+
+    /* Evidence boxes stack vertically on mobile */
+    .evidence-row {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .evidence-box {
+        padding: 8px 10px;
+    }
+
+    .evidence-value {
+        font-size: 11px;
+    }
+
+    /* Error items - tighter padding */
+    .error-header {
+        padding: 12px 14px;
+    }
+
+    .error-label {
+        font-size: 11px;
+    }
+
+    .error-description {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn-send-all .btn-icon {
+        display: none;
     }
 }
 

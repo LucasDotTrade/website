@@ -495,25 +495,35 @@ specific lot inspected.
             criticalErrors: [
                 {
                     label: "GRADE MISMATCH",
-                    description: "LC requires Grade AA but Invoice shows Grade A. Quality certificate confirms AA — Invoice must be corrected before presentation."
+                    description: "LC requires Grade AA but Invoice shows Grade A. Quality certificate confirms AA — Invoice must be corrected before presentation.",
+                    lcEvidence: "Grade: AA (Ethiopian Yirgacheffe Arabica)",
+                    docEvidence: "Invoice: Grade A — Quality Cert: Grade AA"
                 },
                 {
                     label: "MOISTURE EXCEEDS SPECIFICATION",
-                    description: "Quality certificate shows 11.8% moisture. LC maximum is 11.5%. Bank will reject, buyer may refuse the 1,028 MT shipment."
+                    description: "Quality certificate shows 11.8% moisture. LC maximum is 11.5%. Bank will reject, buyer may refuse the 1,028 MT shipment.",
+                    lcEvidence: "Maximum moisture content: 11.5%",
+                    docEvidence: "Quality Certificate: Moisture 11.8%"
                 },
                 {
                     label: "PORT NAME DISCREPANCY",
-                    description: "Bill of Lading shows \"Rottedam\" — should be \"Rotterdam\". Banks reject documents with port name errors."
+                    description: "Bill of Lading shows \"Rottedam\" — should be \"Rotterdam\". Banks reject documents with port name errors.",
+                    lcEvidence: "Port of Discharge: Rotterdam, Netherlands",
+                    docEvidence: "Bill of Lading: Port of Discharge: Rottedam"
                 },
                 {
                     label: "MISSING ICO CERTIFICATE",
-                    description: "LC requires ICO Certificate of Origin. Not included in document set. Required for EU coffee imports over 60 bags."
+                    description: "LC requires ICO Certificate of Origin. Not included in document set. Required for EU coffee imports over 60 bags.",
+                    lcEvidence: "Required: ICO Certificate of Origin",
+                    docEvidence: "Document set: ICO Certificate not found"
                 }
             ],
             warnings: [
                 {
                     label: "QUANTITY AT TOLERANCE LIMIT",
-                    description: "Invoice shows 1,028 MT vs LC quantity 1,000 MT. Within +3% tolerance (max 1,030 MT) but leaves only 2 MT margin."
+                    description: "Invoice shows 1,028 MT vs LC quantity 1,000 MT. Within +3% tolerance (max 1,030 MT) but leaves only 2 MT margin.",
+                    lcEvidence: "Quantity: 1,000 MT (+/- 3% tolerance)",
+                    docEvidence: "Invoice: 1,028 MT (2.8% over)"
                 }
             ],
             actions: [
@@ -2106,29 +2116,41 @@ Approved by: Dr. Fatima Al-Hosani, HSE Director
             criticalErrors: [
                 {
                     label: "API GRAVITY BELOW SPEC",
-                    description: "Quality Certificate shows 39.2° API. LC minimum is 39.5°. This 0.3° variance affects pricing (~$264K adjustment) and MT conversion calculations."
+                    description: "Quality Certificate shows 39.2° API. LC minimum is 39.5°. This 0.3° variance affects pricing (~$264K adjustment) and MT conversion calculations.",
+                    lcEvidence: "API Gravity: Minimum 39.5° at 60°F",
+                    docEvidence: "Quality Certificate: API Gravity 39.2° at 60°F"
                 },
                 {
                     label: "VESSEL IDENTITY CRISIS",
-                    description: "Three different vessel names across documents: 'MT ARABIAN STAR' (Nomination), 'MT ARABIAN STAR I' (B/L), 'ARABIAN STAR' (Insurance). Bank will reject."
+                    description: "Three different vessel names across documents: 'MT ARABIAN STAR' (Nomination), 'MT ARABIAN STAR I' (B/L), 'ARABIAN STAR' (Insurance). Bank will reject.",
+                    lcEvidence: "Vessel: As per nomination notice",
+                    docEvidence: "Nomination: MT ARABIAN STAR — B/L: MT ARABIAN STAR I — Insurance: ARABIAN STAR"
                 },
                 {
                     label: "BACKDATED B/L SUSPICION",
-                    description: "NOR tendered Jan 21 but B/L shows cargo laden Jan 19. Laycan was Jan 15-20. Timeline impossible - suggests backdating."
+                    description: "NOR tendered Jan 21 but B/L shows cargo laden Jan 19. Laycan was Jan 15-20. Timeline impossible - suggests backdating.",
+                    lcEvidence: "Laycan: January 15-20, 2025",
+                    docEvidence: "NOR: Jan 21 arrival — B/L: Laden Jan 19"
                 },
                 {
                     label: "INSURANCE COVERAGE GAP",
-                    description: "Policy names 'ARABIAN STAR' but cargo on 'ARABIAN STAR I'. USD 52.8M cargo potentially uninsured."
+                    description: "Policy names 'ARABIAN STAR' but cargo on 'ARABIAN STAR I'. USD 52.8M cargo potentially uninsured.",
+                    lcEvidence: "Insurance: Must cover named carrying vessel",
+                    docEvidence: "Policy: Vessel 'ARABIAN STAR' — Actual: 'ARABIAN STAR I'"
                 }
             ],
             warnings: [
                 {
                     label: "DEMURRAGE EXPOSURE",
-                    description: "Timesheet shows 18 hrs waiting = potential demurrage at $45K/day rate. Settlement not documented."
+                    description: "Timesheet shows 18 hrs waiting = potential demurrage at $45K/day rate. Settlement not documented.",
+                    lcEvidence: "Laytime: 72 hours for loading",
+                    docEvidence: "Timesheet: 18 hrs waiting time recorded"
                 },
                 {
                     label: "LC EXPIRY IN 21 DAYS",
-                    description: "6 discrepancies to resolve before Feb 15 expiry. Request LC extension immediately."
+                    description: "6 discrepancies to resolve before Feb 15 expiry. Request LC extension immediately.",
+                    lcEvidence: "LC Expiry Date: February 15, 2025",
+                    docEvidence: "Current date: January 25, 2025"
                 }
             ],
             actions: [
@@ -3049,21 +3071,29 @@ Reference: portaldeuniconet.gov.br/verify/2025-7892
             criticalErrors: [
                 {
                     label: "NCM CODE MISMATCH",
-                    description: "LC specifies 8517.12 (mobile phones) but Classification shows 8471.30 (computers). Different tax rates apply - II, IPI, and ICMS calculations will be incorrect."
+                    description: "LC specifies 8517.12 (mobile phones) but Classification shows 8471.30 (computers). Different tax rates apply - II, IPI, and ICMS calculations will be incorrect.",
+                    lcEvidence: "NCM Code: 8517.12.31 (Mobile Phones)",
+                    docEvidence: "Classification Certificate: NCM 8471.30 (Computers)"
                 },
                 {
                     label: "WARRANTY NON-COMPLIANT",
-                    description: "LC requires 24-month warranty. Certificate shows 12 months only. Bank will reject presentation."
+                    description: "LC requires 24-month warranty. Certificate shows 12 months only. Bank will reject presentation.",
+                    lcEvidence: "Warranty: Minimum 24 months per PROCON",
+                    docEvidence: "Warranty Certificate: 12 months coverage"
                 }
             ],
             warnings: [
                 {
                     label: "ORIGIN STATEMENT VAGUE",
-                    description: "COO states 'components from multiple origins' - may trigger additional Receita Federal scrutiny and YELLOW channel delay."
+                    description: "COO states 'components from multiple origins' - may trigger additional Receita Federal scrutiny and YELLOW channel delay.",
+                    lcEvidence: "Origin: Certificate of Origin required",
+                    docEvidence: "COO: 'Components from multiple origins'"
                 },
                 {
                     label: "SERIAL NUMBER DISCREPANCY",
-                    description: "150 units (1%) have serial numbers outside the stated range. Packing list shows TW255001-255150 not in invoice range TW240001-TW255000."
+                    description: "150 units (1%) have serial numbers outside the stated range. Packing list shows TW255001-255150 not in invoice range TW240001-TW255000.",
+                    lcEvidence: "Invoice Serial Range: TW240001-TW255000",
+                    docEvidence: "Packing List: TW255001-255150 (150 units outside range)"
                 }
             ],
             actions: [
