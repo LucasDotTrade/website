@@ -424,8 +424,91 @@ body::before {
 }
 
 .panel-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
     padding: var(--space-md) 0;
     margin-bottom: 8px;
+}
+
+.panel-header-left {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Header CTA Button - Integrated, Elevated Design */
+.btn-header-cta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    color: var(--bg-primary);
+    background: var(--lime);
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.1),
+        0 4px 12px rgba(222, 255, 155, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn-header-cta:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.15),
+        0 8px 20px rgba(222, 255, 155, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.btn-header-cta:active {
+    transform: translateY(0);
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(222, 255, 155, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.btn-header-cta:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn-header-cta-icon {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.5;
+}
+
+.btn-header-cta-text {
+    letter-spacing: -0.01em;
+}
+
+/* Loading state for header CTA */
+.btn-header-cta.loading {
+    pointer-events: none;
+}
+
+.btn-header-cta.loading .btn-header-cta-text::after {
+    content: '';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-left: 6px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
 }
 
 .panel-title {
@@ -1142,61 +1225,6 @@ body::before {
     50% {
         background-position: -200% 0;
     }
-}
-
-/* Documents Actions - Top (Primary CTA) */
-.documents-actions-top {
-    margin-bottom: 24px;
-}
-
-.btn-send-all {
-    width: 100%;
-    padding: 16px 24px;
-    font-size: 16px;
-    font-weight: 600;
-    background: linear-gradient(135deg, var(--lime) 0%, #b8e635 100%);
-    color: var(--bg);
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 4px 16px rgba(222, 255, 155, 0.2);
-}
-
-.btn-send-all:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(222, 255, 155, 0.3);
-}
-
-.btn-send-all:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-}
-
-.btn-send-all .btn-icon {
-    font-size: 18px;
-    margin-right: 8px;
-}
-
-/* Loading state for Send All button */
-.btn-send-all.loading {
-    pointer-events: none;
-}
-
-.btn-send-all.loading .btn-text::after {
-    content: '';
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    margin-left: 8px;
-    border: 2px solid transparent;
-    border-top-color: currentColor;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-    vertical-align: middle;
 }
 
 @keyframes spin {
@@ -4079,20 +4107,37 @@ body::before {
         gap: 24px;
     }
     
-    /* Panel headers */
+    /* Panel headers - stack on mobile */
     .panel-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
         padding: 16px;
     }
-    
+
+    .panel-header-left {
+        order: 1;
+    }
+
+    /* Header CTA - full width on mobile */
+    .btn-header-cta {
+        order: 2;
+        justify-content: center;
+        width: 100%;
+        padding: 14px 20px;
+        font-size: 14px;
+        border-radius: 12px;
+    }
+
     .panel-title {
         font-size: 16px;
     }
-    
+
     .panel-tags {
         gap: 8px;
         margin-top: 12px;
     }
-    
+
     .panel-tag {
         font-size: 11px;
         padding: 6px 10px;
@@ -4469,16 +4514,6 @@ body::before {
    Mobile: New UX Components
    ============================================ */
 @media (max-width: 768px) {
-    /* Send All button at top */
-    .documents-actions-top {
-        margin-bottom: 16px;
-    }
-
-    .btn-send-all {
-        padding: 14px 20px;
-        font-size: 15px;
-    }
-
     /* Loading progress - simplified on mobile */
     .loading-progress {
         padding: 16px;
@@ -4513,12 +4548,6 @@ body::before {
 
     .error-description {
         font-size: 12px;
-    }
-}
-
-@media (max-width: 480px) {
-    .btn-send-all .btn-icon {
-        display: none;
     }
 }
 
