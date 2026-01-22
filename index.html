@@ -2402,7 +2402,7 @@
                 <path d="M22 6L12 13L2 6"/>
               </svg>
             </div>
-            <span class="email-cta-text" id="emailSectionText">lucas@lucas.trade</span>
+            <span class="email-cta-text" id="emailSectionText">Copy email</span>
           </button>
         </div>
       </div>
@@ -2931,7 +2931,7 @@
           await navigator.clipboard.writeText(emailAddress);
           scrambleText(emailSectionText, 'copied ✓', 400);
           setTimeout(() => {
-            unscrambleText(emailSectionText, emailAddress, 300);
+            unscrambleText(emailSectionText, 'Copy email', 300);
           }, 1200);
         } catch {
           prompt('Copy this email:', emailAddress);
