@@ -1837,10 +1837,15 @@
         text-align: center;
       }
 
-      /* WhatsApp Showcase - Mobile: Phone-first, compact */
+      /* ══════════════════════════════════════════════════════
+         WHATSAPP SHOWCASE - MOBILE
+         Hero phone, clear section, proper breathing room
+         ══════════════════════════════════════════════════════ */
       .whatsapp-showcase {
         min-height: auto;
-        padding: 0;
+        padding: 60px 0 0;
+        margin-top: 40px;
+        border-top: 1px solid rgba(255,255,255,0.06);
       }
 
       .whatsapp-showcase::before {
@@ -1855,6 +1860,67 @@
         gap: 0;
       }
 
+      /* Content FIRST on mobile - sets context */
+      .showcase-content {
+        position: relative;
+        top: auto;
+        left: auto;
+        order: 1;
+        padding: 0 24px 32px;
+        max-width: none;
+        text-align: center;
+      }
+
+      .showcase-label {
+        margin-bottom: 12px;
+        font-size: 0.6875rem;
+      }
+
+      .showcase-headline {
+        font-size: 1.75rem;
+        line-height: 1.15;
+        margin-bottom: 12px;
+      }
+
+      .showcase-headline br {
+        display: none;
+      }
+
+      .showcase-subtitle {
+        margin-bottom: 24px;
+        font-size: 0.875rem;
+        opacity: 0.7;
+      }
+
+      .showcase-cta {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+        padding: 14px 20px;
+        justify-content: center;
+        gap: 14px;
+      }
+
+      .showcase-cta-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+      }
+
+      .showcase-cta-icon svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .showcase-cta-title {
+        font-size: 0.9375rem;
+      }
+
+      .showcase-cta-hint {
+        font-size: 0.6875rem;
+      }
+
+      /* Phone - BIG, centered, dramatic */
       .showcase-video-wrapper {
         position: relative;
         top: auto;
@@ -1863,90 +1929,33 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 20px 0 16px;
-        order: 1;
+        padding: 40px 20px 60px;
+        order: 2;
       }
 
       .showcase-video {
-        width: 100%;
-        max-width: none;
+        width: 85vw;
+        max-width: 360px;
         height: auto;
-        border-radius: 0;
+        border-radius: 40px;
         transform: none;
         -webkit-mask-image: none;
         mask-image: none;
-        filter: none;
+        filter: drop-shadow(0 25px 50px rgba(0,0,0,0.5));
       }
 
-      .showcase-content {
-        position: relative;
-        top: auto;
-        left: auto;
-        order: 2;
-        padding: 12px 20px 32px;
-        max-width: none;
-        text-align: center;
-      }
-
-      .showcase-label {
-        margin-bottom: 6px;
-        font-size: 0.5625rem;
-      }
-
-      .showcase-headline {
-        font-size: 1.375rem;
-        line-height: 1.15;
-        margin-bottom: 6px;
-      }
-
-      .showcase-headline br {
-        display: none;
-      }
-
-      .showcase-subtitle {
-        margin-bottom: 14px;
-        font-size: 0.75rem;
-        opacity: 0.6;
-      }
-
-      .showcase-cta {
-        width: 100%;
-        max-width: 240px;
-        margin: 0 auto;
-        padding: 10px 14px;
-        justify-content: center;
-        gap: 10px;
-      }
-
-      .showcase-cta-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-      }
-
-      .showcase-cta-icon svg {
-        width: 14px;
-        height: 14px;
-      }
-
-      .showcase-cta-title {
-        font-size: 0.8125rem;
-      }
-
-      .showcase-cta-hint {
-        font-size: 0.5625rem;
-      }
-
-      /* Email Showcase - Mobile */
+      /* ══════════════════════════════════════════════════════
+         EMAIL SHOWCASE - MOBILE
+         Clear separation from WhatsApp
+         ══════════════════════════════════════════════════════ */
       .email-showcase {
         min-height: auto;
+        padding-top: 60px;
+        border-top: 1px solid rgba(255,255,255,0.06);
       }
 
       .email-showcase::before {
-        top: -10%;
-        right: -20%;
-        width: 80%;
-        height: 40%;
+        display: none;
       }
 
       .email-grid {
@@ -1960,7 +1969,7 @@
         top: auto;
         right: auto;
         order: 1;
-        padding: 48px 24px 24px;
+        padding: 0 24px 32px;
         max-width: none;
         text-align: center;
       }
@@ -1968,20 +1977,21 @@
       .email-cta {
         margin: 0 auto;
         width: 100%;
-        max-width: 300px;
+        max-width: 280px;
         justify-content: center;
-        padding: 16px 24px;
+        padding: 14px 20px;
+        gap: 14px;
       }
 
       .email-cta-icon {
-        width: 44px;
-        height: 44px;
-        border-radius: 12px;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
       }
 
       .email-cta-icon svg {
-        width: 20px;
-        height: 20px;
+        width: 18px;
+        height: 18px;
       }
 
       .email-mockup-wrapper {
@@ -1991,16 +2001,17 @@
         transform: none;
         display: flex;
         justify-content: center;
-        padding: 20px 16px 60px;
+        padding: 40px 20px 60px;
         order: 2;
       }
 
       .email-mockup {
-        width: 100%;
-        max-width: 360px;
+        width: 90%;
+        max-width: 380px;
         transform: none;
-        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
         animation: none;
+        border-radius: 20px;
       }
 
       .email-glow {
