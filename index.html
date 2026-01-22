@@ -1859,33 +1859,35 @@
         top: auto;
         left: auto;
         order: 1;
-        padding: 60px 24px 40px;
+        padding: 48px 24px 24px;
         max-width: none;
         text-align: center;
       }
 
       .showcase-label {
-        margin-bottom: 16px;
+        margin-bottom: 12px;
       }
 
       .showcase-headline {
-        font-size: 2.25rem;
-        line-height: 1.1;
+        font-size: 1.875rem;
+        line-height: 1.2;
       }
 
+      /* Hide line breaks on mobile - spaces are in HTML */
       .showcase-headline br {
         display: none;
       }
 
       .showcase-subtitle {
-        margin-bottom: 28px;
+        margin-bottom: 24px;
+        font-size: 0.9375rem;
       }
 
       .showcase-cta {
         width: 100%;
-        max-width: 320px;
+        max-width: 300px;
         margin: 0 auto;
-        padding: 20px 28px;
+        padding: 16px 24px;
         justify-content: center;
       }
 
@@ -1915,16 +1917,20 @@
         transform: none;
         display: flex;
         justify-content: center;
-        padding: 40px 20px 0;
+        padding: 20px 0 60px;
         order: 2;
       }
 
       .showcase-video {
-        width: 280px;
+        width: 70%;
+        max-width: 280px;
         height: auto;
         max-height: none;
-        border-radius: 40px;
+        border-radius: 32px;
         transform: none;
+        -webkit-mask-image: none;
+        mask-image: none;
+        filter: drop-shadow(0 16px 32px rgba(0, 0, 0, 0.4));
       }
 
       /* Email Showcase - Mobile */
@@ -1950,7 +1956,7 @@
         top: auto;
         right: auto;
         order: 1;
-        padding: 60px 24px 40px;
+        padding: 48px 24px 24px;
         max-width: none;
         text-align: center;
       }
@@ -1958,9 +1964,9 @@
       .email-cta {
         margin: 0 auto;
         width: 100%;
-        max-width: 320px;
+        max-width: 300px;
         justify-content: center;
-        padding: 20px 28px;
+        padding: 16px 24px;
       }
 
       .email-cta-icon {
@@ -1981,14 +1987,16 @@
         transform: none;
         display: flex;
         justify-content: center;
-        padding: 40px 20px 60px;
+        padding: 20px 16px 60px;
         order: 2;
       }
 
       .email-mockup {
         width: 100%;
-        max-width: 340px;
+        max-width: 360px;
         transform: none;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+        animation: none;
       }
 
       .email-glow {
@@ -2214,7 +2222,7 @@
       <div class="showcase-grid">
         <div class="showcase-content">
           <span class="showcase-label">WhatsApp</span>
-          <h2 class="showcase-headline">No app.<br>No login.<br>Just answers.</h2>
+          <h2 class="showcase-headline">No app. <br>No login. <br>Just answers.</h2>
           <p class="showcase-subtitle">Forward your docs on WhatsApp. Get discrepancies in minutes.</p>
           <a href="https://wa.me/971585968871" target="_blank" rel="noopener" class="showcase-cta">
             <div class="showcase-cta-icon">
@@ -2294,7 +2302,7 @@
         </div>
         <div class="email-content">
           <span class="showcase-label">Email</span>
-          <h2 class="showcase-headline">One forward.<br>Full verdict.</h2>
+          <h2 class="showcase-headline">One forward. <br>Full verdict.</h2>
           <p class="showcase-subtitle">Forward your docs to lucas@lucas.trade. Get a full analysis back in your inbox.</p>
           <a href="mailto:lucas@lucas.trade" class="email-cta">
             <div class="email-cta-icon">
