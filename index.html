@@ -1893,47 +1893,49 @@
         line-height: 1.5;
       }
 
-      /* Subtle CTA below phone - minimal, tasteful */
+      /* CTA as minimal text link AFTER phone */
       .showcase-cta {
+        order: 3;
         display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
         width: auto;
         max-width: none;
-        margin: -60px auto 40px;
-        padding: 12px 24px;
-        gap: 12px;
-        background: rgba(37, 211, 102, 0.1);
-        border: 1px solid rgba(37, 211, 102, 0.25);
-        border-radius: 100px;
-        position: relative;
-        z-index: 10;
+        margin: 0 auto;
+        padding: 20px 24px 60px;
+        background: none;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
       }
 
       .showcase-cta-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        background: rgba(37, 211, 102, 0.15);
-        border: 1px solid rgba(37, 211, 102, 0.3);
+        width: 24px;
+        height: 24px;
+        border-radius: 6px;
+        background: none;
+        border: none;
       }
 
       .showcase-cta-icon svg {
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 20px;
+        fill: #25D366;
       }
 
       .showcase-cta-text {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
+        display: block;
       }
 
       .showcase-cta-title {
-        font-size: 0.875rem;
+        font-size: 0.9375rem;
+        color: #25D366;
+        font-weight: 500;
       }
 
       .showcase-cta-hint {
-        font-size: 0.625rem;
-        opacity: 0.7;
+        display: none;
       }
 
       /* Phone - MASSIVE, angled, bleeding off screen */
@@ -1999,31 +2001,46 @@
         text-align: center;
       }
 
-      /* Subtle pill CTA for email */
+      /* Minimal text link CTA for email */
       .email-cta {
         display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
         width: auto;
         max-width: none;
         margin: 0 auto;
-        padding: 12px 24px;
-        gap: 12px;
-        background: rgba(222, 255, 155, 0.08);
-        border: 1px solid rgba(222, 255, 155, 0.2);
-        border-radius: 100px;
-        justify-content: center;
+        padding: 0;
+        background: none;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
       }
 
       .email-cta-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
-        background: rgba(222, 255, 155, 0.1);
-        border: 1px solid rgba(222, 255, 155, 0.25);
+        width: 20px;
+        height: 20px;
+        border-radius: 0;
+        background: none;
+        border: none;
       }
 
       .email-cta-icon svg {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
+        stroke: var(--lime);
+      }
+
+      .email-cta .showcase-cta-title,
+      .email-cta-text span:first-child {
+        font-size: 0.9375rem;
+        color: var(--lime);
+        font-weight: 500;
+      }
+
+      .email-cta .showcase-cta-hint,
+      .email-cta-text span:last-child {
+        display: none;
       }
 
       .email-mockup-wrapper {
@@ -2033,22 +2050,20 @@
         transform: none;
         display: flex;
         justify-content: center;
-        padding: 50px 0 0;
+        padding: 40px 16px 60px;
         order: 2;
-        overflow: hidden;
-        min-height: 50vh;
+        overflow: visible;
       }
 
       .email-mockup {
-        width: 200%;
-        max-width: none;
-        transform: perspective(500px) rotateX(8deg) rotateY(4deg) scale(1.2);
-        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+        width: 100%;
+        max-width: 380px;
+        transform: none;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
         animation: none;
-        border-radius: 24px;
-        -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 95%);
-        mask-image: linear-gradient(to bottom, black 60%, transparent 95%);
-        margin-bottom: -20%;
+        border-radius: 16px;
+        -webkit-mask-image: none;
+        mask-image: none;
       }
 
       .email-glow {
