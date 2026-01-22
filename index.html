@@ -1838,14 +1838,14 @@
       }
 
       /* ══════════════════════════════════════════════════════
-         WHATSAPP SHOWCASE - MOBILE
-         Hero phone, clear section, proper breathing room
+         WHATSAPP SHOWCASE - MOBILE (Linear-style)
+         Massive phone, dramatic crop, immersive
          ══════════════════════════════════════════════════════ */
       .whatsapp-showcase {
         min-height: auto;
-        padding: 60px 0 0;
-        margin-top: 40px;
-        border-top: 1px solid rgba(255,255,255,0.06);
+        padding: 80px 0 0;
+        margin-top: 20px;
+        overflow: hidden;
       }
 
       .whatsapp-showcase::before {
@@ -1860,26 +1860,26 @@
         gap: 0;
       }
 
-      /* Content FIRST on mobile - sets context */
+      /* Text content - minimal, tight */
       .showcase-content {
         position: relative;
         top: auto;
         left: auto;
         order: 1;
-        padding: 0 24px 32px;
+        padding: 0 24px 24px;
         max-width: none;
         text-align: center;
       }
 
+      /* Hide label on mobile - Linear style */
       .showcase-label {
-        margin-bottom: 12px;
-        font-size: 0.6875rem;
+        display: none;
       }
 
       .showcase-headline {
-        font-size: 1.75rem;
-        line-height: 1.15;
-        margin-bottom: 12px;
+        font-size: 1.875rem;
+        line-height: 1.1;
+        margin-bottom: 16px;
       }
 
       .showcase-headline br {
@@ -1887,40 +1887,18 @@
       }
 
       .showcase-subtitle {
-        margin-bottom: 24px;
-        font-size: 0.875rem;
-        opacity: 0.7;
-      }
-
-      .showcase-cta {
-        width: 100%;
-        max-width: 280px;
-        margin: 0 auto;
-        padding: 14px 20px;
-        justify-content: center;
-        gap: 14px;
-      }
-
-      .showcase-cta-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
-      }
-
-      .showcase-cta-icon svg {
-        width: 18px;
-        height: 18px;
-      }
-
-      .showcase-cta-title {
+        margin-bottom: 0;
         font-size: 0.9375rem;
+        opacity: 0.6;
+        line-height: 1.5;
       }
 
-      .showcase-cta-hint {
-        font-size: 0.6875rem;
+      /* Hide CTA on mobile - let phone be the hero */
+      .showcase-cta {
+        display: none;
       }
 
-      /* Phone - BIG, centered, dramatic */
+      /* Phone - MASSIVE, angled, bleeding off screen */
       .showcase-video-wrapper {
         position: relative;
         top: auto;
@@ -1928,20 +1906,23 @@
         transform: none;
         display: flex;
         justify-content: center;
-        align-items: center;
-        padding: 40px 20px 60px;
+        align-items: flex-start;
+        padding: 40px 0 0;
         order: 2;
+        overflow: hidden;
+        min-height: 60vh;
       }
 
       .showcase-video {
-        width: 85vw;
-        max-width: 360px;
+        width: 110%;
+        max-width: none;
         height: auto;
-        border-radius: 40px;
-        transform: none;
-        -webkit-mask-image: none;
-        mask-image: none;
-        filter: drop-shadow(0 25px 50px rgba(0,0,0,0.5));
+        border-radius: 44px;
+        transform: perspective(1000px) rotateX(5deg) rotateY(-3deg) scale(1.1);
+        -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+        mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+        filter: drop-shadow(0 30px 60px rgba(0,0,0,0.6));
+        margin-bottom: -20%;
       }
 
       /* ══════════════════════════════════════════════════════
