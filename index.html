@@ -1893,9 +1893,47 @@
         line-height: 1.5;
       }
 
-      /* Hide CTA on mobile - let phone be the hero */
+      /* Subtle CTA below phone - minimal, tasteful */
       .showcase-cta {
-        display: none;
+        display: flex;
+        width: auto;
+        max-width: none;
+        margin: -60px auto 40px;
+        padding: 12px 24px;
+        gap: 12px;
+        background: rgba(37, 211, 102, 0.1);
+        border: 1px solid rgba(37, 211, 102, 0.25);
+        border-radius: 100px;
+        position: relative;
+        z-index: 10;
+      }
+
+      .showcase-cta-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: rgba(37, 211, 102, 0.15);
+        border: 1px solid rgba(37, 211, 102, 0.3);
+      }
+
+      .showcase-cta-icon svg {
+        width: 16px;
+        height: 16px;
+      }
+
+      .showcase-cta-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .showcase-cta-title {
+        font-size: 0.875rem;
+      }
+
+      .showcase-cta-hint {
+        font-size: 0.625rem;
+        opacity: 0.7;
       }
 
       /* Phone - MASSIVE, angled, bleeding off screen */
@@ -1926,13 +1964,13 @@
       }
 
       /* ══════════════════════════════════════════════════════
-         EMAIL SHOWCASE - MOBILE
-         Clear separation from WhatsApp
+         EMAIL SHOWCASE - MOBILE (Linear-style)
+         Matching WhatsApp dramatic treatment
          ══════════════════════════════════════════════════════ */
       .email-showcase {
         min-height: auto;
-        padding-top: 60px;
-        border-top: 1px solid rgba(255,255,255,0.06);
+        padding: 80px 0 0;
+        overflow: hidden;
       }
 
       .email-showcase::before {
@@ -1945,34 +1983,47 @@
         flex-direction: column;
       }
 
+      /* Hide label on mobile */
+      .email-showcase .showcase-label,
+      .email-content .showcase-label {
+        display: none;
+      }
+
       .email-content {
         position: relative;
         top: auto;
         right: auto;
         order: 1;
-        padding: 0 24px 32px;
+        padding: 0 24px 24px;
         max-width: none;
         text-align: center;
       }
 
+      /* Subtle pill CTA for email */
       .email-cta {
+        display: flex;
+        width: auto;
+        max-width: none;
         margin: 0 auto;
-        width: 100%;
-        max-width: 280px;
+        padding: 12px 24px;
+        gap: 12px;
+        background: rgba(222, 255, 155, 0.08);
+        border: 1px solid rgba(222, 255, 155, 0.2);
+        border-radius: 100px;
         justify-content: center;
-        padding: 14px 20px;
-        gap: 14px;
       }
 
       .email-cta-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
+        background: rgba(222, 255, 155, 0.1);
+        border: 1px solid rgba(222, 255, 155, 0.25);
       }
 
       .email-cta-icon svg {
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
       }
 
       .email-mockup-wrapper {
@@ -1982,17 +2033,22 @@
         transform: none;
         display: flex;
         justify-content: center;
-        padding: 40px 20px 60px;
+        padding: 50px 0 0;
         order: 2;
+        overflow: hidden;
+        min-height: 50vh;
       }
 
       .email-mockup {
-        width: 90%;
-        max-width: 380px;
-        transform: none;
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        width: 200%;
+        max-width: none;
+        transform: perspective(500px) rotateX(8deg) rotateY(4deg) scale(1.2);
+        box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
         animation: none;
-        border-radius: 20px;
+        border-radius: 24px;
+        -webkit-mask-image: linear-gradient(to bottom, black 60%, transparent 95%);
+        mask-image: linear-gradient(to bottom, black 60%, transparent 95%);
+        margin-bottom: -20%;
       }
 
       .email-glow {
