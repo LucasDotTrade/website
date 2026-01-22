@@ -1836,25 +1836,24 @@
         text-align: center;
       }
 
-      /* WhatsApp Showcase - Mobile (matches hero responsive) */
+      /* WhatsApp Showcase - Mobile: Phone-first, compact */
       .whatsapp-showcase {
         min-height: auto;
+        padding: 0;
       }
 
       .whatsapp-showcase::before {
-        top: -10%;
-        left: -20%;
-        width: 80%;
-        height: 40%;
+        display: none;
       }
 
       .showcase-grid {
         min-height: auto;
         display: flex;
         flex-direction: column;
+        padding: 0;
+        gap: 0;
       }
 
-      /* WhatsApp Mobile: Video-first layout */
       .showcase-video-wrapper {
         position: relative;
         top: auto;
@@ -1862,79 +1861,79 @@
         transform: none;
         display: flex;
         justify-content: center;
-        padding: 48px 16px 32px;
-        order: 1; /* Video comes FIRST on mobile */
+        align-items: center;
+        padding: 32px 20px 20px;
+        order: 1;
       }
 
       .showcase-video {
-        width: 100%;
-        max-width: 320px;
+        width: 72%;
+        max-width: 260px;
         height: auto;
-        max-height: 65vh;
-        border-radius: 36px;
+        border-radius: 28px;
         transform: none;
         -webkit-mask-image: none;
         mask-image: none;
-        filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4));
-        object-fit: contain;
+        filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.25));
       }
 
       .showcase-content {
         position: relative;
         top: auto;
         left: auto;
-        order: 2; /* Content comes AFTER video */
-        padding: 0 24px 48px;
+        order: 2;
+        padding: 12px 20px 32px;
         max-width: none;
         text-align: center;
       }
 
       .showcase-label {
-        margin-bottom: 12px;
+        margin-bottom: 6px;
+        font-size: 0.5625rem;
       }
 
       .showcase-headline {
-        font-size: 1.75rem;
-        line-height: 1.2;
-        margin-bottom: 12px;
+        font-size: 1.375rem;
+        line-height: 1.15;
+        margin-bottom: 6px;
       }
 
-      /* Hide line breaks on mobile - spaces are in HTML */
       .showcase-headline br {
         display: none;
       }
 
       .showcase-subtitle {
-        margin-bottom: 20px;
-        font-size: 0.875rem;
-        opacity: 0.8;
+        margin-bottom: 14px;
+        font-size: 0.75rem;
+        opacity: 0.6;
       }
 
       .showcase-cta {
         width: 100%;
-        max-width: 280px;
+        max-width: 240px;
         margin: 0 auto;
-        padding: 14px 20px;
+        padding: 10px 14px;
         justify-content: center;
+        gap: 10px;
       }
 
       .showcase-cta-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 10px;
+        width: 32px;
+        height: 32px;
+        border-radius: 8px;
       }
 
       .showcase-cta-icon svg {
-        width: 18px;
-        height: 18px;
+        width: 14px;
+        height: 14px;
       }
 
       .showcase-cta-title {
-        font-size: 0.9375rem;
+        font-size: 0.8125rem;
       }
 
       .showcase-cta-hint {
-        font-size: 0.6875rem;
+        font-size: 0.5625rem;
       }
 
       /* Email Showcase - Mobile */
