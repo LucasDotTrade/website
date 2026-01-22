@@ -1515,14 +1515,26 @@
     }
 
     .email-cta-text {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1rem;
-      color: var(--lime);
-      font-weight: 500;
-      letter-spacing: -0.01em;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
-    .email-cta-text.copied {
+    .email-cta-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .email-cta-hint {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .email-cta-hint.copied {
       color: var(--lime);
     }
 
@@ -2004,19 +2016,19 @@
         text-align: center;
       }
 
-      /* Minimal text link CTA for email */
+      /* Email CTA - mobile card style */
       .email-cta {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 10px;
+        gap: 14px;
         width: auto;
-        max-width: none;
+        max-width: 280px;
         margin: 20px auto 0;
-        padding: 0;
-        background: none;
-        border: none;
-        border-radius: 0;
+        padding: 16px 24px;
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 16px;
         box-shadow: none;
         cursor: pointer;
         font-family: inherit;
@@ -2028,11 +2040,11 @@
       }
 
       .email-cta-icon {
-        width: 20px;
-        height: 20px;
-        border-radius: 0;
-        background: none;
-        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: rgba(222, 255, 155, 0.1);
+        border: 1px solid rgba(222, 255, 155, 0.2);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -2045,15 +2057,17 @@
       }
 
       .email-cta-text {
-        font-size: 0.9375rem;
-        color: var(--lime);
-        font-weight: 500;
-        font-family: 'JetBrains Mono', monospace;
-        letter-spacing: -0.01em;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
       }
 
-      .email-cta-text.copied {
-        color: var(--lime);
+      .email-cta-title {
+        font-size: 0.9375rem;
+      }
+
+      .email-cta-hint {
+        font-size: 0.6875rem;
       }
 
       .email-mockup-wrapper {
@@ -2391,7 +2405,10 @@
                 <path d="M22 6L12 13L2 6"/>
               </svg>
             </div>
-            <span class="email-cta-text" id="emailSectionText">Copy email</span>
+            <div class="email-cta-text">
+              <span class="email-cta-title">Try it now</span>
+              <span class="email-cta-hint" id="emailSectionText">Copy email</span>
+            </div>
           </button>
         </div>
       </div>
