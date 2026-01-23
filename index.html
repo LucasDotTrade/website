@@ -293,6 +293,43 @@
     }
     .hero-stat { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; color: var(--error); }
     .hero-stat-divider { color: var(--text-muted); font-size: 0.625rem; }
+
+    /* Citation tooltip */
+    .cite-trigger {
+      position: relative;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.7em;
+      margin-left: 2px;
+      cursor: pointer;
+      vertical-align: super;
+    }
+    .cite-trigger:hover {
+      color: rgba(255, 255, 255, 0.6);
+    }
+    .cite-tooltip {
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: #1a1a1a;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.6);
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.15s ease;
+      pointer-events: none;
+      z-index: 100;
+    }
+    .cite-trigger:hover .cite-tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
     
     .hero-soul {
       margin-top: 16px;
@@ -2200,7 +2237,7 @@
           <span class="hero-line-2" id="heroLine2">Until the bank rejects&nbsp;it.</span>
         </h1>
         <div class="hero-stats">
-          <span class="hero-stat">70% of LCs get rejected</span>
+          <span class="hero-stat">70% of LCs get rejected<span class="cite-trigger">ⁱ<span class="cite-tooltip">ICC Banking Commission, 2024</span></span></span>
           <span class="hero-stat-divider">·</span>
           <span class="hero-stat">$800 to fix</span>
           <span class="hero-stat-divider">·</span>
