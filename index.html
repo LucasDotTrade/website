@@ -2936,7 +2936,7 @@
           // On mobile (< 768px), animate the title; on desktop, animate the hint
           const isMobile = window.innerWidth < 768;
           if (isMobile && emailSectionTitle) {
-            scrambleText(emailSectionTitle, 'copied ✓', 400);
+            scrambleText(emailSectionTitle, 'email copied ✓', 400);
             setTimeout(() => {
               unscrambleText(emailSectionTitle, 'Try it now', 300);
             }, 1200);
