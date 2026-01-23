@@ -1338,8 +1338,55 @@
     .email-dot:nth-child(2) { background: #febc2e; }
     .email-dot:nth-child(3) { background: #28c840; }
 
+    .email-body-wrapper {
+      display: flex;
+    }
+
+    .email-sidebar {
+      width: 140px;
+      min-width: 140px;
+      background: rgba(0,0,0,0.3);
+      border-right: 1px solid rgba(255,255,255,0.05);
+      padding: 16px 0;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+      cursor: default;
+      transition: all 0.2s ease;
+    }
+
+    .sidebar-item.active {
+      color: var(--text);
+      background: rgba(255,255,255,0.05);
+      border-left: 2px solid var(--lime);
+      padding-left: 14px;
+    }
+
+    .sidebar-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--lime);
+    }
+
+    .sidebar-count {
+      margin-left: auto;
+      font-size: 0.6875rem;
+      color: var(--text-secondary);
+      background: rgba(255,255,255,0.08);
+      padding: 2px 6px;
+      border-radius: 8px;
+    }
+
     .email-inbox {
       padding: 0;
+      flex: 1;
     }
 
     .email-item {
@@ -1611,6 +1658,25 @@
 
       .email-mockup {
         width: 420px;
+      }
+
+      .email-sidebar {
+        width: 100px;
+        min-width: 100px;
+      }
+
+      .sidebar-item {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+      }
+
+      .sidebar-item.active {
+        padding-left: 10px;
+      }
+
+      .sidebar-count {
+        font-size: 0.625rem;
+        padding: 1px 5px;
       }
     }
 
@@ -2097,6 +2163,10 @@
         mask-image: none;
       }
 
+      .email-sidebar {
+        display: none;
+      }
+
       .email-glow {
         width: 300px;
         height: 300px;
@@ -2354,7 +2424,17 @@
               <div class="email-dot"></div>
               <div class="email-dot"></div>
             </div>
-            <div class="email-inbox">
+            <div class="email-body-wrapper">
+              <div class="email-sidebar">
+                <div class="sidebar-item active">
+                  <span class="sidebar-dot"></span>
+                  Inbox
+                  <span class="sidebar-count">3</span>
+                </div>
+                <div class="sidebar-item">Sent</div>
+                <div class="sidebar-item">Drafts</div>
+              </div>
+              <div class="email-inbox">
               <div class="email-item unread">
                 <div class="email-avatar"><img src="https://raw.githubusercontent.com/LucasDotTrade/website/main/LUCAS_Icon_Main_transparent512.png" alt="Lucas"></div>
                 <div class="email-body">
@@ -2395,6 +2475,7 @@
                   </div>
                 </div>
               </div>
+            </div>
             </div>
           </div>
         </div>
