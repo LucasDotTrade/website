@@ -31,6 +31,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #030303;
@@ -325,11 +326,11 @@
     }
     .hero-stat {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.75rem;
+      font-size: 0.875rem;
       font-weight: 500;
       color: var(--error);
       text-transform: uppercase;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       transition: transform 0.2s ease, text-shadow 0.2s ease;
       cursor: default;
       opacity: 0;
@@ -342,7 +343,7 @@
     }
     .hero-stat-divider {
       color: var(--text-muted);
-      font-size: 0.75rem;
+      font-size: 0.875rem;
       font-weight: 300;
       opacity: 0;
       animation: statReveal 0.5s ease forwards;
@@ -350,7 +351,6 @@
     }
     .stat-num {
       font-weight: 600;
-      font-size: 0.9rem;
     }
     .stat-abbr {
       text-transform: none;
@@ -775,115 +775,137 @@
       flex-wrap: wrap;
     }
 
-    /* 2030 Agentic CTA - Original Structure, Premium Polish */
-    .cta-agent {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      text-decoration: none;
-      padding: 24px 36px;
-      border-radius: 20px;
-      background: linear-gradient(
-        135deg,
-        rgba(255, 255, 255, 0.04) 0%,
-        rgba(255, 255, 255, 0.01) 100%
-      );
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow:
-        0 4px 24px rgba(0, 0, 0, 0.2),
-        0 0 0 1px rgba(255, 255, 255, 0.03) inset;
-      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-      cursor: pointer;
-    }
-    
-    .cta-agent:hover {
-      transform: translateY(-4px);
-      border-color: rgba(222, 255, 155, 0.2);
-      animation: buttonGlow 2s ease-in-out infinite;
-    }
+    /* ══════════════════════════════════════════════════════════════
+       CTA BUTTONS — Pill-style, inline layout
+       ══════════════════════════════════════════════════════════════ */
 
-    .cta-agent:hover .cta-icon {
-      border-color: var(--lime);
-      transform: translateY(-2px);
-      animation: iconGlow 2s ease-in-out infinite;
-    }
-    
-    .cta-agent:hover .cta-icon svg {
-      stroke: var(--lime);
-    }
-    
-    .cta-agent:active {
-      transform: translateY(-2px);
-      transition: all 0.15s ease-out;
-    }
-
-    .cta-icon {
-      width: 52px;
-      height: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(222, 255, 155, 0.06);
-      border: 1px solid rgba(222, 255, 155, 0.15);
-      border-radius: 14px;
-      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .cta-icon svg {
-      width: 26px;
-      height: 26px;
-      stroke: var(--lime);
-      opacity: 0.9;
-      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    .envelope-flap {
-      transform-origin: center;
-      transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    .cta-agent:hover .envelope-flap {
-      transform: translateY(-2px);
-    }
-
-    /* WhatsApp Button */
-    .cta-whatsapp-btn .cta-icon svg {
-      fill: var(--lime);
-      stroke: none;
+    .cta-icon-inline {
       width: 24px;
       height: 24px;
+      flex-shrink: 0;
     }
-    .cta-whatsapp-btn:hover .cta-icon svg {
-      fill: var(--lime);
+
+    .cta-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.1875rem;
+      font-weight: 600;
+      letter-spacing: -0.005em;
     }
-    
-    .cta-content {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
+
+    /* ─────────────────────────────────────────────────────────────
+       PRIMARY — WhatsApp: Solid Lime. Confident. Simple.
+       ───────────────────────────────────────────────────────────── */
+    .cta-btn-primary {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      min-width: 240px;
+      padding: 18px 28px;
+      border-radius: 16px;
+      background: var(--lime);
+      border: none;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.3) inset,
+        0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: all 0.25s ease;
     }
-    
-    .cta-email {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1.25rem;
+
+    .cta-btn-primary .cta-icon-inline {
+      fill: #0a0a0a;
+    }
+
+    .cta-btn-primary .cta-label {
+      color: #0a0a0a;
+    }
+
+    .cta-btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.4) inset,
+        0 16px 32px rgba(0, 0, 0, 0.15),
+        0 0 40px rgba(222, 255, 155, 0.2);
+    }
+
+    .cta-btn-primary:active {
+      transform: translateY(-1px);
+      transition: all 0.1s ease;
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.3) inset,
+        0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       SECONDARY — Email: Dark Pill with Flowing Border
+       ───────────────────────────────────────────────────────────── */
+    .cta-btn-secondary {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      min-width: 240px;
+      padding: 18px 28px;
+      border-radius: 16px;
+      background: #1a1a1a;
+      border: 1px solid rgba(222, 255, 155, 0.4);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.05) inset,
+        0 4px 12px rgba(0, 0, 0, 0.2),
+        0 0 20px rgba(222, 255, 155, 0.06);
+      transition: all 0.25s ease;
+    }
+
+    .cta-btn-secondary .cta-icon-inline {
+      stroke: var(--lime);
+      transition: transform 0.25s ease;
+    }
+
+    .cta-btn-secondary .cta-label {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 1.1875rem;
       font-weight: 600;
       color: var(--text);
-      letter-spacing: -0.02em;
+      transition: color 0.25s ease;
     }
-    
-    .cta-hint {
-      font-size: 0.875rem;
-      font-weight: 400;
-      color: var(--text-secondary);
+
+    .cta-btn-secondary:hover {
+      transform: translateY(-3px);
+      border-color: var(--lime);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.08) inset,
+        0 16px 32px rgba(0, 0, 0, 0.25),
+        0 0 40px rgba(222, 255, 155, 0.15);
     }
-    
-    .cta-email.copied {
+
+    .cta-btn-secondary:hover .cta-label {
       color: var(--lime);
-      text-shadow: 0 0 20px var(--lime-glow);
     }
-    
+
+    .cta-btn-secondary:active {
+      transform: translateY(-1px);
+      transition: all 0.1s ease;
+    }
+
+    /* Click confirmation flash */
+    .cta-btn-secondary.clicked {
+      background: rgba(222, 255, 155, 0.12);
+      border-color: rgba(222, 255, 155, 0.3);
+    }
+
+    .cta-btn-secondary.clicked .cta-label {
+      color: var(--lime);
+    }
+
+    .cta-btn-secondary.clicked .cta-icon-inline {
+      opacity: 1;
+    }
+
     /* 2030 Envelope particles */
     .envelope-particle {
       position: fixed;
@@ -1809,10 +1831,10 @@
         margin-top: 20px;
       }
       .hero-stat {
-        font-size: 0.65rem;
+        font-size: 0.7rem;
       }
-      .stat-num {
-        font-size: 0.75rem;
+      .hero-stat-divider {
+        font-size: 0.7rem;
       }
 
       /* Analysis card - tighter on mobile */
@@ -1937,14 +1959,14 @@
         font-weight: 300;
       }
 
-      /* WhatsApp - subtle green tint */
+      /* WhatsApp - solid lime on mobile too */
       .cta-agent[href*="whatsapp"],
       .cta-agent[href*="wa.me"] {
-        background: rgba(37, 211, 102, 0.08);
+        background: var(--lime);
       }
       .cta-agent[href*="whatsapp"]:active,
       .cta-agent[href*="wa.me"]:active {
-        background: rgba(37, 211, 102, 0.15);
+        background: #c8e888;
       }
 
       /* Proof points - compact horizontal on mobile */
@@ -2413,28 +2435,20 @@
           <p class="cta-soul">"I find the $800 mistake before your bank does." — Lucas</p>
         </div>
         <div class="cta-buttons">
-          <div class="cta-agent" id="ctaAgent">
-            <div class="cta-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="4" width="20" height="16" rx="2"/>
-                <path class="envelope-flap" d="M22 6L12 13L2 6"/>
-              </svg>
-            </div>
-            <div class="cta-content">
-              <span class="cta-email" id="ctaEmail">lucas@lucas.trade</span>
-              <span class="cta-hint">Forward your docs</span>
-            </div>
-          </div>
-          <a href="https://wa.me/971585968871" target="_blank" rel="noopener" class="cta-agent cta-whatsapp-btn">
-            <div class="cta-icon">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-              </svg>
-            </div>
-            <div class="cta-content">
-              <span class="cta-email">WhatsApp Lucas</span>
-              <span class="cta-hint">Chat now</span>
-            </div>
+          <!-- WhatsApp: Solid lime pill with ambient life -->
+          <a href="https://wa.me/971585968871" target="_blank" rel="noopener" class="cta-btn-primary">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="cta-icon-inline">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            <span class="cta-label">WhatsApp Lucas</span>
+          </a>
+          <!-- Email: Dark pill with flowing border -->
+          <a href="mailto:lucas@lucas.trade" class="cta-btn-secondary" id="ctaEmailBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="cta-icon-inline">
+              <rect x="2" y="4" width="20" height="16" rx="2"/>
+              <path d="M22 6L12 13L2 6"/>
+            </svg>
+            <span class="cta-label">Email Lucas</span>
           </a>
         </div>
         <div class="cta-extra" id="ctaExtra">
@@ -3053,28 +3067,24 @@
       }
     }
     
-    // CTA Copy to Clipboard
-    const ctaAgent = document.getElementById('ctaAgent');
-    const ctaEmail = document.getElementById('ctaEmail');
-    const ctaIcon = document.querySelector('.cta-icon');
+    // CTA Email Click Effect
+    const ctaEmailBtn = document.getElementById('ctaEmailBtn');
     const emailAddress = 'lucas@lucas.trade';
-    
-    // Character scramble effect
+
+    // Character scramble effect for other email elements
     function scrambleText(element, finalText, duration = 600) {
       const chars = '!@#$%^&*()_+-=[]{}|;:,.<>?/~`0123456789';
-      const originalText = element.textContent;
-      const maxLength = Math.max(originalText.length, finalText.length);
       const startTime = Date.now();
-      
+
       element.classList.add('copied');
-      
+
       function update() {
         const elapsed = Date.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        
+
         // Eased progress for smoother landing
         const easedProgress = 1 - Math.pow(1 - progress, 3);
-        
+
         let result = '';
         for (let i = 0; i < finalText.length; i++) {
           if (easedProgress === 1 || Math.random() < easedProgress) {
@@ -3083,35 +3093,56 @@
             result += chars[Math.floor(Math.random() * chars.length)];
           }
         }
-        
+
         element.textContent = result;
-        
+
         if (progress < 1) {
           requestAnimationFrame(update);
         }
       }
-      
+
       requestAnimationFrame(update);
     }
-    
+
     function unscrambleText(element, finalText, duration = 400) {
       scrambleText(element, finalText, duration);
       setTimeout(() => element.classList.remove('copied'), duration);
     }
-    
-    ctaAgent.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(emailAddress);
-        shootEnvelopes(ctaIcon);
-        scrambleText(ctaEmail, 'copied ✓', 400);
-        setTimeout(() => {
-          unscrambleText(ctaEmail, emailAddress, 300);
-        }, 1200);
-      } catch {
-        // Fallback: show prompt to copy manually
-        prompt('Copy this email:', emailAddress);
-      }
-    });
+
+    // Email button - copy to clipboard with envelope explosion + matrix scramble
+    if (ctaEmailBtn) {
+      const emailLabel = ctaEmailBtn.querySelector('.cta-label');
+
+      ctaEmailBtn.addEventListener('click', async (e) => {
+        e.preventDefault(); // Don't open mailto:
+
+        try {
+          await navigator.clipboard.writeText(emailAddress);
+
+          // Visual feedback
+          ctaEmailBtn.classList.add('clicked');
+
+          // Matrix scramble effect to "Copied!"
+          if (emailLabel) {
+            scrambleText(emailLabel, 'Copied!', 400);
+          }
+
+          // Envelope explosion effect
+          shootEnvelopes(ctaEmailBtn);
+
+          // Revert after delay with unscramble
+          setTimeout(() => {
+            ctaEmailBtn.classList.remove('clicked');
+            if (emailLabel) {
+              unscrambleText(emailLabel, 'Email Lucas', 300);
+            }
+          }, 1500);
+        } catch {
+          // Fallback for clipboard failure
+          prompt('Copy this email:', emailAddress);
+        }
+      });
+    }
 
     // Email Section CTA - Copy to Clipboard
     const emailSectionCta = document.getElementById('emailSectionCta');
