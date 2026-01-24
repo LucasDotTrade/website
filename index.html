@@ -232,66 +232,109 @@
     }
     .typo-word .char.ai-wink {
       color: var(--lime);
-      opacity: 1;
-      transform: translateY(0);
-      text-shadow: 
-        0 0 8px var(--lime-glow),
-        0 0 20px rgba(222, 255, 155, 0.25);
       animation: aiPulse 2.5s ease-in-out infinite;
     }
     @keyframes aiPulse {
-      0%, 100% { 
-        text-shadow: 
-          0 0 6px rgba(222, 255, 155, 0.3),
-          0 0 15px rgba(222, 255, 155, 0.15);
-        opacity: 0.85;
+      0%, 100% {
+        text-shadow: 0 0 4px rgba(222, 255, 155, 0.12);
+        filter: brightness(1);
       }
-      50% { 
-        text-shadow: 
-          0 0 10px var(--lime-glow),
-          0 0 25px rgba(222, 255, 155, 0.35);
-        opacity: 1;
+      50% {
+        text-shadow:
+          0 0 12px rgba(222, 255, 155, 0.5),
+          0 0 24px rgba(222, 255, 155, 0.25);
+        filter: brightness(1.07);
       }
     }
     
     /* Correction - smooth in-place transformation */
     .typo-word .char.fixing {
       color: var(--lime) !important;
-      text-shadow: 0 0 25px var(--lime-glow) !important;
-      transition: color 0.3s ease, text-shadow 0.3s ease;
+      text-shadow: 0 0 12px var(--lime-glow) !important;
+      transition: color 0.3s ease, text-shadow 0.4s ease, filter 0.3s ease;
     }
 
-    .typo-word .char.morphing {
-      animation: charMorph 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    /* Seamless Transform - no cursor, pure magic */
+
+    /* Acknowledgment pulse before transform */
+    .typo-word .char.acknowledge {
+      animation: charAcknowledge 0.4s ease-out forwards;
     }
-    @keyframes charMorph {
-      0% { transform: scale(1); opacity: 1; }
-      40% { transform: scale(0); opacity: 0; }
-      60% { transform: scale(0); opacity: 0; }
-      100% { transform: scale(1); opacity: 1; }
+    @keyframes charAcknowledge {
+      0%, 100% {
+        filter: blur(0);
+        text-shadow: 0 0 0 transparent;
+      }
+      50% {
+        filter: blur(0.5px);
+        text-shadow: 0 0 20px var(--lime-glow);
+      }
     }
 
-    .typo-word .char.inserted {
+    /* Character dissolving away */
+    .typo-word .char.dissolving {
+      animation: charDissolve 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @keyframes charDissolve {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(0.95);
+        filter: blur(6px);
+      }
+    }
+
+    /* Character materializing */
+    .typo-word .char.materializing {
       display: inline-block;
-      animation: charSlideIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+      animation: charMaterialize 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
-    @keyframes charSlideIn {
+    @keyframes charMaterialize {
       0% {
         opacity: 0;
-        transform: scale(0.3) translateY(8px);
+        transform: scale(1.05);
+        filter: blur(6px);
         color: var(--lime);
       }
       100% {
         opacity: 1;
-        transform: scale(1) translateY(0);
+        transform: scale(1);
+        filter: blur(0);
+        color: var(--lime);
+        text-shadow: 0 0 12px var(--lime-glow);
       }
+    }
+
+    /* Glow settling after transform */
+    .typo-word .char.transformed {
+      color: var(--lime);
+      text-shadow: 0 0 12px var(--lime-glow);
+      transition: text-shadow 0.8s ease-out;
+    }
+    .typo-word .char.transformed.settled {
+      text-shadow: 0 0 6px rgba(222, 255, 155, 0.3);
     }
     
     .hero-stats {
       display: flex; align-items: center; justify-content: center; gap: 10px;
       margin-top: 16px; opacity: 0; animation: fadeIn 1s ease 0.45s forwards;
     }
-    .hero-stat { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 500; color: var(--error); }
+    .hero-stat {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--error);
+      transition: transform 0.2s ease, text-shadow 0.2s ease;
+      cursor: default;
+    }
+    .hero-stat:hover {
+      transform: translateY(-1px);
+      text-shadow: 0 0 12px var(--error-glow);
+    }
     .hero-stat-divider { color: var(--text-muted); font-size: 0.625rem; }
 
     /* Citation tooltip */
@@ -1056,9 +1099,9 @@
     }
 
     .footer-logo img {
-      height: 28px;
+      height: 36px;
       width: auto;
-      opacity: 0.6;
+      opacity: 0.7;
       transition: opacity 0.3s ease;
     }
 
@@ -1072,9 +1115,8 @@
       font-weight: 500;
       text-transform: uppercase;
       letter-spacing: 0.14em;
-      color: var(--text-muted);
-      opacity: 0.6;
-      margin-top: -12px;
+      color: var(--text-secondary);
+      margin-top: -10px;
     }
 
     .footer-socials {
@@ -1199,6 +1241,14 @@
       letter-spacing: 0.15em;
       color: rgba(222, 255, 155, 0.6);
       margin-bottom: 24px;
+      /* Scroll animation - start hidden */
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .showcase-label.in-view {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     /* Headline - matches hero-title */
@@ -1723,11 +1773,11 @@
       }
       .hero-stats {
         flex-wrap: wrap;
-        gap: 6px;
+        gap: 8px 12px;
         margin-top: 20px;
       }
       .hero-stat {
-        font-size: 0.75rem;
+        font-size: 0.65rem;
       }
 
       /* Analysis card - tighter on mobile */
@@ -2573,42 +2623,63 @@
       verdictTime.textContent = ((Date.now() - startTime) / 1000).toFixed(1) + 's';
     };
     
-    // Smooth in-place correction animation
+    // Seamless Transform - no cursor, pure magic
     function runCorrection() {
       return new Promise(async resolve => {
         const chars = [...typoWord.querySelectorAll('.char')];
-        const errorChar = chars[5]; // 'a' → 'h'
+        const errorChar = chars[5]; // 'a' → will become 'h'
         const nextChar = chars[6];  // 'i'
 
-        // Step 1: Clear error state, turn both lime
+        // Step 1: Clear error state
         errorChar.classList.remove('error');
         nextChar.classList.remove('error');
-        errorChar.classList.add('fixing');
-        nextChar.classList.add('fixing');
 
+        // Step 2: Subtle acknowledgment pulse (AI "sees" the error)
+        errorChar.classList.add('acknowledge');
+        await sleep(450);
+        errorChar.classList.remove('acknowledge');
+
+        // Step 3: Brief pause - AI "thinking"
         await sleep(300);
 
-        // Step 2: Morph 'a' → 'h' (shrink, swap, grow)
-        errorChar.classList.add('morphing');
+        // Step 4: Dissolve the wrong 'a'
+        errorChar.classList.add('dissolving');
 
-        await sleep(250); // Wait until char is scaled to 0
-        errorChar.textContent = 'h'; // Swap while invisible
+        // Step 5: Midway through dissolve, swap and materialize 'h'
+        await sleep(250);
+        errorChar.textContent = 'h';
+        errorChar.classList.remove('dissolving');
+        errorChar.classList.add('materializing', 'transformed');
 
-        await sleep(300); // Wait for grow back
-
-        // Step 3: Insert new 'a'
+        // Step 6: Simultaneously insert and materialize new 'a'
+        await sleep(200);
         const newA = document.createElement('span');
-        newA.className = 'char inserted fixing';
+        newA.className = 'char materializing transformed';
         newA.textContent = 'a';
+        newA.style.opacity = '0';
         errorChar.after(newA);
 
-        await sleep(450);
+        // Also transform the 'i' at the same time
+        nextChar.classList.add('transformed');
 
-        // Step 4: Rest of word turns lime (wave effect)
+        // Trigger animation on next frame
+        requestAnimationFrame(() => {
+          newA.style.opacity = '';
+        });
+
+        await sleep(500);
+
+        // Step 7: Glow settles down
+        errorChar.classList.add('settled');
+        newA.classList.add('settled');
+        nextChar.classList.add('settled');
+
+        // Step 8: Soft wave - rest of word gets subtle glow
+        await sleep(200);
         for (let i = 0; i < chars.length; i++) {
           if (i !== 5 && i !== 6) {
             chars[i].classList.add('fixing');
-            await sleep(50);
+            await sleep(40);
           }
         }
 
@@ -2804,11 +2875,14 @@
       const finalChars = typoWord.querySelectorAll('.char');
       // "Shanghai" = S(0) h(1) a(2) n(3) g(4) h(5) a(6) i(7)
       // We want "ai" at positions 6 and 7
-      // Clean up animation classes and inline styles first
+      // Clean up ALL animation classes and inline styles first
       [6, 7].forEach(idx => {
         const char = finalChars[idx];
         if (char) {
-          char.classList.remove('inserted', 'settling', 'lifting', 'fixed');
+          char.classList.remove(
+            'inserted', 'settling', 'lifting', 'fixed', 'fixing',
+            'transformed', 'materializing', 'settled', 'dissolving', 'acknowledge'
+          );
           char.removeAttribute('style');
           char.classList.add('ai-wink');
         }
@@ -3030,6 +3104,19 @@
         }
       });
     }
+
+    // Scroll-triggered section label animations
+    const labelObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+        }
+      });
+    }, { threshold: 0.2 });
+
+    document.querySelectorAll('.showcase-label').forEach(label => {
+      labelObserver.observe(label);
+    });
 
   </script>
 </body>
