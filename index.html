@@ -321,21 +321,44 @@
     
     .hero-stats {
       display: flex; align-items: center; justify-content: center; gap: 10px;
-      margin-top: 16px; opacity: 0; animation: fadeIn 1s ease 0.45s forwards;
+      margin-top: 16px;
     }
     .hero-stat {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Space Grotesk', sans-serif;
       font-size: 0.75rem;
       font-weight: 500;
       color: var(--error);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       transition: transform 0.2s ease, text-shadow 0.2s ease;
       cursor: default;
+      opacity: 0;
+      animation: statReveal 0.5s ease forwards;
+      animation-delay: calc(0.5s + var(--delay) * 0.15s);
     }
     .hero-stat:hover {
       transform: translateY(-1px);
       text-shadow: 0 0 12px var(--error-glow);
     }
-    .hero-stat-divider { color: var(--text-muted); font-size: 0.625rem; }
+    .hero-stat-divider {
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 300;
+      opacity: 0;
+      animation: statReveal 0.5s ease forwards;
+      animation-delay: calc(0.5s + var(--delay) * 0.15s);
+    }
+    .stat-num {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .stat-abbr {
+      text-transform: none;
+    }
+    @keyframes statReveal {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     /* Citation tooltip */
     .cite-trigger {
@@ -1788,6 +1811,9 @@
       .hero-stat {
         font-size: 0.65rem;
       }
+      .stat-num {
+        font-size: 0.75rem;
+      }
 
       /* Analysis card - tighter on mobile */
       .analysis-card {
@@ -2296,11 +2322,11 @@
           <span class="hero-line-2" id="heroLine2">Until the bank rejects&nbsp;it.</span>
         </h1>
         <div class="hero-stats">
-          <span class="hero-stat">70% of LCs get rejected<span class="cite-trigger">ⁱ<span class="cite-tooltip">ICC Banking Commission, 2024</span></span></span>
-          <span class="hero-stat-divider">·</span>
-          <span class="hero-stat">$800 to fix</span>
-          <span class="hero-stat-divider">·</span>
-          <span class="hero-stat">3 days delay</span>
+          <span class="hero-stat" style="--delay: 0"><span class="stat-num" data-count="70" data-suffix="%">0%</span> of <span class="stat-abbr">LCs</span> get rejected<span class="cite-trigger">ⁱ<span class="cite-tooltip">ICC Banking Commission, 2024</span></span></span>
+          <span class="hero-stat-divider" style="--delay: 1">|</span>
+          <span class="hero-stat" style="--delay: 2"><span class="stat-num" data-count="800" data-prefix="$">$0</span> to fix</span>
+          <span class="hero-stat-divider" style="--delay: 3">|</span>
+          <span class="hero-stat" style="--delay: 4"><span class="stat-num" data-count="3" data-suffix=" days">0 days</span> delay</span>
         </div>
       </section>
 
@@ -3127,6 +3153,46 @@
     document.querySelectorAll('.showcase-label').forEach(label => {
       labelObserver.observe(label);
     });
+
+    // Hero stats count-up animation (slow for eye-catching effect)
+    function animateCount(el) {
+      const target = parseInt(el.dataset.count);
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const duration = 2000; // 2 seconds - slow enough to notice
+      const start = performance.now();
+
+      function update(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        // Ease out quart - starts fast, slows at end
+        const eased = 1 - Math.pow(1 - progress, 4);
+        const current = Math.floor(eased * target);
+        el.textContent = prefix + current + suffix;
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        }
+      }
+      requestAnimationFrame(update);
+    }
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const nums = entry.target.querySelectorAll('.stat-num[data-count]');
+          nums.forEach((num, i) => {
+            // Stagger: wait for reveal animation + offset per number
+            const delay = 500 + (i * 2) * 150 + 300; // align with reveal timing
+            setTimeout(() => animateCount(num), delay);
+          });
+          statsObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    const heroStats = document.querySelector('.hero-stats');
+    if (heroStats) statsObserver.observe(heroStats);
 
   </script>
 </body>
