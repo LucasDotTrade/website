@@ -1424,6 +1424,31 @@
         0 0 0 1px rgba(255, 255, 255, 0.03) inset;
       transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       width: fit-content;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .showcase-cta::before {
+      content: '';
+      position: absolute;
+      width: 140%;
+      height: 140%;
+      background: radial-gradient(
+        ellipse,
+        rgba(37, 211, 102, 0.1) 0%,
+        rgba(37, 211, 102, 0.04) 45%,
+        transparent 70%
+      );
+      pointer-events: none;
+      animation: sectionGlow 20s ease-in-out infinite;
+    }
+
+    @keyframes sectionGlow {
+      0% { top: -70%; left: -70%; }
+      25% { top: -70%; left: 30%; }
+      50% { top: 30%; left: 30%; }
+      75% { top: 30%; left: -70%; }
+      100% { top: -70%; left: -70%; }
     }
 
     .showcase-cta:hover {
@@ -1766,6 +1791,23 @@
       margin-left: auto;
       cursor: pointer;
       font-family: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .email-cta::before {
+      content: '';
+      position: absolute;
+      width: 140%;
+      height: 140%;
+      background: radial-gradient(
+        ellipse,
+        rgba(222, 255, 155, 0.08) 0%,
+        rgba(222, 255, 155, 0.03) 45%,
+        transparent 70%
+      );
+      pointer-events: none;
+      animation: sectionGlow 20s ease-in-out infinite;
     }
 
     .email-cta-text {
