@@ -913,14 +913,17 @@
     }
 
     /* WhatsApp Button */
+    .cta-whatsapp-btn .cta-icon {
+      color: var(--lime);
+    }
     .cta-whatsapp-btn .cta-icon svg {
-      fill: var(--lime);
+      fill: currentColor;
       stroke: none;
       width: 24px;
       height: 24px;
     }
-    .cta-whatsapp-btn:hover .cta-icon svg {
-      fill: var(--lime);
+    .cta-whatsapp-btn:hover .cta-icon {
+      color: var(--lime);
     }
 
     .cta-content {
@@ -2085,12 +2088,13 @@
         margin-right: 10px;
         position: relative;
         z-index: 2;
+        color: #0a0a0a;
       }
 
       .cta-whatsapp-btn .cta-icon svg {
         width: 26px;
         height: 26px;
-        fill: #0a0a0a;
+        fill: currentColor;
         stroke: none;
         opacity: 1 !important;
       }
