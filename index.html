@@ -2068,7 +2068,15 @@
           0 4px 12px rgba(0, 0, 0, 0.1);
       }
 
+      .cta-whatsapp-btn .cta-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+      }
+
       .cta-whatsapp-btn .cta-icon svg {
+        width: 20px;
+        height: 20px;
         fill: #0a0a0a;
         stroke: none;
       }
@@ -2088,8 +2096,17 @@
           0 0 20px rgba(222, 255, 155, 0.06);
       }
 
+      .cta-agent:not(.cta-whatsapp-btn) .cta-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+      }
+
       .cta-agent:not(.cta-whatsapp-btn) .cta-icon svg {
+        width: 20px;
+        height: 20px;
         stroke: var(--lime);
+        stroke-width: 2;
         fill: none;
       }
 
@@ -3249,8 +3266,10 @@
 
     // Email button - copy to clipboard with envelope explosion + matrix scramble
     if (ctaEmailBtn) {
-      const emailTitle = ctaEmailBtn.querySelector('.cta-email');
+      const emailTitleDesktop = ctaEmailBtn.querySelector('.cta-email-desktop');
+      const emailTitleMobile = ctaEmailBtn.querySelector('.cta-email-mobile');
       const emailHint = ctaEmailBtn.querySelector('.cta-hint');
+      const isMobile = () => window.innerWidth <= 768;
 
       ctaEmailBtn.addEventListener('click', async (e) => {
         e.preventDefault();
@@ -3261,9 +3280,11 @@
           // Visual feedback
           ctaEmailBtn.classList.add('clicked');
 
-          // Matrix scramble effect to "Copied!"
-          if (emailTitle) {
-            scrambleText(emailTitle, 'Copied!', 400);
+          // Matrix scramble effect to "Copied!" - target visible element
+          if (isMobile() && emailTitleMobile) {
+            scrambleText(emailTitleMobile, 'Copied!', 400);
+          } else if (emailTitleDesktop) {
+            scrambleText(emailTitleDesktop, 'Copied!', 400);
           }
           if (emailHint) {
             emailHint.textContent = 'Ready to paste';
@@ -3275,8 +3296,10 @@
           // Revert after delay with unscramble
           setTimeout(() => {
             ctaEmailBtn.classList.remove('clicked');
-            if (emailTitle) {
-              unscrambleText(emailTitle, emailAddress, 300);
+            if (isMobile() && emailTitleMobile) {
+              unscrambleText(emailTitleMobile, 'Email Lucas', 300);
+            } else if (emailTitleDesktop) {
+              unscrambleText(emailTitleDesktop, emailAddress, 300);
             }
             if (emailHint) {
               emailHint.textContent = 'Forward your docs';
