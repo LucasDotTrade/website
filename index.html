@@ -2059,8 +2059,9 @@
         display: inline;
       }
 
-      /* WhatsApp: Solid lime, dark text */
+      /* WhatsApp first on mobile */
       .cta-whatsapp-btn {
+        order: -1;
         background: var(--lime);
         border: none;
         box-shadow:
@@ -2068,10 +2069,22 @@
           0 4px 12px rgba(0, 0, 0, 0.1);
       }
 
+      /* Disable envelope flap animation on mobile */
+      .envelope-flap {
+        transform: none !important;
+      }
+
+      /* Disable glow animations on mobile */
+      .cta-agent::before {
+        display: none;
+      }
+
       .cta-whatsapp-btn .cta-icon {
         width: 26px;
         height: 26px;
         margin-right: 10px;
+        position: relative;
+        z-index: 2;
       }
 
       .cta-whatsapp-btn .cta-icon svg {
@@ -2079,6 +2092,7 @@
         height: 26px;
         fill: #0a0a0a;
         stroke: none;
+        opacity: 1 !important;
       }
 
       .cta-whatsapp-btn .cta-email {
@@ -2252,6 +2266,10 @@
         box-shadow: none;
       }
 
+      .showcase-cta::before {
+        display: none;
+      }
+
       .showcase-cta-icon {
         width: 24px;
         height: 24px;
@@ -2360,6 +2378,10 @@
         cursor: pointer;
         font-family: 'JetBrains Mono', monospace;
         -webkit-tap-highlight-color: transparent;
+      }
+
+      .email-cta::before {
+        display: none;
       }
 
       .email-cta:active {
