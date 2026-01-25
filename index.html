@@ -882,6 +882,11 @@
       color: var(--text-secondary);
     }
 
+    /* Desktop shows email address, mobile shows "Email Lucas" */
+    .cta-email-mobile {
+      display: none;
+    }
+
     @keyframes buttonGlow {
       0%, 100% {
         box-shadow:
@@ -1903,17 +1908,12 @@
         margin-top: 28px;
       }
 
-      /* Mobile: Simple solid pill buttons */
+      /* Mobile: Pill buttons matching screenshot */
       .cta-agent {
         width: 100%;
         justify-content: center;
-        padding: 16px 24px;
+        padding: 18px 28px;
         border-radius: 16px;
-        background: var(--lime);
-        border: none;
-        box-shadow:
-          0 1px 0 rgba(255, 255, 255, 0.3) inset,
-          0 4px 12px rgba(0, 0, 0, 0.1);
         backdrop-filter: none;
         -webkit-backdrop-filter: none;
       }
@@ -1928,23 +1928,15 @@
       }
 
       .cta-icon {
-        width: 28px;
-        height: 28px;
+        width: 24px;
+        height: 24px;
         background: transparent;
         border: none;
       }
 
       .cta-icon svg {
-        width: 22px;
-        height: 22px;
-        stroke: #0a0a0a;
-        fill: none;
-      }
-
-      /* WhatsApp icon is filled, not stroked */
-      .cta-whatsapp-btn .cta-icon svg {
-        fill: #0a0a0a;
-        stroke: none;
+        width: 24px;
+        height: 24px;
       }
 
       .cta-content {
@@ -1953,26 +1945,55 @@
         gap: 0;
       }
 
-      .cta-email {
-        font-size: 1rem;
-        color: #0a0a0a;
-      }
-
       .cta-hint {
         display: none;
       }
 
-      /* WhatsApp gets green background */
-      .cta-whatsapp-btn {
-        background: #25D366;
+      /* Show mobile label, hide desktop */
+      .cta-email-desktop {
+        display: none;
+      }
+      .cta-email-mobile {
+        display: inline;
       }
 
-      .cta-whatsapp-btn .cta-email {
-        color: white;
+      /* WhatsApp: Solid lime, dark text */
+      .cta-whatsapp-btn {
+        background: var(--lime);
+        border: none;
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.3) inset,
+          0 4px 12px rgba(0, 0, 0, 0.1);
       }
 
       .cta-whatsapp-btn .cta-icon svg {
-        fill: white;
+        fill: #0a0a0a;
+        stroke: none;
+      }
+
+      .cta-whatsapp-btn .cta-email {
+        font-size: 1.0625rem;
+        color: #0a0a0a;
+      }
+
+      /* Email: Dark with lime border, lime text */
+      .cta-agent:not(.cta-whatsapp-btn) {
+        background: #1a1a1a;
+        border: 1px solid rgba(222, 255, 155, 0.4);
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.05) inset,
+          0 4px 12px rgba(0, 0, 0, 0.2),
+          0 0 20px rgba(222, 255, 155, 0.06);
+      }
+
+      .cta-agent:not(.cta-whatsapp-btn) .cta-icon svg {
+        stroke: var(--lime);
+        fill: none;
+      }
+
+      .cta-agent:not(.cta-whatsapp-btn) .cta-email {
+        font-size: 1.0625rem;
+        color: var(--text);
       }
 
       /* Proof points - compact horizontal on mobile */
@@ -2441,18 +2462,6 @@
           <p class="cta-soul">"I find the $800 mistake before your bank does." — Lucas</p>
         </div>
         <div class="cta-buttons">
-          <div class="cta-agent" id="ctaEmailBtn">
-            <div class="cta-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="4" width="20" height="16" rx="2"/>
-                <path class="envelope-flap" d="M22 6L12 13L2 6"/>
-              </svg>
-            </div>
-            <div class="cta-content">
-              <span class="cta-email" id="ctaEmailText">lucas@lucas.trade</span>
-              <span class="cta-hint">Forward your docs</span>
-            </div>
-          </div>
           <a href="https://wa.me/971585968871" target="_blank" rel="noopener" class="cta-agent cta-whatsapp-btn">
             <div class="cta-icon">
               <svg viewBox="0 0 24 24" fill="currentColor">
@@ -2464,6 +2473,19 @@
               <span class="cta-hint">Chat now</span>
             </div>
           </a>
+          <div class="cta-agent cta-email-btn" id="ctaEmailBtn">
+            <div class="cta-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path class="envelope-flap" d="M22 6L12 13L2 6"/>
+              </svg>
+            </div>
+            <div class="cta-content">
+              <span class="cta-email cta-email-desktop" id="ctaEmailText">lucas@lucas.trade</span>
+              <span class="cta-email cta-email-mobile">Email Lucas</span>
+              <span class="cta-hint">Forward your docs</span>
+            </div>
+          </div>
         </div>
         <div class="cta-extra" id="ctaExtra">
           <div class="cta-proof-points">
