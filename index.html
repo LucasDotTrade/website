@@ -349,8 +349,24 @@
       animation: statReveal 0.5s ease forwards;
       animation-delay: calc(0.5s + var(--delay) * 0.15s);
     }
-    .stat-num {
+    .stat-num, .stat-plus {
       font-weight: 600;
+      background: radial-gradient(circle, #ff6060 0%, #ff4444 45%, #ff4444 100%);
+      background-size: 200% 200%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: statShimmerCircle 6s ease-in-out infinite;
+      animation-delay: 2s;
+    }
+    .stat-plus {
+      display: inline-block;
+    }
+    @keyframes statShimmerCircle {
+      0%, 100% { background-position: 50% 0%; }
+      25% { background-position: 100% 50%; }
+      50% { background-position: 50% 100%; }
+      75% { background-position: 0% 50%; }
     }
     .stat-abbr {
       text-transform: none;
@@ -800,8 +816,52 @@
         0 0 0 1px rgba(255, 255, 255, 0.03) inset;
       transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
       cursor: pointer;
+      position: relative;
+      overflow: hidden;
     }
-
+    .cta-agent::before {
+      content: '';
+      position: absolute;
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(
+        ellipse,
+        rgba(255, 255, 255, 0.04) 0%,
+        rgba(255, 255, 255, 0.015) 50%,
+        transparent 75%
+      );
+      pointer-events: none;
+      opacity: 0;
+    }
+    .cta-email-btn::before {
+      animation: cardOrbitFirst 32s ease-in-out infinite;
+      animation-delay: 3s;
+    }
+    .cta-whatsapp-btn::before {
+      animation: cardOrbitSecond 32s ease-in-out infinite;
+      animation-delay: 3s;
+    }
+    @keyframes cardOrbitFirst {
+      0% { top: -60%; left: -60%; opacity: 1; }
+      10% { top: -60%; left: 40%; opacity: 1; }
+      20% { top: 40%; left: 40%; opacity: 1; }
+      30% { top: 40%; left: -60%; opacity: 1; }
+      40% { top: -60%; left: -60%; opacity: 1; }
+      48% { top: -60%; left: -60%; opacity: 0; }
+      49%, 99% { opacity: 0; }
+      100% { top: -60%; left: -60%; opacity: 1; }
+    }
+    @keyframes cardOrbitSecond {
+      0%, 46% { top: -60%; left: -60%; opacity: 0; }
+      50% { top: -60%; left: -60%; opacity: 1; }
+      60% { top: -60%; left: 40%; opacity: 1; }
+      70% { top: 40%; left: 40%; opacity: 1; }
+      80% { top: 40%; left: -60%; opacity: 1; }
+      90% { top: -60%; left: -60%; opacity: 1; }
+      98% { top: -60%; left: -60%; opacity: 0; }
+      100% { opacity: 0; }
+    }
+    
     .cta-agent:hover {
       transform: translateY(-4px);
       border-color: rgba(222, 255, 155, 0.2);
@@ -2375,7 +2435,7 @@
           <span class="hero-stat-divider" style="--delay: 1">|</span>
           <span class="hero-stat" style="--delay: 2"><span class="stat-num" data-count="800" data-prefix="$">$0</span> to fix</span>
           <span class="hero-stat-divider" style="--delay: 3">|</span>
-          <span class="hero-stat" style="--delay: 4"><span class="stat-num" data-count="3" data-suffix=" days">0 days</span> delay</span>
+          <span class="hero-stat" style="--delay: 4"><span class="stat-num" data-count="3">0</span><span class="stat-plus">+</span> days delay</span>
         </div>
       </section>
 
