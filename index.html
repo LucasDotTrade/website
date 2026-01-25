@@ -728,13 +728,14 @@
     }
     .card-footer.visible { opacity: 1; transform: translateY(0); }
     .verdict-main { display: flex; align-items: center; gap: 12px; }
-    .verdict-badge { 
-      padding: 8px 14px; 
-      border-radius: 8px; 
-      font-family: 'JetBrains Mono', monospace; 
-      font-size: 0.75rem; 
+    .verdict-badge {
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.05em;
+      transition: all 0.3s ease;
     }
     .verdict-badge.go { 
       background: var(--lime); 
@@ -3014,7 +3015,12 @@
       
       tabs[1].classList.add('has-error', 'active');
       tabs[0].classList.remove('active');
-      
+
+      await sleep(300);
+
+      // Show verdict footer with NO_GO during error state
+      cardFooter.classList.add('visible');
+
       // Dwell on error - let it sink in
       await sleep(1400);
       
@@ -3087,9 +3093,8 @@
       vignetteSuccess.classList.remove('visible');
       
       await sleep(300);
-      
-      // 6. Footer appears
-      cardFooter.classList.add('visible');
+
+      // 6. Footer already visible from error state
       
       await sleep(400);
       
