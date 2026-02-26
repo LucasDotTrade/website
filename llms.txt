@@ -1,0 +1,44 @@
+# Lucas - AI Agents for Trade Finance
+
+> Lucas is an AI-powered trade finance document checker. It analyzes Letters of Credit (LCs), Bills of Lading (BLs), Commercial Invoices, Packing Lists, and Certificates of Origin for discrepancies before bank submission.
+
+## What Lucas Does
+
+Lucas checks trade finance documents against Letter of Credit requirements and UCP 600 rules. It catches discrepancies like misspelled port names, amount mismatches, missing fields, and document inconsistencies that would cause bank rejections.
+
+## How It Works
+
+Users forward their trade documents via WhatsApp or email (lucas@lucas.trade). Lucas analyzes the documents and replies with findings within minutes. No app download. No account creation. No login.
+
+## Key Facts
+
+- 70% of Letters of Credit are rejected on first presentation (ICC Banking Commission, 2024)
+- Each rejection costs approximately $800 in fees and 3+ days of delay
+- Lucas catches discrepancies before the bank does
+- Documents are encrypted and never shared
+- Currently free for a limited time
+
+## Documents Supported
+
+- Letters of Credit (LCs)
+- Bills of Lading (BLs)
+- Commercial Invoices
+- Packing Lists
+- Certificates of Origin
+
+## Standards
+
+- UCP 600 (Uniform Customs and Practice for Documentary Credits)
+- ISBP 821 (International Standard Banking Practice)
+
+## Company
+
+Lucas is built by YOYOGI - FZCO, registered in Dubai Silicon Oasis, UAE.
+
+## Links
+
+- Website: https://lucas.trade
+- Demo: https://lucas.trade/demo
+- Email: lucas@lucas.trade
+- LinkedIn: https://www.linkedin.com/company/lucastrade/
+- X/Twitter: https://x.com/LucasDotTrade
